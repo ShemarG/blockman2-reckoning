@@ -13,10 +13,34 @@ class Bullet {
   move() {
     const yPos = this.element.offsetTop;
     const xPos = this.element.offsetLeft;
-    if (this.direction === 'up') this.element.style.top = `${yPos - this.speed}px`;
-    if (this.direction === 'down') this.element.style.top = `${yPos + this.speed}px`;
-    if (this.direction === 'left') this.element.style.left = `${xPos - this.speed}px`;
-    if (this.direction === 'right') this.element.style.left = `${xPos + this.speed}px`;
+    if (this.direction === 'up') {
+      if (yPos > (-1 * this.element.offsetHeight)) {
+        this.element.style.top = `${yPos - this.speed}px`;
+      } else {
+        this.element.remove();
+      }
+    }
+    if (this.direction === 'down') {
+      if (yPos < (this.boundingEl.offsetHeight)) {
+        this.element.style.top = `${yPos + this.speed}px`;
+      } else {
+        this.element.remove();
+      }
+    }
+    if (this.direction === 'left') {
+      if (xPos > (-1 * this.element.offsetWidth)) {
+        this.element.style.left = `${xPos - this.speed}px`;
+      } else {
+        this.element.remove();
+      }
+    }
+    if (this.direction === 'right') {
+      if (xPos < (this.boundingEl.offsetWidth)) {
+        this.element.style.left = `${xPos + this.speed}px`;
+      } else {
+        this.element.remove();
+      }
+    }
   }
 
   spawn(side) {
