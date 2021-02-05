@@ -41,6 +41,7 @@ class Bullet {
         this.element.remove();
       }
     }
+    this.collisionRanges = Utils.calculateCollisonRanges(this.element);
   }
 
   spawn(side) {
