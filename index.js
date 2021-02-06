@@ -6,15 +6,15 @@ const startButton = document.getElementById("start")
 startButton.innerText = "Begin"
 startButton.style.fontSize = "4em"
 startButton.style.marginTop = "5em"
-startButton.style.marginLeft = "3.95em"
+startButton.style.marginLeft = "4.05em"
 startButton.style.fontFamily = "Impact"
 
-// function flicker(){
-//     startButton.style.marginLeft = "2em"
-// }
-// function test(){
-//     startButton.style.marginLeft = "3.95"
-// }
+setInterval(function(){
+    startButton.style.display = "none"
+    }, 600)
+setInterval(function(){
+    startButton.style.display = "block"
+    }, 1000)
 
 const aboutButton = document.getElementById("about")
 aboutButton.innerText = "About"
@@ -51,9 +51,5 @@ aboutButton.addEventListener("click", () => {
 })
 
 
-setInterval(function(){
-    startButton.style.display = "none"
-}, 600)
-setInterval(function(){
-    startButton.style.display = "block"
-}, 1000)
+
+
