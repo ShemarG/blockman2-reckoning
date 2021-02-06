@@ -1,7 +1,9 @@
 class Game {
   constructor(area) {
+    area.style.position = 'relative';
     this.player = new Character(area, document.getElementById('player'));
-    this.bullets = [];
+    this.bullets = {};
+    this.bulletId = 0;
     this.area = area;
     this.levelData = {
       enemySpeed: 1,
@@ -12,7 +14,13 @@ class Game {
     this.keyInput = {
       ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false
     };
+    document.addEventListener('remove-bullet', this.handleBulletRemoval.bind(this));
     this.initCharacterControl();
+  }
+
+  handleBulletRemoval(e) {
+    console.log(e.detail.key, this.bullets[e.detail.key]);
+    delete this.bullets[e.detail.key];
   }
 
   initCharacterControl() {
@@ -32,19 +40,20 @@ class Game {
   spawnBullet() {
     const possibleSides = ['top', 'bottom', 'left', 'right'];
     const chosenSide = possibleSides[Utils.randomizeRange(0, possibleSides.length)];
-    const bullet = new Bullet(this.area, chosenSide, this.levelData.enemyRadius, this.levelData.enemySpeed);
-    this.bullets.push(bullet);
+    const bullet = new Bullet(this.area, chosenSide, this.levelData.enemyRadius, this.levelData.enemySpeed, this.bulletId);
+    this.bullets[this.bulletId] = bullet;
+    this.bulletId += 1;
     return bullet;
   }
 
   moveBullets() {
-    this.bullets.forEach((bullet) => {
-      bullet.move();
+    Object.keys(this.bullets).forEach((bullet) => {
+      this.bullets[bullet].move();
+      if (this.bullets[bullet]) Utils.checkCollision(this.player.element, this.bullets[bullet].collisionRanges);
     });
   }
 
   movePlayer() {
-    console.log('in move player');
     if (this.keyInput.ArrowUp) this.player.movePosY();
     if (this.keyInput.ArrowDown) this.player.moveNegY();
     if (this.keyInput.ArrowRight) this.player.movePosX();

@@ -3,6 +3,11 @@ class Utils {
     return Math.floor(Math.random() * ceil) + floor;
   }
 
+  static inRange(num, min, max) {
+    if (num >= min && num <= max) return true;
+    return false;
+  }
+
   static calculateCollisonRanges(el) {
     return {
       collMinX: el.offsetLeft,
@@ -10,5 +15,21 @@ class Utils {
       collMinY: el.offsetTop,
       collMaxY: el.offsetTop + el.offsetHeight
     };
+  }
+
+  static checkCollision(el, ranges) {
+    const topEdge = el.offsetTop;
+    const bottomEdge = el.offsetTop + el.offsetHeight;
+    const leftEdge = el.offsetLeft;
+    const rightEdge = el.offsetLeft + el.offsetWidth;
+
+    if (this.inRange(topEdge, ranges.collMinY, ranges.collMaxY)) {
+      if (this.inRange(leftEdge, ranges.collMinX, ranges.collMaxX)) console.log('Collided');
+      if (this.inRange(rightEdge, ranges.collMinX, ranges.collMaxX)) console.log('Collided');
+    }
+    if (this.inRange(bottomEdge, ranges.collMinY, ranges.collMaxY)) {
+      if (this.inRange(leftEdge, ranges.collMinX, ranges.collMaxX)) console.log('Collided');
+      if (this.inRange(rightEdge, ranges.collMinX, ranges.collMaxX)) console.log('Collided');
+    }
   }
 }
