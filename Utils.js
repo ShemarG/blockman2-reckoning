@@ -5,9 +5,9 @@ class Utils {
 
   static calculateCollisonRanges(el) {
     return {
-      collMinX: el.offsetLeft - el.offsetWidth,
+      collMinX: el.offsetLeft,
       collMaxX: el.offsetLeft + el.offsetWidth,
-      collMinY: el.offsetTop - el.offsetHeight,
+      collMinY: el.offsetTop,
       collMaxY: el.offsetTop + el.offsetHeight
     };
   }
