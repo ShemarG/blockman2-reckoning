@@ -11,10 +11,10 @@ startButton.style.fontFamily = "Impact"
 
 setInterval(function(){
     startButton.style.display = "none"
-    }, 600)
+}, 600)
 setInterval(function(){
     startButton.style.display = "block"
-    }, 1000)
+}, 1000)
 
 const aboutButton = document.getElementById("about")
 aboutButton.innerText = "About"
