@@ -8,6 +8,7 @@ class Bullet {
     this.element.style.backgroundColor = 'blue';
     this.element.style.width = `${2 * radius}px`;
     this.element.style.height = `${2 * radius}px`;
+    this.element.style.borderRadius = `${2 * radius}px`;
     this.direction = this.spawn(side);
     this.removeBullet = new CustomEvent('remove-bullet', { detail: { key } });
   }
@@ -20,7 +21,6 @@ class Bullet {
         this.element.style.top = `${yPos - this.speed}px`;
       } else {
         document.dispatchEvent(this.removeBullet);
-        this.element.remove();
       }
     }
     if (this.direction === 'down') {
@@ -28,7 +28,6 @@ class Bullet {
         this.element.style.top = `${yPos + this.speed}px`;
       } else {
         document.dispatchEvent(this.removeBullet);
-        this.element.remove();
       }
     }
     if (this.direction === 'left') {
@@ -36,7 +35,6 @@ class Bullet {
         this.element.style.left = `${xPos - this.speed}px`;
       } else {
         document.dispatchEvent(this.removeBullet);
-        this.element.remove();
       }
     }
     if (this.direction === 'right') {
@@ -44,7 +42,6 @@ class Bullet {
         this.element.style.left = `${xPos + this.speed}px`;
       } else {
         document.dispatchEvent(this.removeBullet);
-        this.element.remove();
       }
     }
     this.collisionRanges = Utils.calculateCollisonRanges(this.element);

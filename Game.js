@@ -7,7 +7,7 @@ class Game {
     this.area = area;
     this.levelData = {
       enemySpeed: 1,
-      enemyRadius: 20,
+      enemyRadius: 10,
       enemySpawnRate: 1000
     };
     this.paused = true;
@@ -16,10 +16,47 @@ class Game {
     };
     document.addEventListener('remove-bullet', this.handleBulletRemoval.bind(this));
     this.initCharacterControl();
+    this.generateHUD();
+  }
+
+  generateHUD() {
+    this.HUD = {};
+    const healthBar = document.createElement('div');
+    healthBar.style.position = 'absolute';
+    healthBar.style.display = 'flex';
+    healthBar.style.height = '2em';
+    healthBar.style.color = 'white';
+    const label = document.createElement('span');
+    label.textContent = 'Health';
+    healthBar.append(label);
+    const bar = document.createElement('div');
+    bar.style.display = 'flex';
+    this.HUD.health = bar;
+    for (let i = 0; i < this.player.health; i++) this.addHealthUnit();
+    healthBar.append(bar);
+    this.area.append(healthBar);
+  }
+
+  handlePlayerBulletCollision(bullet) {
+    document.dispatchEvent(bullet.removeBullet);
+    this.player.health--;
+    this.HUD.health.lastChild.remove();
+    if (this.player.health === 0) {
+      this.togglePause();
+    }
+  }
+
+  addHealthUnit() {
+    const healthUnit = document.createElement('div');
+    healthUnit.style.width = '1em';
+    healthUnit.style.height = '1em';
+    healthUnit.style.backgroundColor = 'red';
+    healthUnit.style.margin = '0 0.1em 0 0.1em';
+    this.HUD.health.append(healthUnit);
   }
 
   handleBulletRemoval(e) {
-    console.log(e.detail.key, this.bullets[e.detail.key]);
+    this.bullets[e.detail.key].element.remove();
     delete this.bullets[e.detail.key];
   }
 
@@ -49,7 +86,11 @@ class Game {
   moveBullets() {
     Object.keys(this.bullets).forEach((bullet) => {
       this.bullets[bullet].move();
-      if (this.bullets[bullet]) Utils.checkCollision(this.player.element, this.bullets[bullet].collisionRanges);
+      if (this.bullets[bullet]) {
+        if (Utils.checkCollision(this.player.element, this.bullets[bullet].collisionRanges)) {
+          this.handlePlayerBulletCollision(this.bullets[bullet]);
+        }
+      }
     });
   }
 
