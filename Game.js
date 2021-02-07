@@ -1,18 +1,63 @@
 class Game {
   constructor(area) {
+    area.style.position = 'relative';
     this.player = new Character(area, document.getElementById('player'));
-    this.bullets = [];
+    this.bullets = {};
+    this.bulletId = 0;
     this.area = area;
     this.levelData = {
       enemySpeed: 1,
-      enemyRadius: 20,
+      enemyRadius: 10,
       enemySpawnRate: 1000
     };
     this.paused = true;
     this.keyInput = {
       ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false
     };
+    document.addEventListener('remove-bullet', this.handleBulletRemoval.bind(this));
     this.initCharacterControl();
+    this.generateHUD();
+  }
+
+  generateHUD() {
+    this.HUD = {};
+    const healthBar = document.createElement('div');
+    healthBar.style.position = 'absolute';
+    healthBar.style.display = 'flex';
+    healthBar.style.height = '2em';
+    healthBar.style.color = 'white';
+    const label = document.createElement('span');
+    label.textContent = 'Health';
+    healthBar.append(label);
+    const bar = document.createElement('div');
+    bar.style.display = 'flex';
+    this.HUD.health = bar;
+    for (let i = 0; i < this.player.health; i++) this.addHealthUnit();
+    healthBar.append(bar);
+    this.area.append(healthBar);
+  }
+
+  handlePlayerBulletCollision(bullet) {
+    document.dispatchEvent(bullet.removeBullet);
+    this.player.health--;
+    this.HUD.health.lastChild.remove();
+    if (this.player.health === 0) {
+      this.togglePause();
+    }
+  }
+
+  addHealthUnit() {
+    const healthUnit = document.createElement('div');
+    healthUnit.style.width = '1em';
+    healthUnit.style.height = '1em';
+    healthUnit.style.backgroundColor = 'red';
+    healthUnit.style.margin = '0 0.1em 0 0.1em';
+    this.HUD.health.append(healthUnit);
+  }
+
+  handleBulletRemoval(e) {
+    this.bullets[e.detail.key].element.remove();
+    delete this.bullets[e.detail.key];
   }
 
   initCharacterControl() {
@@ -32,19 +77,24 @@ class Game {
   spawnBullet() {
     const possibleSides = ['top', 'bottom', 'left', 'right'];
     const chosenSide = possibleSides[Utils.randomizeRange(0, possibleSides.length)];
-    const bullet = new Bullet(this.area, chosenSide, this.levelData.enemyRadius, this.levelData.enemySpeed);
-    this.bullets.push(bullet);
+    const bullet = new Bullet(this.area, chosenSide, this.levelData.enemyRadius, this.levelData.enemySpeed, this.bulletId);
+    this.bullets[this.bulletId] = bullet;
+    this.bulletId += 1;
     return bullet;
   }
 
   moveBullets() {
-    this.bullets.forEach((bullet) => {
-      bullet.move();
+    Object.keys(this.bullets).forEach((bullet) => {
+      this.bullets[bullet].move();
+      if (this.bullets[bullet]) {
+        if (Utils.checkCollision(this.player.element, this.bullets[bullet].collisionRanges)) {
+          this.handlePlayerBulletCollision(this.bullets[bullet]);
+        }
+      }
     });
   }
 
   movePlayer() {
-    console.log('in move player');
     if (this.keyInput.ArrowUp) this.player.movePosY();
     if (this.keyInput.ArrowDown) this.player.moveNegY();
     if (this.keyInput.ArrowRight) this.player.movePosX();

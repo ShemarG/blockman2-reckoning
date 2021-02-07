@@ -1,13 +1,16 @@
 class Bullet {
-  constructor(boundingEl, side, radius, speed) {
+  constructor(boundingEl, side, radius, speed, key) {
     this.boundingEl = boundingEl;
     this.element = document.createElement('div');
     this.speed = speed;
     this.element.style.position = 'absolute';
+    this.element.style.zIndex = '1';
     this.element.style.backgroundColor = 'blue';
     this.element.style.width = `${2 * radius}px`;
     this.element.style.height = `${2 * radius}px`;
+    this.element.style.borderRadius = `${2 * radius}px`;
     this.direction = this.spawn(side);
+    this.removeBullet = new CustomEvent('remove-bullet', { detail: { key } });
   }
 
   move() {
@@ -17,28 +20,28 @@ class Bullet {
       if (yPos > (-1 * this.element.offsetHeight)) {
         this.element.style.top = `${yPos - this.speed}px`;
       } else {
-        this.element.remove();
+        document.dispatchEvent(this.removeBullet);
       }
     }
     if (this.direction === 'down') {
       if (yPos < (this.boundingEl.offsetHeight)) {
         this.element.style.top = `${yPos + this.speed}px`;
       } else {
-        this.element.remove();
+        document.dispatchEvent(this.removeBullet);
       }
     }
     if (this.direction === 'left') {
       if (xPos > (-1 * this.element.offsetWidth)) {
         this.element.style.left = `${xPos - this.speed}px`;
       } else {
-        this.element.remove();
+        document.dispatchEvent(this.removeBullet);
       }
     }
     if (this.direction === 'right') {
       if (xPos < (this.boundingEl.offsetWidth)) {
         this.element.style.left = `${xPos + this.speed}px`;
       } else {
-        this.element.remove();
+        document.dispatchEvent(this.removeBullet);
       }
     }
     this.collisionRanges = Utils.calculateCollisonRanges(this.element);
