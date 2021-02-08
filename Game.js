@@ -74,17 +74,9 @@ class Game {
     pause.innerText = 'Pause';
     pause.style.fontFamily = 'Goldman';
     pause.style.marginLeft = '38em';
-    pause.addEventListener('click', () => {
-      if (pause.innerText === 'Pause') {
-        pause.innerText = 'Resume';
-        this.togglePause();
-      } else {
-        pause.innerText = 'Pause';
-        this.togglePause();
-      }
-    });
     pause.style.color = 'white';
     this.area.append(pause);
+<<<<<<< HEAD
   }
   // pause.addEventListener('click', () => {
   //   if (pause.innerText === 'Pause' && this.player.stats.health !== 0) {
@@ -96,10 +88,24 @@ class Game {
   //   }
   // });
   // }
+=======
+      pause.addEventListener('click', () => {
+        if (pause.innerText === 'Pause' && this.player.stats.health !== 0) {
+          debugger
+          pause.innerText = 'Resume';
+          this.togglePause();
+        } else if (pause.innerText === 'Resume' && this.player.stats.health !== 0){
+          pause.innerText = 'Pause';
+          this.togglePause();
+        }
+      }); 
+    }
+>>>>>>> 66672a85f0fca6e8aaad34d06ade9356b38979c0
 
   handlePlayerBulletCollision(bullet) {
     console.log(`${bullet.damage} Damage taken!`);
     document.dispatchEvent(bullet.removeBullet);
+<<<<<<< HEAD
     for (let i = 0; i < bullet.damage; i++) {
       this.player.stats.health -= 1;
       this.HUD.health.lastChild.remove();
@@ -107,6 +113,14 @@ class Game {
         this.togglePause();
         break;
       }
+=======
+    this.player.stats.health--;
+    this.HUD.health.lastChild.remove();
+    if (this.player.stats.health === 0) {
+      this.togglePause();
+      this.gameOver === true
+      document.dispatchEvent(new CustomEvent('game-over'))
+>>>>>>> 66672a85f0fca6e8aaad34d06ade9356b38979c0
     }
   }
 
