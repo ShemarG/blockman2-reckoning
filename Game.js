@@ -73,13 +73,14 @@ class Game {
     this.area.append(pause);
       pause.addEventListener('click', () => {
         if (pause.innerText === 'Pause' && this.player.stats.health !== 0) {
+          debugger
           pause.innerText = 'Resume';
           this.togglePause();
         } else if (pause.innerText === 'Resume' && this.player.stats.health !== 0){
           pause.innerText = 'Pause';
           this.togglePause();
         }
-      });          
+      }); 
 }
 
   handlePlayerBulletCollision(bullet) {
@@ -88,6 +89,8 @@ class Game {
     this.HUD.health.lastChild.remove();
     if (this.player.stats.health === 0) {
       this.togglePause();
+      this.gameOver === true
+      document.dispatchEvent(new CustomEvent('game-over'))
     }
   }
 

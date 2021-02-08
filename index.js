@@ -34,7 +34,7 @@ backButton.style.marginLeft = '1em';
 backButton.style.fontSize = '2em'
 
 const restartButton = document.getElementById('restartButton')
-restartButton.innerText = 'test'
+restartButton.innerText = 'Try Again'
 restartButton.style.display = 'none'
 restartButton.style.color = 'white'
 
@@ -61,4 +61,12 @@ backButton.addEventListener('click', () => {
     aboutUs.style.display = 'none'
     startButton.style.display = 'block'
     aboutButton.style.display = 'block'
+})
+
+restartButton.addEventListener('click', () => {
+  window.location.reload()
+})
+
+document.addEventListener('game-over',() => {
+  restartButton.style.display = 'block'
 })
