@@ -33,17 +33,10 @@ backButton.style.marginTop = '20em';
 backButton.style.marginLeft = '1em';
 backButton.style.fontSize = '2em';
 
-<<<<<<< HEAD
 const restartButton = document.getElementById('restartButton');
-restartButton.innerText = 'test';
+restartButton.innerText = 'Try Again';
 restartButton.style.display = 'none';
 restartButton.style.color = 'white';
-=======
-const restartButton = document.getElementById('restartButton')
-restartButton.innerText = 'Try Again'
-restartButton.style.display = 'none'
-restartButton.style.color = 'white'
->>>>>>> 66672a85f0fca6e8aaad34d06ade9356b38979c0
 
 startButton.addEventListener('click', () => {
   game.togglePause();
@@ -69,15 +62,11 @@ backButton.addEventListener('click', () => {
   startButton.style.display = 'block';
   aboutButton.style.display = 'block';
 });
-<<<<<<< HEAD
-=======
-
 
 restartButton.addEventListener('click', () => {
-  window.location.reload()
-})
+  window.location.reload();
+});
 
-document.addEventListener('game-over',() => {
-  restartButton.style.display = 'block'
-})
->>>>>>> 66672a85f0fca6e8aaad34d06ade9356b38979c0
+document.addEventListener('game-over', () => {
+  restartButton.style.display = 'block';
+});
