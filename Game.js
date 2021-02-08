@@ -28,6 +28,7 @@ class Game {
     healthBar.style.color = 'white';
     const label = document.createElement('span');
     label.textContent = 'Health';
+    label.style.fontFamily = 'Goldman'
     healthBar.append(label);
     const bar = document.createElement('div');
     bar.style.display = 'flex';
@@ -35,6 +36,24 @@ class Game {
     for (let i = 0; i < this.player.health; i++) this.addHealthUnit();
     healthBar.append(bar);
     this.area.append(healthBar);
+    const pause = document.createElement('span');
+    pause.innerText = 'Pause'
+    pause.style.fontFamily = 'Goldman'
+    pause.style.marginLeft = '38em'
+    if(this.player.health === 0){
+      console.log('test')
+    }
+    pause.addEventListener('click', () => {
+      if(pause.innerText === 'Pause'){
+        pause.innerText = 'Resume'
+        this.togglePause()
+      } else {
+        pause.innerText = 'Pause'
+        this.togglePause()
+      }
+    })
+    pause.style.color = 'white'
+    this.area.append(pause)
   }
 
   handlePlayerBulletCollision(bullet) {
