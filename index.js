@@ -38,6 +38,26 @@ restartButton.innerText = 'Try Again'
 restartButton.style.display = 'none'
 restartButton.style.color = 'white'
 
+const levelupScreen = document.getElementById('levelupScreen')
+levelupScreen.style.margin = '1.5em'
+const level = document.createElement('span')
+levelupScreen.append(level)
+level.innerText = 'Level Complete'
+level.style.fontFamily = 'Goldman'
+level.style.marginLeft = '2.5em'
+level.style.marginTop = '4em'
+level.style.fontSize = '3em'
+const skillPoints = document.createElement('div')
+levelupScreen.append(skillPoints)
+skillPoints.innerText = 'Skill Points : '
+skillPoints.style.fontFamily = 'Goldman'
+skillPoints.style.fontSize = '2em'
+skillPoints.style.marginTop = '1.5em'
+skillPoints.style.marginLeft = '7em'
+const healthPoints = document.createElement('span')
+healthPoints.innerText = 'Health Points'
+levelupScreen.append(healthPoints)
+
 startButton.addEventListener('click', () => {
   game.togglePause();
   startButton.style.display = 'none';
