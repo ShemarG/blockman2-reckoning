@@ -73,9 +73,6 @@ class Game {
     pause.innerText = 'Pause'
     pause.style.fontFamily = 'Goldman'
     pause.style.marginLeft = '38em'
-    if(this.player.health === 0){
-      console.log('test')
-    }
     pause.addEventListener('click', () => {
       if(pause.innerText === 'Pause'){
         pause.innerText = 'Resume'
