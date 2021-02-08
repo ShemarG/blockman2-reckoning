@@ -1,4 +1,29 @@
 class LevelData {
+  static levelUpEvt = new CustomEvent('level-up')
+
+  static characterLevelUpBreakpoints = [
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+  ]
+
   static bulletWeights = {
     1: {
       lv1: [0, 1], lvl2: [-1, -1], lvl3: [-1, -1], lvl4: [-1, -1], lvl5: [-1, -1]
@@ -116,5 +141,12 @@ class LevelData {
   static getWeightedBullet(level) {
     const randomNum = Math.random().toFixed(2);
     return Object.keys(this.bulletWeights[level]).find((item) => Utils.inRange(randomNum, this.bulletWeights[level][item][0], this.bulletWeights[level][item][1]));
+  }
+
+  static checkLevelUp(player) {
+    const { level } = player.stats;
+    if (player.stats.experience >= this.characterLevelUpBreakpoints[level + 1]) {
+      document.dispatchEvent(this.levelUpEvt);
+    }
   }
 }

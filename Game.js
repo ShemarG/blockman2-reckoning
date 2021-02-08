@@ -11,17 +11,13 @@ class Game {
     };
     this.adrenalineTimerTick.bind(this.adrenaline.cooldownTimer)();
     this.score = 0;
-    this.levelData = {
-      enemySpeed: 1,
-      enemyRadius: 10,
-      enemySpawnRate: 1000
-    };
     this.paused = true;
     this.keyInput = {
       ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, ' ': false
     };
     document.addEventListener('remove-bullet', this.handleBulletRemoval.bind(this));
     document.addEventListener('adrenaline-recharge', this.resetAdrenaline.bind(this));
+    document.addEventListener('level-up', () => { console.log('leveled-up!'); });
     this.initCharacterControl();
     this.generateHUD();
   }
@@ -61,7 +57,7 @@ class Game {
     healthBar.style.color = 'white';
     const label = document.createElement('span');
     label.textContent = 'Health';
-    label.style.fontFamily = 'Goldman'
+    label.style.fontFamily = 'Goldman';
     healthBar.append(label);
     const bar = document.createElement('div');
     bar.style.display = 'flex';
@@ -70,20 +66,20 @@ class Game {
     healthBar.append(bar);
     this.area.append(healthBar);
     const pause = document.createElement('span');
-    pause.innerText = 'Pause'
-    pause.style.fontFamily = 'Goldman'
-    pause.style.marginLeft = '38em'
+    pause.innerText = 'Pause';
+    pause.style.fontFamily = 'Goldman';
+    pause.style.marginLeft = '38em';
     pause.addEventListener('click', () => {
-      if(pause.innerText === 'Pause'){
-        pause.innerText = 'Resume'
-        this.togglePause()
+      if (pause.innerText === 'Pause') {
+        pause.innerText = 'Resume';
+        this.togglePause();
       } else {
-        pause.innerText = 'Pause'
-        this.togglePause()
+        pause.innerText = 'Pause';
+        this.togglePause();
       }
-    })
-    pause.style.color = 'white'
-    this.area.append(pause)
+    });
+    pause.style.color = 'white';
+    this.area.append(pause);
   }
 
   handlePlayerBulletCollision(bullet) {
@@ -105,7 +101,10 @@ class Game {
   }
 
   handleBulletRemoval(e) {
-    if (e.detail.score) this.score += 1;
+    if (e.detail.score) {
+      this.player.stats.experience += this.bullets[e.detail.key].damage;
+      LevelData.checkLevelUp(this.player);
+    }
     this.bullets[e.detail.key].element.remove();
     delete this.bullets[e.detail.key];
   }
@@ -169,7 +168,7 @@ class Game {
     } else {
       this.spawnTick = setInterval(() => {
         this.spawnBullet();
-      }, this.levelData.enemySpawnRate);
+      }, LevelData.bulletSpawnRates[this.player.stats.level - 1]);
       this.gameTick = setInterval(() => {
         this.moveBullets();
         this.movePlayer();

@@ -9,7 +9,8 @@ class Character {
       armor: 0,
       speed: 1,
       luck: 0,
-      adrenaline: 0
+      adrenaline: 0,
+      experience: 0
     };
     this.enabled = true;
     this.element.style.backgroundColor = color;
