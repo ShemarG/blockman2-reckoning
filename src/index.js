@@ -33,10 +33,10 @@ backButton.style.marginTop = '20em';
 backButton.style.marginLeft = '1em';
 backButton.style.fontSize = '2em';
 
-const restartButton = document.getElementById('restartButton')
-restartButton.innerText = 'Try Again'
-restartButton.style.display = 'none'
-restartButton.style.color = 'white'
+const restartButton = document.getElementById('restartButton');
+restartButton.innerText = 'Try Again';
+restartButton.style.display = 'none';
+restartButton.style.color = 'white';
 
 const levelupScreen = document.getElementById('levelupScreen')
 levelupScreen.style.margin = '1.5em'
@@ -83,11 +83,10 @@ backButton.addEventListener('click', () => {
   aboutButton.style.display = 'block';
 });
 
-
 restartButton.addEventListener('click', () => {
-  window.location.reload()
-})
+  window.location.reload();
+});
 
-document.addEventListener('game-over',() => {
-  restartButton.style.display = 'block'
-})
+document.addEventListener('game-over', () => {
+  restartButton.style.display = 'block';
+});
