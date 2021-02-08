@@ -20,6 +20,7 @@ class Bullet {
       if (yPos > (-1 * this.element.offsetHeight)) {
         this.element.style.top = `${yPos - this.speed}px`;
       } else {
+        this.removeBullet.detail.score = true;
         document.dispatchEvent(this.removeBullet);
       }
     }
@@ -27,6 +28,7 @@ class Bullet {
       if (yPos < (this.boundingEl.offsetHeight)) {
         this.element.style.top = `${yPos + this.speed}px`;
       } else {
+        this.removeBullet.detail.score = true;
         document.dispatchEvent(this.removeBullet);
       }
     }
@@ -34,6 +36,7 @@ class Bullet {
       if (xPos > (-1 * this.element.offsetWidth)) {
         this.element.style.left = `${xPos - this.speed}px`;
       } else {
+        this.removeBullet.detail.score = true;
         document.dispatchEvent(this.removeBullet);
       }
     }
@@ -41,6 +44,7 @@ class Bullet {
       if (xPos < (this.boundingEl.offsetWidth)) {
         this.element.style.left = `${xPos + this.speed}px`;
       } else {
+        this.removeBullet.detail.score = true;
         document.dispatchEvent(this.removeBullet);
       }
     }

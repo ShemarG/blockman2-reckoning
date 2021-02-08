@@ -5,6 +5,12 @@ class Game {
     this.bullets = {};
     this.bulletId = 0;
     this.area = area;
+    this.adrenaline = {
+      ready: true,
+      cooldownTimer: new Timer((this.player.stats.adrenaline ** 2 + 5), this.adrenalineTimerTick, this, 'adrenaline-recharge')
+    };
+    this.adrenalineTimerTick.bind(this.adrenaline.cooldownTimer)();
+    this.score = 0;
     this.levelData = {
       enemySpeed: 1,
       enemyRadius: 10,
@@ -12,11 +18,38 @@ class Game {
     };
     this.paused = true;
     this.keyInput = {
-      ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false
+      ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, ' ': false
     };
     document.addEventListener('remove-bullet', this.handleBulletRemoval.bind(this));
+    document.addEventListener('adrenaline-recharge', this.resetAdrenaline.bind(this));
     this.initCharacterControl();
     this.generateHUD();
+  }
+
+  adrenalineTimerTick() {
+    console.log(this.timeLeft, this.callbackArg.adrenaline.ready);
+  }
+
+  resetAdrenaline() {
+    this.adrenaline.ready = true;
+    this.adrenaline.cooldownTimer.initialDuration = this.player.stats.adrenaline ** 2 + 5;
+    this.adrenaline.cooldownTimer.resetTimer();
+  }
+
+  activateAdrenaline() {
+    this.adrenaline.ready = false;
+    clearInterval(this.gameTick);
+    this.gameTick = setInterval(() => {
+      this.movePlayer();
+    }, 10);
+    setTimeout(() => {
+      clearInterval(this.gameTick);
+      this.gameTick = setInterval(() => {
+        this.moveBullets();
+        this.movePlayer();
+      }, 10);
+      this.adrenaline.cooldownTimer.startTimer();
+    }, 1000 * this.player.stats.adrenaline);
   }
 
   generateHUD() {
@@ -33,7 +66,7 @@ class Game {
     const bar = document.createElement('div');
     bar.style.display = 'flex';
     this.HUD.health = bar;
-    for (let i = 0; i < this.player.health; i++) this.addHealthUnit();
+    for (let i = 0; i < this.player.stats.health; i++) this.addHealthUnit();
     healthBar.append(bar);
     this.area.append(healthBar);
     const pause = document.createElement('span');
@@ -58,9 +91,9 @@ class Game {
 
   handlePlayerBulletCollision(bullet) {
     document.dispatchEvent(bullet.removeBullet);
-    this.player.health--;
+    this.player.stats.health--;
     this.HUD.health.lastChild.remove();
-    if (this.player.health === 0) {
+    if (this.player.stats.health === 0) {
       this.togglePause();
     }
   }
@@ -75,6 +108,7 @@ class Game {
   }
 
   handleBulletRemoval(e) {
+    if (e.detail.score) this.score += 1;
     this.bullets[e.detail.key].element.remove();
     delete this.bullets[e.detail.key];
   }
@@ -118,6 +152,7 @@ class Game {
     if (this.keyInput.ArrowDown) this.player.moveNegY();
     if (this.keyInput.ArrowRight) this.player.movePosX();
     if (this.keyInput.ArrowLeft) this.player.moveNegX();
+    if (this.keyInput[' '] && this.adrenaline.ready) this.activateAdrenaline();
   }
 
   togglePause() {
