@@ -6,7 +6,7 @@ class Game {
     this.bulletId = 0;
     this.area = area;
     this.adrenaline = {
-      ready: true,
+      ready: false,
       cooldownTimer: new Timer((this.player.stats.adrenaline ** 2 + 5), this.adrenalineTimerTick, this, 'adrenaline-recharge')
     };
     this.adrenalineTimerTick.bind(this.adrenaline.cooldownTimer)();
@@ -109,9 +109,18 @@ class Game {
   }
 
   spawnBullet() {
+    const { level } = this.player.stats;
+    const bulletType = LevelData.getWeightedBullet(level);
     const possibleSides = ['top', 'bottom', 'left', 'right'];
     const chosenSide = possibleSides[Utils.randomizeRange(0, possibleSides.length)];
-    const bullet = new Bullet(this.area, chosenSide, this.levelData.enemyRadius, this.levelData.enemySpeed, this.bulletId);
+    const bullet = new Bullet(
+      this.area,
+      chosenSide,
+      LevelData.bulletConfigs[bulletType].radius,
+      LevelData.bulletConfigs[bulletType].speed,
+      LevelData.bulletConfigs[bulletType].damage,
+      this.bulletId
+    );
     this.bullets[this.bulletId] = bullet;
     this.bulletId += 1;
     return bullet;

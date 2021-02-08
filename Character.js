@@ -1,14 +1,15 @@
 class Character {
-  constructor(boundingEl, element, color = 'red') {
+  constructor(boundingEl, element, color = 'red', level = 1) {
     this.boundingEl = boundingEl;
     this.element = element;
     this.stats = {
+      level,
       maxHealth: 5,
       health: 5,
       armor: 0,
       speed: 1,
       luck: 0,
-      adrenaline: 5
+      adrenaline: 0
     };
     this.enabled = true;
     this.element.style.backgroundColor = color;
