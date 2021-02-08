@@ -1,6 +1,44 @@
 class LevelData {
   static levelUpEvt = new CustomEvent('level-up')
 
+  static skillPointGates = {
+    maxHealth: {
+      6: 1,
+      7: 5,
+      8: 8,
+      9: 11,
+      10: 13
+    },
+    armor: {
+      1: 1,
+      2: 4,
+      3: 12,
+      4: 15,
+      5: 18,
+    },
+    speed: {
+      1: 1,
+      2: 6,
+      3: 13,
+      4: 16,
+      5: 19
+    },
+    luck: {
+      1: 1,
+      2: 2,
+      3: 9,
+      4: 14,
+      5: 17
+    },
+    adrenaline: {
+      1: 1,
+      2: 5,
+      3: 10,
+      4: 15,
+      5: 20
+    }
+  }
+
   static characterLevelUpBreakpoints = [
     50,
     50,
@@ -88,8 +126,8 @@ class LevelData {
   }
 
   static bulletSpawnRates = [
-    1000,
-    975,
+    800,
+    790,
     950,
     925,
     900,

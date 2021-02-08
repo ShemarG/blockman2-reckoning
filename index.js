@@ -9,7 +9,7 @@ startButton.style.color = 'white';
 startButton.style.marginTop = '5em';
 startButton.style.marginLeft = '2.1em';
 startButton.style.fontFamily = 'Goldman';
-startButton.style.fontWeight = '900'
+startButton.style.fontWeight = '900';
 
 const aboutButton = document.getElementById('about');
 aboutButton.innerText = 'About';
@@ -22,16 +22,16 @@ const aboutUs = document.getElementById('aboutUs');
 aboutUs.innerText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 aboutUs.style.fontFamily = 'Goldman';
 aboutUs.style.fontSize = '1.5em';
-aboutUs.style.color = 'white'
+aboutUs.style.color = 'white';
 aboutUs.style.marginTop = '8em';
 aboutUs.style.marginLeft = '2em';
 
-const backButton = document.getElementById('backbutton')
+const backButton = document.getElementById('backbutton');
 backButton.innerText = 'Back';
 backButton.style.fontFamily = 'Goldman';
 backButton.style.marginTop = '20em';
 backButton.style.marginLeft = '1em';
-backButton.style.fontSize = '2em'
+backButton.style.fontSize = '2em';
 
 const restartButton = document.getElementById('restartButton')
 restartButton.innerText = 'Try Again'
@@ -52,16 +52,17 @@ aboutButton.addEventListener('click', () => {
   startButton.style.display = 'none';
   homeScreen.style.display = 'none';
   aboutButton.style.display = 'none';
-  backButton.style.display = 'block'
-  aboutUs.style.display = 'block'
+  backButton.style.display = 'block';
+  aboutUs.style.display = 'block';
 });
 
 backButton.addEventListener('click', () => {
-    backButton.style.display = 'none'
-    aboutUs.style.display = 'none'
-    startButton.style.display = 'block'
-    aboutButton.style.display = 'block'
-})
+  backButton.style.display = 'none';
+  aboutUs.style.display = 'none';
+  startButton.style.display = 'block';
+  aboutButton.style.display = 'block';
+});
+
 
 restartButton.addEventListener('click', () => {
   window.location.reload()

@@ -10,7 +10,6 @@ class Game {
       cooldownTimer: new Timer((this.player.stats.adrenaline ** 2 + 5), this.adrenalineTimerTick, this, 'adrenaline-recharge')
     };
     this.adrenalineTimerTick.bind(this.adrenaline.cooldownTimer)();
-    this.score = 0;
     this.paused = true;
     this.keyInput = {
       ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, ' ': false
@@ -81,7 +80,7 @@ class Game {
           this.togglePause();
         }
       }); 
-}
+    }
 
   handlePlayerBulletCollision(bullet) {
     document.dispatchEvent(bullet.removeBullet);
@@ -129,6 +128,7 @@ class Game {
   spawnBullet() {
     const { level } = this.player.stats;
     const bulletType = LevelData.getWeightedBullet(level);
+    console.log(bulletType);
     const possibleSides = ['top', 'bottom', 'left', 'right'];
     const chosenSide = possibleSides[Utils.randomizeRange(0, possibleSides.length)];
     const bullet = new Bullet(
