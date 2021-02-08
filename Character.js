@@ -10,6 +10,7 @@ class Character {
       speed: 1,
       luck: 0,
       adrenaline: 0,
+      skillPoints: 0,
       experience: 0
     };
     this.enabled = true;
