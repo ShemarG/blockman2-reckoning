@@ -16,9 +16,15 @@ class Game {
     };
     document.addEventListener('remove-bullet', this.handleBulletRemoval.bind(this));
     document.addEventListener('adrenaline-recharge', this.resetAdrenaline.bind(this));
-    document.addEventListener('level-up', () => { console.log('leveled-up!'); });
+    document.addEventListener('level-up', this.levelUp.bind(this));
     this.initCharacterControl();
     this.generateHUD();
+  }
+
+  levelUp() {
+    const up = new LevelUpInterface(this.player);
+    up.confirmSkills();
+    console.log('level-up fired', this.player.stats.level);
   }
 
   adrenalineTimerTick() {
@@ -80,23 +86,27 @@ class Game {
     pause.style.color = 'white';
     this.area.append(pause);
   }
-      pause.addEventListener('click', () => {
-        if (pause.innerText === 'Pause' && this.player.stats.health !== 0) {
-          pause.innerText = 'Resume';
-          this.togglePause();
-        } else if (pause.innerText === 'Resume' && this.player.stats.health !== 0){
-          pause.innerText = 'Pause';
-          this.togglePause();
-        }
-      });          
-}
+  // pause.addEventListener('click', () => {
+  //   if (pause.innerText === 'Pause' && this.player.stats.health !== 0) {
+  //     pause.innerText = 'Resume';
+  //     this.togglePause();
+  //   } else if (pause.innerText === 'Resume' && this.player.stats.health !== 0){
+  //     pause.innerText = 'Pause';
+  //     this.togglePause();
+  //   }
+  // });
+  // }
 
   handlePlayerBulletCollision(bullet) {
+    console.log(`${bullet.damage} Damage taken!`);
     document.dispatchEvent(bullet.removeBullet);
-    this.player.stats.health--;
-    this.HUD.health.lastChild.remove();
-    if (this.player.stats.health === 0) {
-      this.togglePause();
+    for (let i = 0; i < bullet.damage; i++) {
+      this.player.stats.health -= 1;
+      this.HUD.health.lastChild.remove();
+      if (this.player.stats.health === 0) {
+        this.togglePause();
+        break;
+      }
     }
   }
 
