@@ -69,18 +69,18 @@ class Game {
     pause.innerText = 'Pause';
     pause.style.fontFamily = 'Goldman';
     pause.style.marginLeft = '38em';
-    pause.addEventListener('click', () => {
-      if (pause.innerText === 'Pause') {
-        pause.innerText = 'Resume';
-        this.togglePause();
-      } else {
-        pause.innerText = 'Pause';
-        this.togglePause();
-      }
-    });
     pause.style.color = 'white';
     this.area.append(pause);
-  }
+      pause.addEventListener('click', () => {
+        if (pause.innerText === 'Pause' && this.player.stats.health !== 0) {
+          pause.innerText = 'Resume';
+          this.togglePause();
+        } else if (pause.innerText === 'Resume' && this.player.stats.health !== 0){
+          pause.innerText = 'Pause';
+          this.togglePause();
+        }
+      });          
+}
 
   handlePlayerBulletCollision(bullet) {
     document.dispatchEvent(bullet.removeBullet);

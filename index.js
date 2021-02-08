@@ -33,6 +33,11 @@ backButton.style.marginTop = '20em';
 backButton.style.marginLeft = '1em';
 backButton.style.fontSize = '2em'
 
+const restartButton = document.getElementById('restartButton')
+restartButton.innerText = 'test'
+restartButton.style.display = 'none'
+restartButton.style.color = 'white'
+
 startButton.addEventListener('click', () => {
   game.togglePause();
   startButton.style.display = 'none';
