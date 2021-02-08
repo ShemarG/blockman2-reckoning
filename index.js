@@ -33,6 +33,11 @@ backButton.style.marginTop = '20em';
 backButton.style.marginLeft = '1em';
 backButton.style.fontSize = '2em';
 
+const restartButton = document.getElementById('restartButton')
+restartButton.innerText = 'test'
+restartButton.style.display = 'none'
+restartButton.style.color = 'white'
+
 startButton.addEventListener('click', () => {
   game.togglePause();
   startButton.style.display = 'none';
@@ -52,8 +57,16 @@ aboutButton.addEventListener('click', () => {
 });
 
 backButton.addEventListener('click', () => {
+<<<<<<< HEAD
   backButton.style.display = 'none';
   aboutUs.style.display = 'none';
   startButton.style.display = 'block';
   aboutButton.style.display = 'block';
 });
+=======
+    backButton.style.display = 'none'
+    aboutUs.style.display = 'none'
+    startButton.style.display = 'block'
+    aboutButton.style.display = 'block'
+})
+>>>>>>> 5bfb9265f606cc5d101ca02e0321819f8ac06ad2

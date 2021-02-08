@@ -80,6 +80,16 @@ class Game {
     pause.style.color = 'white';
     this.area.append(pause);
   }
+      pause.addEventListener('click', () => {
+        if (pause.innerText === 'Pause' && this.player.stats.health !== 0) {
+          pause.innerText = 'Resume';
+          this.togglePause();
+        } else if (pause.innerText === 'Resume' && this.player.stats.health !== 0){
+          pause.innerText = 'Pause';
+          this.togglePause();
+        }
+      });          
+}
 
   handlePlayerBulletCollision(bullet) {
     document.dispatchEvent(bullet.removeBullet);
