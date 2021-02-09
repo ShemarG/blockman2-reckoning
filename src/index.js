@@ -24,10 +24,11 @@ function generateHUD() {
   game.area.append(pause);
   pause.addEventListener('click', () => {
     if (pause.innerText === 'Pause' && game.player.stats.health !== 0) {
-      debugger;
+      document.getElementById('level-up-screen').style.display = 'block'
       pause.innerText = 'Resume';
       game.togglePause();
     } else if (pause.innerText === 'Resume' && game.player.stats.health !== 0) {
+      document.getElementById('level-up-screen').style.display = 'none'
       pause.innerText = 'Pause';
       game.togglePause();
     }
@@ -136,3 +137,14 @@ restartButton.addEventListener('click', () => {
 document.addEventListener('game-over', () => {
   restartButton.style.display = 'block';
 });
+
+const healthUpgrade = document.getElementById('health-bar')
+const healthPlus = document.getElementById('health+')
+const healthMinus = document.getElementById('health-')
+healthPlus.addEventListener('click', ()=> {
+  if (game.player.stats.skillPoints === 1){
+    healthUpgrade.append(document.createElement('div').style.backgroundColor = 'red')
+    game.player.stats.health += 1
+    game.player.stats.skillPoints -= 1
+  }
+})
