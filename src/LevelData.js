@@ -3,11 +3,11 @@ class LevelData {
 
   static skillPointGates = {
     maxHealth: {
-      6: 1,
-      7: 5,
-      8: 8,
-      9: 11,
-      10: 13
+      1: 1,
+      2: 5,
+      3: 8,
+      4: 11,
+      5: 13
     },
     armor: {
       1: 1,

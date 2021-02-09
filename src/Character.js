@@ -5,11 +5,11 @@ class Character {
     this.baseSize = this.element.offsetWidth;
     this.stats = {
       level,
-      maxHealth: 5,
-      health: 5,
+      maxHealth: 0,
+      health: 10,
       armor: 5,
       speed: 0,
-      luck: 0,
+      luck: 5,
       adrenaline: 0,
       size: 0,
       skillPoints: 0,
@@ -59,6 +59,6 @@ class Character {
   }
 
   powerUpTick() {
-    console.log(`${this.callbackArg} Time remaining ${this.timeLeft}`);
+    document.dispatchEvent(new CustomEvent('powerup-tick', { detail: { type: this.callbackArg, val: this.timeLeft } }));
   }
 }
