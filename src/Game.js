@@ -3,7 +3,9 @@ class Game {
     area.style.position = 'relative';
     this.player = new Character(area, document.getElementById('player'));
     this.bullets = {};
+    this.powerUps = {};
     this.bulletId = 0;
+    this.powerUpId = 0;
     this.area = area;
     this.adrenaline = {
       ready: false,
@@ -19,6 +21,16 @@ class Game {
     document.addEventListener('level-up', this.levelUp.bind(this));
     this.initCharacterControl();
     this.generateHUD();
+  }
+
+  spawnPowerUp() {
+    const randomNum = (Utils.randomizeRange(0, 10000) / 10000);
+    const spawnChance = (this.player.stats.luck * (1 / 10000)) + (1 / 2000);
+    if (randomNum <= spawnChance) {
+      const powerUpType = LevelData.getWeightedPowerUp();
+      this.powerUps[this.powerUpId] = new PowerUp(this.area, powerUpType, this.powerUpId);
+      this.powerUpId += 1;
+    }
   }
 
   levelUp() {
@@ -136,7 +148,6 @@ class Game {
   spawnBullet() {
     const { level } = this.player.stats;
     const bulletType = LevelData.getWeightedBullet(level);
-    console.log(bulletType);
     const possibleSides = ['top', 'bottom', 'left', 'right'];
     const chosenSide = possibleSides[Utils.randomizeRange(0, possibleSides.length)];
     const bullet = new Bullet(
@@ -183,6 +194,7 @@ class Game {
       this.gameTick = setInterval(() => {
         this.moveBullets();
         this.movePlayer();
+        this.spawnPowerUp();
       }, 10);
     }
   }

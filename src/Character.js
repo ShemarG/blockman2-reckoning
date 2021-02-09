@@ -8,7 +8,7 @@ class Character {
       health: 5,
       armor: 0,
       speed: 0,
-      luck: 0,
+      luck: 5,
       adrenaline: 0,
       skillPoints: 0,
       experience: 0

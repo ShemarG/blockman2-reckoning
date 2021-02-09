@@ -176,16 +176,59 @@ class LevelData {
     }
   }
 
+  static powerUpRates = {
+    Kaboom: [0.00, 0.10], // 10%
+    Health: [0.10, 0.40], // 30%
+    Invinicbility: [0.40, 0.50], // 10%
+    Experience: [0.50, 0.75], // 25%
+    Speed: [0.75, 1.00] // 25%
+  }
+
+  static powerupElGen(type) {
+    const el = document.createElement('div');
+    el.classList.add('powerup');
+    switch (type) {
+      case 'Kaboom':
+        el.classList.add('kaboom');
+        break;
+      case 'Health':
+        el.classList.add('health');
+        break;
+      case 'Experience':
+        el.classList.add('experience');
+        break;
+      case 'Invinicbility':
+        el.classList.add('invincibility');
+        break;
+      case 'Speed':
+        el.classList.add('speed');
+        break;
+      default:
+        console.log("You're not supposed to be here!!!");
+    }
+    return el;
+  }
+
   static getWeightedBullet(level) {
     const randomNum = Math.random().toFixed(2);
-    return Object.keys(this.bulletWeights[level]).find((item) => Utils.inRange(randomNum, this.bulletWeights[level][item][0], this.bulletWeights[level][item][1]));
+    return Object.keys(this.bulletWeights[level]).find((item) => Utils.inRange(
+      randomNum,
+      this.bulletWeights[level][item][0],
+      this.bulletWeights[level][item][1]
+    ));
   }
 
   static checkLevelUp(player) {
     const { level } = player.stats;
-    console.log(player.stats.experience, this.characterLevelUpBreakpoints[level - 1]);
     if (player.stats.experience >= this.characterLevelUpBreakpoints[level - 1]) {
       document.dispatchEvent(this.levelUpEvt);
     }
+  }
+
+  static getWeightedPowerUp() {
+    const randomNum = Math.random().toFixed(2);
+    return Object.keys(this.powerUpRates).find((power) => Utils.inRange(randomNum,
+      this.powerUpRates[power][0],
+      this.powerUpRates[power][1]));
   }
 }
