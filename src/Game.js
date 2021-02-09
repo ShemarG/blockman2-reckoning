@@ -9,7 +9,7 @@ class Game {
     this.area = area;
     this.adrenaline = {
       ready: false,
-      cooldownTimer: new Timer((this.player.stats.adrenaline ** 2 + 5), this.adrenalineTimerTick, this, 'adrenaline-recharge')
+      cooldownTimer: new Timer((this.player.stats.adrenaline ** 2 + 5), this.adrenalineTimerTick, this, new CustomEvent('adrenaline-recharge'))
     };
     this.adrenalineTimerTick.bind(this.adrenaline.cooldownTimer)();
     this.paused = true;
@@ -65,15 +65,66 @@ class Game {
   }
 
   handlePlayerBulletCollision(bullet) {
-    console.log(`${bullet.damage} Damage taken!`);
-    document.dispatchEvent(bullet.removeBullet);
-    for (let i = 0; i < bullet.damage; i++) {
-      this.player.stats.health -= 1;
-      this.HUD.health.lastChild.remove();
-      if (this.player.stats.health === 0) {
-        this.togglePause();
-        break;
+    if (!this.player.invincible) {
+      console.log(`${bullet.damage} Damage taken!`);
+      for (let i = 0; i < bullet.damage; i++) {
+        this.player.stats.health -= 1;
+        this.HUD.health.lastChild.remove();
+        if (this.player.stats.health === 0) {
+          this.togglePause();
+          break;
+        }
       }
+    } else {
+      bullet.removeBullet.detail.score = true;
+    }
+    document.dispatchEvent(bullet.removeBullet);
+  }
+
+  handlePlayerPowerUpCollision(powerup) {
+    document.dispatchEvent(powerup.despawnEvt);
+    switch (powerup.type) {
+      case 'Invincibility':
+        if (this.player.powerUpTimers.invincibility.currentTimer) {
+          this.player.powerUpTimers.invincibility.resetTimer();
+        } else {
+          this.player.invincible = true;
+        }
+        this.player.powerUpTimers.invincibility.startTimer();
+        break;
+      case 'Speed':
+        if (this.player.powerUpTimers.speed.currentTimer) {
+          this.player.powerUpTimers.speed.resetTimer();
+        } else {
+          this.player.stats.speed += 1;
+        }
+        this.player.powerUpTimers.speed.startTimer();
+        break;
+      case 'Health':
+        if (this.player.stats.health + 1 <= this.player.stats.maxHealth) {
+          this.player.stats.health += 1;
+          document.dispatchEvent(new CustomEvent('health-restored', { detail: { health: 1 } }));
+        } else {
+          this.player.stats.experience += 10;
+          LevelData.checkLevelUp(this.player);
+          console.log('health full');
+        }
+        break;
+      case 'Kaboom':
+        Object.keys(this.bullets).forEach((bullet) => {
+          this.togglePause();
+          console.log(this.bullets[bullet].removeBullet);
+          this.bullets[bullet].removeBullet.detail.score = true;
+          document.dispatchEvent(this.bullets[bullet].removeBullet);
+          this.togglePause();
+        });
+        break;
+      case 'Experience':
+        this.player.stats.experience += 50;
+        LevelData.checkLevelUp(this.player);
+        break;
+      default:
+        console.log('Impossible!');
     }
   }
 
@@ -135,6 +186,12 @@ class Game {
     if (this.keyInput.ArrowRight) this.player.movePosX();
     if (this.keyInput.ArrowLeft) this.player.moveNegX();
     if (this.keyInput[' '] && this.adrenaline.ready) this.activateAdrenaline();
+    Object.keys(this.powerUps).forEach((powerup) => {
+      if (Utils.checkCollision(this.player.element, this.powerUps[powerup].collisionRanges)) {
+        this.powerUps[powerup].despawnTimer.pauseTimer();
+        this.handlePlayerPowerUpCollision(this.powerUps[powerup]);
+      }
+    });
   }
 
   togglePause() {

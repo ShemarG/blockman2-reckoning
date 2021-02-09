@@ -1,7 +1,8 @@
 class PowerUp {
   constructor(boundingEl, type, key) {
+    this.type = type;
     this.element = LevelData.powerupElGen(type);
-    this.despawnEvt = new CustomEvent('despawnTimer', { detail: { key } });
+    this.despawnEvt = new CustomEvent('despawn-powerup', { detail: { key } });
     this.despawnTimer = new Timer(10, null, null, this.despawnEvt);
     this.spawn(this.element, boundingEl);
     this.collisionRanges = Utils.calculateCollisonRanges(this.element);

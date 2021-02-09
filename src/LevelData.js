@@ -36,6 +36,13 @@ class LevelData {
       3: 10,
       4: 15,
       5: 20
+    },
+    size: {
+      1: 1,
+      2: 4,
+      3: 11,
+      4: 16,
+      5: 20
     }
   }
 
@@ -179,7 +186,7 @@ class LevelData {
   static powerUpRates = {
     Kaboom: [0.00, 0.10], // 10%
     Health: [0.10, 0.40], // 30%
-    Invinicbility: [0.40, 0.50], // 10%
+    Invincibility: [0.40, 0.50], // 10%
     Experience: [0.50, 0.75], // 25%
     Speed: [0.75, 1.00] // 25%
   }
@@ -197,7 +204,7 @@ class LevelData {
       case 'Experience':
         el.classList.add('experience');
         break;
-      case 'Invinicbility':
+      case 'Invincibility':
         el.classList.add('invincibility');
         break;
       case 'Speed':

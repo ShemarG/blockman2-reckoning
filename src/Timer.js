@@ -5,7 +5,7 @@ class Timer {
     this.currentTimer = null;
     this.callback = callback;
     this.callbackArg = callbackArg;
-    this.timerEndEvt = new CustomEvent(timerEndEvt);
+    this.timerEndEvt = timerEndEvt;
   }
 
   getHours() {
@@ -31,9 +31,10 @@ class Timer {
       clearInterval(this.currentTimer);
       this.currentTimer = null;
       document.dispatchEvent(this.timerEndEvt);
+    } else {
+      if (this.callback) this.callback(this.callbackArg);
+      this.timeLeft -= 1;
     }
-    if (this.callback) this.callback(this.callbackArg);
-    this.timeLeft -= 1;
   }
 
   startTimer() {
@@ -46,11 +47,8 @@ class Timer {
   }
 
   resetTimer() {
-    if (this.currentTimer) {
-      clearInterval(this.currentTimer);
-      this.currentTimer = null;
-    } else {
-      this.timeLeft = this.initialDuration;
-    }
+    clearInterval(this.currentTimer);
+    this.currentTimer = null;
+    this.timeLeft = this.initialDuration;
   }
 }

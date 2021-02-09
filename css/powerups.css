@@ -2,5 +2,24 @@
   position: absolute;
   width: 1em;
   height: 1em;
-  background-color: purple;
+}
+
+.powerup.invincibility {
+  background-color: grey;
+}
+
+.powerup.health {
+  background-color: pink;
+}
+
+.powerup.kaboom {
+  background-color: orange;
+}
+
+.powerup.experience {
+  background-color: lightgreen;
+}
+
+.powerup.speed {
+  background-color: cyan;
 }

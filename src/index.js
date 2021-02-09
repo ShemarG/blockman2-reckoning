@@ -19,7 +19,7 @@ function generateHUD() {
   healthBar.append(bar);
   game.area.append(healthBar);
   const pause = document.createElement('span');
-  pause.classList.add('pause-button')
+  pause.classList.add('pause-button');
   pause.innerText = 'Pause';
   game.area.append(pause);
   pause.addEventListener('click', () => {
@@ -33,7 +33,7 @@ function generateHUD() {
     }
   });
 }
-generateHUD()
+generateHUD();
 
 function addHealthUnit() {
   const healthUnit = document.createElement('div');
@@ -43,7 +43,6 @@ function addHealthUnit() {
   healthUnit.style.margin = '0 0.1em 0 0.1em';
   game.HUD.health.append(healthUnit);
 }
-
 
 const homeScreen = document.getElementById('homescreen');
 
@@ -102,6 +101,28 @@ restartButton.style.color = 'white';
 // const healthPoints = document.createElement('span')
 // healthPoints.innerText = 'Health Points'
 // levelupScreen.append(healthPoints)
+
+document.addEventListener('despawn-powerup', (e) => {
+  game.powerUps[e.detail.key].element.remove();
+  delete game.powerUps[e.detail.key];
+});
+
+document.addEventListener('invincibility-over', () => {
+  console.log('Invincibility Over');
+  game.player.invincible = false;
+  game.player.powerUpTimers.invincibility.resetTimer();
+});
+
+document.addEventListener('speed-over', () => {
+  console.log('Speed Over');
+  game.player.stats.speed -= 1;
+  game.player.powerUpTimers.speed.resetTimer();
+});
+
+document.addEventListener('health-restored', (e) => {
+  if (e.detail.health === 1) addHealthUnit();
+  if (e.detail.health === 2) { addHealthUnit(); addHealthUnit(); }
+});
 
 startButton.addEventListener('click', () => {
   game.togglePause();
