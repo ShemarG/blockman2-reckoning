@@ -20,7 +20,6 @@ class Game {
     document.addEventListener('adrenaline-recharge', this.resetAdrenaline.bind(this));
     document.addEventListener('level-up', this.levelUp.bind(this));
     this.initCharacterControl();
-    this.generateHUD();
   }
 
   spawnPowerUp() {
@@ -65,41 +64,6 @@ class Game {
     }, 1000 * this.player.stats.adrenaline);
   }
 
-  generateHUD() {
-    this.HUD = {};
-    const healthBar = document.createElement('div');
-    healthBar.style.position = 'absolute';
-    healthBar.style.display = 'flex';
-    healthBar.style.height = '2em';
-    healthBar.style.color = 'white';
-    const label = document.createElement('span');
-    label.textContent = 'Health';
-    label.style.fontFamily = 'Goldman';
-    healthBar.append(label);
-    const bar = document.createElement('div');
-    bar.style.display = 'flex';
-    this.HUD.health = bar;
-    for (let i = 0; i < this.player.stats.health; i++) this.addHealthUnit();
-    healthBar.append(bar);
-    this.area.append(healthBar);
-    const pause = document.createElement('span');
-    pause.innerText = 'Pause';
-    pause.style.fontFamily = 'Goldman';
-    pause.style.marginLeft = '38em';
-    pause.style.color = 'white';
-    this.area.append(pause);
-    pause.addEventListener('click', () => {
-      if (pause.innerText === 'Pause' && this.player.stats.health !== 0) {
-        debugger;
-        pause.innerText = 'Resume';
-        this.togglePause();
-      } else if (pause.innerText === 'Resume' && this.player.stats.health !== 0) {
-        pause.innerText = 'Pause';
-        this.togglePause();
-      }
-    });
-  }
-
   handlePlayerBulletCollision(bullet) {
     console.log(`${bullet.damage} Damage taken!`);
     document.dispatchEvent(bullet.removeBullet);
@@ -111,15 +75,6 @@ class Game {
         break;
       }
     }
-  }
-
-  addHealthUnit() {
-    const healthUnit = document.createElement('div');
-    healthUnit.style.width = '1em';
-    healthUnit.style.height = '1em';
-    healthUnit.style.backgroundColor = 'red';
-    healthUnit.style.margin = '0 0.1em 0 0.1em';
-    this.HUD.health.append(healthUnit);
   }
 
   handleBulletRemoval(e) {
