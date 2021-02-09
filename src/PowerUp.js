@@ -11,7 +11,6 @@ class PowerUp {
 
   spawn(el, boundingEl) {
     const coords = Utils.calculateSpawn(el, boundingEl);
-    console.log('x', coords.x, 'y', coords.y);
     el.style.top = `${coords.y}px`;
     el.style.left = `${coords.x}px`;
     boundingEl.append(el);

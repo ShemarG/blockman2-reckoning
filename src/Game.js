@@ -66,13 +66,17 @@ class Game {
 
   handlePlayerBulletCollision(bullet) {
     if (!this.player.invincible) {
-      console.log(`${bullet.damage} Damage taken!`);
-      for (let i = 0; i < bullet.damage; i++) {
-        this.player.stats.health -= 1;
-        this.HUD.health.lastChild.remove();
-        if (this.player.stats.health === 0) {
-          this.togglePause();
-          break;
+      const randomNum = Math.random().toFixed(2);
+      if (randomNum <= this.player.stats.armor * 0.07) {
+        console.log('Armor has blocked damage!');
+      } else {
+        for (let i = 0; i < bullet.damage; i++) {
+          this.player.stats.health -= 1;
+          this.HUD.health.lastChild.remove();
+          if (this.player.stats.health === 0) {
+            this.togglePause();
+            break;
+          }
         }
       }
     } else {
@@ -113,7 +117,6 @@ class Game {
       case 'Kaboom':
         Object.keys(this.bullets).forEach((bullet) => {
           this.togglePause();
-          console.log(this.bullets[bullet].removeBullet);
           this.bullets[bullet].removeBullet.detail.score = true;
           document.dispatchEvent(this.bullets[bullet].removeBullet);
           this.togglePause();

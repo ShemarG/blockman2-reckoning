@@ -1,7 +1,5 @@
 .powerup {
   position: absolute;
-  width: 1em;
-  height: 1em;
 }
 
 .powerup.invincibility {
