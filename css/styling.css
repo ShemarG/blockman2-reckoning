@@ -1,5 +1,107 @@
 .pause-button{
     font-family : Goldman;
-    margin-left : 38em;
+    margin-left : 28em;
     color : white;  
+}
+
+.level-up-screen{
+    margin: 1.5em;
+}
+
+.level{
+    font-family : Goldman;
+    margin-left : 2.5em;
+    margin-top : 8em;
+    font-size : 3em;
+}
+
+.skill-point{
+    font-family : Goldman;
+    font-size : 2em;
+    margin-top : 1.5em;
+    margin-left : 7em;
+}
+
+.health-points{
+    font-family: Goldman;
+    font-size : 2em;
+    margin-top : 2em;
+    margin-left : 6.5em;
+}
+
+.health-upgrades{
+    font-family: Goldman;
+    font-size: 2em;
+    display: flex;
+    justify-content: center
+}
+
+.armor-points{
+    font-family: Goldman;
+    font-size : 2em;
+    margin-top : 45em;
+    margin-left : 6.5em;
+}
+
+.armor-upgrades{
+    font-family: Goldman;
+    font-size: 2em;
+    display: flex;
+    justify-content: center
+}
+
+.speed-points{
+    font-family: Goldman;
+    font-size : 2em;
+    margin-top : 2em;
+    margin-left : 6.5em;
+}
+
+.speed-upgrades{
+    font-family: Goldman;
+    font-size: 2em;
+    display: flex;
+    justify-content: center
+}
+
+.luck-points{
+    font-family: Goldman;
+    font-size : 2em;
+    margin-top : 2em;
+    margin-left : 6.5em;
+}
+
+.luck-upgrades{
+    font-family: Goldman;
+    font-size: 2em;
+    display: flex;
+    justify-content: center
+}
+
+.adrenaline-points{
+    font-family: Goldman;
+    font-size : 2em;
+    margin-top : 2em;
+    margin-left : 5.5em;
+}
+
+.adrenaline-upgrades{
+    font-family: Goldman;
+    font-size: 2em;
+    display: flex;
+    justify-content: center
+}
+
+.size-points{
+    font-family: Goldman;
+    font-size : 2em;
+    margin-top : 2em;
+    margin-left : 6.5em;
+}
+
+.size-upgrades{
+    font-family: Goldman;
+    font-size: 2em;
+    display: flex;
+    justify-content: center
 }
