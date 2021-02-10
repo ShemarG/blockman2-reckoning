@@ -189,28 +189,50 @@ class Game {
     if (this.paused) {
       clearInterval(this.spawnTick);
       clearInterval(this.gameTick);
+      if (this.player.adrenalineCooldown && this.player.adrenalineCooldown.currentTimer) {
+        this.player.adrenalineCooldown.pauseTimer();
+        const temp = window.getComputedStyle(this.HUD.adrenaline).width;
+        this.HUD.adrenaline.style.webkitTransition = '';
+        this.HUD.adrenaline.style.width = temp;
+      }
       Object.keys(this.powerUps).forEach((powerup) => {
         this.powerUps[powerup].despawnTimer.pauseTimer();
       });
       Object.keys(this.player.powerUpTimers).forEach((powerup) => {
         if (this.player.powerUpTimers[powerup].currentTimer) {
           this.player.powerUpTimers[powerup].pauseTimer();
+          if (powerup === 'adrenaline') {
+            const temp = window.getComputedStyle(this.HUD.adrenaline).width;
+            this.HUD.adrenaline.style.webkitTransition = '';
+            this.HUD.adrenaline.style.width = temp;
+          }
         }
       });
     } else {
-      this.spawnTick = setInterval(() => {
-        this.spawnBullet();
-      }, LevelData.bulletSpawnRates[this.player.stats.level - 1]);
-      this.gameTick = setInterval(() => {
-        this.moveBullets();
-        this.movePlayer();
-        this.spawnPowerUp();
-      }, 10);
+      if (!this.player.powerUpTimers.adrenaline.currentTimer) {
+        this.spawnTick = setInterval(() => {
+          this.spawnBullet();
+        }, LevelData.bulletSpawnRates[this.player.stats.level - 1]);
+        this.gameTick = setInterval(() => {
+          this.moveBullets();
+          this.movePlayer();
+          this.spawnPowerUp();
+        }, 10);
+      }
+      if (this.player.adrenalineCooldown && this.player.adrenalineCooldown.currentTimer) {
+        this.player.adrenalineCooldown.startTimer();
+        this.HUD.adrenaline.style.webkitTransition = `width ${this.player.adrenalineCooldown.timeLeft + 1}s linear`;
+        this.HUD.adrenaline.style.width = '100%';
+      }
       Object.keys(this.powerUps).forEach((powerup) => {
         this.powerUps[powerup].despawnTimer.startTimer();
       });
       Object.keys(this.player.powerUpTimers).forEach((powerup) => {
         if (this.player.powerUpTimers[powerup].currentTimer) {
+          if (powerup === 'adrenaline') {
+            this.HUD.adrenaline.style.webkitTransition = `width ${this.player.powerUpTimers.adrenaline.timeLeft + 1}s linear`;
+            this.HUD.adrenaline.style.width = '0%';
+          }
           this.player.powerUpTimers[powerup].startTimer();
         }
       });

@@ -121,6 +121,12 @@ document.addEventListener('despawn-powerup', (e) => {
   delete game.powerUps[e.detail.key];
 });
 
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'p') {
+    game.togglePause();
+  }
+});
+
 document.addEventListener('powerup-tick', (e) => {
   switch (e.detail.type) {
     case 'Invincibility':
@@ -141,7 +147,7 @@ document.addEventListener('powerup-tick', (e) => {
 });
 
 document.addEventListener('adrenaline-activated', () => {
-  game.HUD.adrenaline.style.webkitTransition = `width ${game.player.powerUpTimers.adrenaline.timeLeft}s linear`;
+  game.HUD.adrenaline.style.webkitTransition = `width ${game.player.powerUpTimers.adrenaline.timeLeft + 1}s linear`;
   game.player.powerUpTimers.adrenaline.startTimer();
   game.HUD.adrenaline.style.width = '0%';
   clearInterval(game.gameTick);
@@ -153,7 +159,7 @@ document.addEventListener('adrenaline-activated', () => {
 
 document.addEventListener('adrenaline-over', () => {
   console.log('Adrenaline Over');
-  game.HUD.adrenaline.style.webkitTransition = `width ${game.player.adrenalineCooldown.timeLeft}s linear`;
+  game.HUD.adrenaline.style.webkitTransition = `width ${game.player.adrenalineCooldown.timeLeft + 1}s linear`;
   game.player.adrenalineCooldown.startTimer();
   game.HUD.adrenaline.style.width = '100%';
   clearInterval(game.gameTick);
