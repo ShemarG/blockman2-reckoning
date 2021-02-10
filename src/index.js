@@ -124,6 +124,9 @@ document.addEventListener('despawn-powerup', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'p') {
     if (game.player.stats.health !== 0) game.togglePause();
+    game.togglePause();
+    const levelupScreen = document.getElementById('level-up-screen');
+    levelupScreen.style.display === 'block' ? levelupScreen.style.display = 'none' : levelupScreen.style.display = 'block';
   }
 });
 
@@ -243,6 +246,7 @@ const healthUpgrade = document.getElementById('health-bar');
 const healthPlus = document.getElementById('health+');
 const healthMinus = document.getElementById('health-');
 healthPlus.addEventListener('click', () => {
+  statUpgrades = new LevelUpInterface(game.player);
   if (statUpgrades.skills.skillPoints > 0) {
     healthUpgrade.append(document.createElement('div').style.color = 'health');
     statUpgrades.addPoint('maxHealth');
