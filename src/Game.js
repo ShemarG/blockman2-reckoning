@@ -22,9 +22,18 @@ class Game {
     this.initCharacterControl();
   }
 
+  addHealthUnit() {
+    const healthUnit = document.createElement('div');
+    healthUnit.classList.add('health-unit');
+    healthUnit.style.height = '1em';
+    healthUnit.style.backgroundColor = 'red';
+    healthUnit.style.margin = '0 0.1em 0 0.1em';
+    this.HUD.health.append(healthUnit);
+  }
+
   spawnPowerUp() {
     const randomNum = (Utils.randomizeRange(0, 10000) / 10000);
-    const spawnChance = (this.player.stats.luck * (1 / 10000)) + (1 / 2000);
+    const spawnChance = (this.player.stats.luck * (1 / 10000)) + (1 / 750);
     if (randomNum <= spawnChance) {
       const powerUpType = LevelData.getWeightedPowerUp();
       this.powerUps[this.powerUpId] = new PowerUp(this.area, powerUpType, this.powerUpId);
@@ -95,6 +104,7 @@ class Game {
           this.player.invincible = true;
         }
         this.player.powerUpTimers.invincibility.startTimer();
+        this.HUD.invinceSlot.cont.style.opacity = '1';
         break;
       case 'Speed':
         if (this.player.powerUpTimers.speed.currentTimer) {
@@ -103,11 +113,12 @@ class Game {
           this.player.stats.speed += 1;
         }
         this.player.powerUpTimers.speed.startTimer();
+        this.HUD.speedSlot.cont.style.opacity = '1';
         break;
       case 'Health':
-        if (this.player.stats.health + 1 <= this.player.stats.maxHealth) {
+        if (this.player.stats.health + 1 <= this.player.stats.maxHealth + 5) {
           this.player.stats.health += 1;
-          document.dispatchEvent(new CustomEvent('health-restored', { detail: { health: 1 } }));
+          this.addHealthUnit();
         } else {
           this.player.stats.experience += 10;
           LevelData.checkLevelUp(this.player);
@@ -134,6 +145,7 @@ class Game {
   handleBulletRemoval(e) {
     if (e.detail.score) {
       this.player.stats.experience += this.bullets[e.detail.key].damage;
+      this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1]}`;
       LevelData.checkLevelUp(this.player);
     }
     this.bullets[e.detail.key].element.remove();

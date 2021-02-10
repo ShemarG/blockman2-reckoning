@@ -9,13 +9,6 @@
     opacity: 0.3
 }
 
-#level{
-    font-family : Goldman;
-    margin-left : 2.5em;
-    margin-top : 8em;
-    font-size : 3em;
-}
-
 #skill-point{
     font-family : Goldman;
     font-size : 2em;
@@ -101,6 +94,20 @@
 }
 
 #size-upgrades{
+    font-family: Goldman;
+    font-size: 2em;
+    display: flex;
+    justify-content: center
+}
+
+.size-block{
+    display:flex;
+    color: greenyellow;
+    width: .3em;
+    font-size: .3em
+}
+
+#confirm-button{
     font-family: Goldman;
     font-size: 2em;
     display: flex;

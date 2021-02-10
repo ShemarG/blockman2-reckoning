@@ -1,49 +1,82 @@
 const game = new Game(document.getElementById('el'));
+const statUpgrades = new LevelUpInterface(game.player)
+
 
 function generateHUD() {
   game.HUD = {};
+  const hudContainer = document.createElement('div');
+  game.HUD.topLevel = hudContainer;
+  hudContainer.classList.add('hud-container');
+  const healthAndAdrenalineContainer = document.createElement('div');
+  healthAndAdrenalineContainer.classList.add('health-and-adrenaline-container');
+  const healthBarWrapper = document.createElement('div');
+  healthBarWrapper.classList.add('health-bar-wrapper');
+  const healthSpan = document.createElement('span');
+  healthSpan.textContent = 'Health:';
+  healthSpan.classList.add('health-span');
   const healthBar = document.createElement('div');
-  healthBar.style.position = 'absolute';
-  healthBar.style.display = 'flex';
-  healthBar.style.height = '2em';
-  healthBar.style.color = 'white';
-  game.HUD.healthBar = healthBar;
-  const label = document.createElement('span');
-  label.textContent = 'Health';
-  label.style.fontFamily = 'Goldman';
-  healthBar.append(label);
-  const bar = document.createElement('div');
-  bar.style.display = 'flex';
-  game.HUD.health = bar;
-  for (let i = 0; i < game.player.stats.health; i++) addHealthUnit();
-  healthBar.append(bar);
-  game.area.append(healthBar);
-  const pause = document.createElement('span');
-  pause.classList.add('pause-button');
-  pause.innerText = 'Pause';
-  game.area.append(pause);
-  pause.addEventListener('click', () => {
-    if (pause.innerText === 'Pause' && game.player.stats.health !== 0) {
-      document.getElementById('level-up-screen').style.display = 'block'
-      pause.innerText = 'Resume';
-      game.togglePause();
-    } else if (pause.innerText === 'Resume' && game.player.stats.health !== 0) {
-      document.getElementById('level-up-screen').style.display = 'none'
-      pause.innerText = 'Pause';
-      game.togglePause();
-    }
-  });
+  game.HUD.health = healthBar;
+  for (let i = 0; i < game.player.stats.health; i++) game.addHealthUnit();
+  healthBar.classList.add('health-bar');
+  const adrenalineBar = document.createElement('div');
+  adrenalineBar.classList.add('adrenaline-bar');
+  const adrenalineBarInner = document.createElement('div');
+  game.HUD.adrenaline = adrenalineBarInner;
+  adrenalineBarInner.classList.add('adrenaline-bar-inner');
+  adrenalineBar.append(adrenalineBarInner);
+  healthBarWrapper.append(healthSpan, healthBar);
+  healthAndAdrenalineContainer.append(healthBarWrapper, adrenalineBar);
+
+  const statusContainer = document.createElement('div');
+  statusContainer.classList.add('status-container');
+  const activePowerUps = document.createElement('div');
+  activePowerUps.classList.add('active-powerups');
+  const speedSlot = document.createElement('div');
+  speedSlot.style.opacity = '0';
+  speedSlot.classList.add('powerup-slot');
+  const speedSlotIcon = document.createElement('img');
+  speedSlotIcon.src = '../assets/play-forward-sharp.svg';
+  speedSlotIcon.classList.add('powerup-slot-icon');
+  const speedSlotText = document.createElement('span');
+  game.HUD.speedSlot = { cont: speedSlot, icon: speedSlotIcon, text: speedSlotText };
+  speedSlotText.textContent = '10';
+  speedSlotText.classList.add('powerup-slot-text');
+  speedSlot.append(speedSlotIcon, speedSlotText);
+
+  const invinceSlot = document.createElement('div');
+  invinceSlot.style.opacity = '0';
+  invinceSlot.classList.add('powerup-slot');
+  const invinceSlotIcon = document.createElement('img');
+  invinceSlotIcon.src = '../assets/shield-sharp.svg';
+  invinceSlotIcon.classList.add('powerup-slot-icon');
+  const invinceSlotText = document.createElement('span');
+  game.HUD.invinceSlot = { cont: invinceSlot, icon: invinceSlotIcon, text: invinceSlotText };
+  invinceSlotText.textContent = '10';
+  invinceSlotText.classList.add('powerup-slot-text');
+  invinceSlot.append(invinceSlotIcon, invinceSlotText);
+
+  activePowerUps.append(speedSlot, invinceSlot);
+
+  const perkContainer = document.createElement('div');
+  perkContainer.classList.add('perk-container');
+
+  const experienceContainer = document.createElement('div');
+  experienceContainer.classList.add('experience-container');
+  const expSpan = document.createElement('span');
+  expSpan.classList.add('exp-span');
+  expSpan.textContent = 'Exp:';
+  const expCounter = document.createElement('span');
+  game.HUD.exp = expCounter;
+  expCounter.textContent = `0/${LevelData.characterLevelUpBreakpoints[0]}`;
+  expCounter.classList.add('exp-counter');
+
+  experienceContainer.append(expSpan, expCounter);
+
+  statusContainer.append(activePowerUps, perkContainer, experienceContainer);
+  hudContainer.append(healthAndAdrenalineContainer, statusContainer);
+  game.area.append(hudContainer);
 }
 generateHUD();
-
-function addHealthUnit() {
-  const healthUnit = document.createElement('div');
-  healthUnit.style.width = '1em';
-  healthUnit.style.height = '1em';
-  healthUnit.style.backgroundColor = 'red';
-  healthUnit.style.margin = '0 0.1em 0 0.1em';
-  game.HUD.health.append(healthUnit);
-}
 
 const homeScreen = document.getElementById('homescreen');
 
@@ -88,14 +121,31 @@ document.addEventListener('despawn-powerup', (e) => {
   delete game.powerUps[e.detail.key];
 });
 
+document.addEventListener('powerup-tick', (e) => {
+  switch (e.detail.type) {
+    case 'Invincibility':
+      game.HUD.invinceSlot.text.textContent = e.detail.val;
+      break;
+    case 'Speed':
+      game.HUD.speedSlot.text.textContent = e.detail.val;
+      break;
+    default:
+      console.log('Should be unreachable');
+  }
+});
+
 document.addEventListener('invincibility-over', () => {
   console.log('Invincibility Over');
+  game.HUD.invinceSlot.cont.style.opacity = '0';
+  game.HUD.invinceSlot.text.textContent = '10';
   game.player.invincible = false;
   game.player.powerUpTimers.invincibility.resetTimer();
 });
 
 document.addEventListener('speed-over', () => {
   console.log('Speed Over');
+  game.HUD.speedSlot.cont.style.opacity = '0';
+  game.HUD.speedSlot.text.textContent = '10';
   game.player.stats.speed -= 1;
   game.player.powerUpTimers.speed.resetTimer();
 });
@@ -142,9 +192,77 @@ const healthUpgrade = document.getElementById('health-bar')
 const healthPlus = document.getElementById('health+')
 const healthMinus = document.getElementById('health-')
 healthPlus.addEventListener('click', ()=> {
-  if (game.player.stats.skillPoints === 1){
-    healthUpgrade.append(document.createElement('div').style.backgroundColor = 'red')
-    game.player.stats.health += 1
-    game.player.stats.skillPoints -= 1
+  if (statUpgrades.skills.skillPoints > 0){
+    healthUpgrade.append(document.createElement('div').style.color = 'health')
+    statUpgrades.addPoint('maxHealth')
+    statUpgrades.skills.skillPoints -= 1
   }
+})
+
+const armorUpgrade = document.getElementById('armor-bar')
+const armorPlus = document.getElementById('armor+')
+const armorMinus = document.getElementById('armor-')
+armorPlus.addEventListener('click', ()=> {
+  if (statUpgrades.skills.skillPoints > 0){
+    armorUpgrade.append(document.createElement('div').style.backgroundColor = 'armor')
+    statUpgrades.addPoint('armor')
+    statUpgrades.skills.skillPoints -= 1
+  }
+})
+
+const speedUpgrade = document.getElementById('speed-bar')
+const speedPlus = document.getElementById('speed+')
+const speedMinus = document.getElementById('speed-')
+speedPlus.addEventListener('click', ()=> {
+  if (statUpgrades.skills.skillPoints > 0){
+    speedUpgrade.append(document.createElement('div').style.backgroundColor = 'speed')
+    statUpgrades.addPoint('speed')
+    statUpgrades.skills.skillPoints -= 1
+  }
+})
+
+const luckUpgrade = document.getElementById('luck-bar')
+const luckPlus = document.getElementById('luck+')
+const luckMinus = document.getElementById('luck-')
+luckPlus.addEventListener('click', ()=> {
+  if (statUpgrades.skills.skillPoints > 0){
+    luckUpgrade.append(document.createElement('div').style.backgroundColor = 'luck')
+    statUpgrades.addPoint('luck')
+    statUpgrades.skills.skillPoints -= 1
+  }
+})
+
+const adrenalineUpgrade = document.getElementById('adrenaline-bar')
+const adrenalinePlus = document.getElementById('adrenaline+')
+const adrenalineMinus = document.getElementById('adrenaline-')
+adrenalinePlus.addEventListener('click', ()=> {
+  if (statUpgrades.skills.skillPoints > 0){
+    adrenalineUpgrade.append(document.createElement('div').style.backgroundColor = 'adrenaline')
+    adrenalineUpgrades.addPoint('adrenaline')
+    statUpgrades.skills.skillPoints -= 1
+  }
+})
+
+const sizeUpgrade = document.getElementById('size-bar')
+const sizePlus = document.getElementById('size+')
+const sizeMinus = document.getElementById('size-')
+const sizeblock = document.createElement('div')
+sizeblock.classList.add('size-block')
+sizePlus.addEventListener('click', ()=> {
+  if (statUpgrades.skills.skillPoints > 0 && game.player.stats.size < 5){
+    sizeUpgrade.append('size-block')
+    statUpgrades.addPoint('size')
+    statUpgrades.skills.skillPoints -= 1
+  }
+})
+sizeMinus.addEventListener('click', () => {
+  statUpgrades.removePoint('size')
+  statUpgrades.skills.skillPoints += 1
+})
+
+
+
+const confirmButton = document.getElementById('confirm-button')
+confirmButton.addEventListener('click',() => {
+  statUpgrades.confirmSkills()
 })

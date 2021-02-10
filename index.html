@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="css/powerups.css">
+    <link rel="stylesheet" type="text/css" href="css/powerups.css">
     <link rel="stylesheet" type="text/css" href="css/styling.css">
+    <link rel="stylesheet" type="text/css" href="css/hud.css">
     <link href="https://fonts.googleapis.com/css2?family=Goldman&display=swap" rel="stylesheet">
     <title></title>
   </head>
@@ -20,7 +21,6 @@
     <div id="container">
       <div id="el"  style="width: 43em; height: 43em; z-index:1; background-color:black;  overflow:hidden;">
         <div id='level-up-screen' style='display: none; width: 40em; height:40em; z-index: 6; position: absolute; background-color:grey'>
-          <span id="level">Level Complete</span>
           <span id="skill-point">Skill Points</span>
           <span id="health-points">Max Health</span>
             <div id="health-upgrades">
@@ -58,6 +58,7 @@
               <div id="size-bar" style="background:white; width:9em"></div>
               <div id="size+">+</div>
             </div>
+            <span id='confirm-button'>Confirm</span>
         </div>
         <div id="restartButton" style="z-index:1; background: rgba(204, 204, 204, 0);"></div>
         <div id="player" style="width: 40px; height:40px;">

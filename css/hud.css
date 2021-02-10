@@ -1,0 +1,59 @@
+.hud-container {
+  font-family: Goldman;
+  color: white;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+}
+
+.health-and-adrenaline-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.health-bar {
+  min-width: 12em;
+  display: flex;
+}
+
+.health-unit {
+  max-width: 2.2em;
+  flex-grow: 1;
+}
+
+.health-bar-wrapper {
+  display: flex;
+}
+
+.adrenaline-bar {
+  border: 1px solid white;
+}
+
+.adrenaline-bar-inner {
+  height: 0.2em;
+  background-color: purple;
+  width: 0%;
+}
+
+.status-container {
+  display: flex;
+}
+
+.powerup-slot-icon {
+  width: 1em;
+}
+
+.active-powerups {
+  display: flex;
+}
+
+.powerup-slot {
+  display: flex;
+  align-items: center;
+  margin: 0 0.2em;
+}
+
+.perk-container {
+  width: 7.5em;
+}
