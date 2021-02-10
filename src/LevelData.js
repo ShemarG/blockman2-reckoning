@@ -163,22 +163,22 @@ class LevelData {
     lv2: {
       radius: 15,
       damage: 2,
-      speed: 2.25
+      speed: 1.875
     },
     lv3: {
       radius: 20,
       damage: 3,
-      speed: 3
+      speed: 2.25
     },
     lv4: {
       radius: 25,
       damage: 4,
-      speed: 3.5
+      speed: 2.625
     },
     lv5: {
       radius: 30,
       damage: 5,
-      speed: 4
+      speed: 3
     }
   }
 

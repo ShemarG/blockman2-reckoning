@@ -37,20 +37,41 @@ class Game {
 
   spawnPowerUp() {
     const randomNum = (Utils.randomizeRange(0, 10000) / 10000);
-    const spawnChance = (this.player.stats.luck * (1 / 10000)) + (1 / 750);
+    const spawnChance = (this.player.stats.luck * (1 / 10000)) + (1 / 1250);
     if (randomNum <= spawnChance) {
       const powerUpType = LevelData.getWeightedPowerUp();
+      if (this.player.perks.includes('Fortunate')) {
+        const secondPowerUp = LevelData.getWeightedPowerUp();
+        this.powerUps[this.powerUpId] = new PowerUp(this.area, secondPowerUp, this.powerUpId);
+        this.powerUpId += 1;
+      }
       this.powerUps[this.powerUpId] = new PowerUp(this.area, powerUpType, this.powerUpId);
       this.powerUpId += 1;
     }
   }
 
   handlePlayerBulletCollision(bullet) {
+    if (this.player.perks.includes('Reflexes')) {
+      if (this.player.adrenalineCooldown.currentTimer
+        && this.player.adrenalineCooldown.timeLeft >= 5) {
+        this.player.adrenalineCooldown.timeLeft -= 5;
+        this.HUD.adrenaline.style.webkitTransition = '';
+        this.HUD.adrenaline.style.width = `${((this.player.adrenalineCooldown.initialDuration
+          - this.player.adrenalineCooldown.timeLeft) / this.player.adrenalineCooldown.initialDuration) * 100}%`;
+        setTimeout(() => {
+          this.HUD.adrenaline.style.webkitTransition = `width ${this.player.adrenalineCooldown.timeLeft + 1}s linear`;
+          this.HUD.adrenaline.style.width = '100%';
+        }, 1);
+      }
+    }
     if (!this.player.invincible) {
       const randomNum = Math.random().toFixed(2);
       if (randomNum <= this.player.stats.armor * 0.07) {
         console.log('Armor has blocked damage!');
       } else {
+        if (this.player.perks.includes('Aegis')) {
+          bullet.damage -= 1;
+        }
         for (let i = 0; i < bullet.damage; i++) {
           this.player.stats.health -= 1;
           this.HUD.health.lastChild.remove();
@@ -79,6 +100,9 @@ class Game {
         this.HUD.invinceSlot.cont.style.opacity = '1';
         break;
       case 'Speed':
+        if (this.player.perks.includes('C-Speed') && !this.player.powerUpTimers.invincibility.currentTimer) {
+          this.player.invincible = true;
+        }
         if (this.player.powerUpTimers.speed.currentTimer) {
           this.player.powerUpTimers.speed.resetTimer();
         } else {
@@ -88,7 +112,21 @@ class Game {
         this.HUD.speedSlot.cont.style.opacity = '1';
         break;
       case 'Health':
-        if (this.player.stats.health + 1 <= this.player.stats.maxHealth + 5) {
+        if (this.player.perks.includes('Healthy')) {
+          if (this.player.stats.health + 2 <= this.player.stats.maxHealth + 5) {
+            this.player.stats.health += 1;
+            this.player.stats.health += 1;
+            this.addHealthUnit();
+            this.addHealthUnit();
+          } else if (this.player.stats.health + 1 <= this.player.stats.maxHealth + 5) {
+            this.player.stats.health += 1;
+            this.addHealthUnit();
+            this.player.stats.experience += Math.floor(LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1] * 0.05);
+          } else {
+            this.player.stats.experience += Math.floor(LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1] * 0.05);
+            this.player.stats.experience += Math.floor(LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1] * 0.05);
+          }
+        } else if (this.player.stats.health + 1 <= this.player.stats.maxHealth + 5) {
           this.player.stats.health += 1;
           this.addHealthUnit();
         } else {
@@ -144,10 +182,13 @@ class Game {
     const bulletType = LevelData.getWeightedBullet(level);
     const possibleSides = ['top', 'bottom', 'left', 'right'];
     const chosenSide = possibleSides[Utils.randomizeRange(0, possibleSides.length)];
+    const bulletSize = this.player.perks.includes('Relativity')
+      ? Math.floor(LevelData.bulletConfigs[bulletType].radius * 0.7)
+      : LevelData.bulletConfigs[bulletType].radius;
     const bullet = new Bullet(
       this.area,
       chosenSide,
-      LevelData.bulletConfigs[bulletType].radius,
+      bulletSize,
       LevelData.bulletConfigs[bulletType].speed,
       LevelData.bulletConfigs[bulletType].damage,
       this.bulletId
@@ -215,6 +256,11 @@ class Game {
         }, LevelData.bulletSpawnRates[this.player.stats.level - 1]);
         this.gameTick = setInterval(() => {
           this.moveBullets();
+          this.movePlayer();
+          this.spawnPowerUp();
+        }, 10);
+      } else {
+        this.gameTick = setInterval(() => {
           this.movePlayer();
           this.spawnPowerUp();
         }, 10);

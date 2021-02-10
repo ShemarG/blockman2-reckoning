@@ -5,16 +5,17 @@ class Character {
     this.baseSize = this.element.offsetWidth;
     this.stats = {
       level,
-      maxHealth: 0,
+      maxHealth: 5,
       health: 5,
-      armor: 0,
-      speed: 0,
-      luck: 0,
-      adrenaline: 3,
-      size: 0,
+      armor: 5,
+      speed: 5,
+      luck: 5,
+      adrenaline: 5,
+      size: 5,
       skillPoints: 0,
       experience: 0
     };
+    this.perks = [];
     this.powerUpTimers = {
       invincibility: new Timer(10, this.powerUpTick, 'Invincibility', new CustomEvent('invincibility-over')),
       speed: new Timer(10, this.powerUpTick, 'Speed', new CustomEvent('speed-over'))
@@ -25,8 +26,7 @@ class Character {
     this.element.style.position = 'absolute';
     this.element.style.top = `${boundingEl.offsetHeight / 2}px`;
     this.element.style.left = `${boundingEl.offsetWidth / 2}px`;
-    this.changeSize();
-    if (this.stats.adrenaline) this.setAdrenaline();
+    this.syncStats();
   }
 
   setAdrenaline() {
@@ -34,34 +34,38 @@ class Character {
     this.adrenalineCooldown = new Timer((this.stats.adrenaline ** 2 + 5), this.powerUpTick, 'Adrenaline-Recharge', new CustomEvent('adrenaline-recharged'));
   }
 
-  changeSize() {
+  syncStats() {
+    if (this.stats.adrenaline) this.setAdrenaline();
     this.element.style.height = `${this.baseSize * (1 - (this.stats.size / 10))}px`;
     this.element.style.width = `${this.baseSize * (1 - (this.stats.size / 10))}px`;
+    this.stats.health = 5 + this.stats.maxHealth;
+    this.stats.maxHealth === 5 ? this.perks.push('Healthy') : null;
+    this.stats.armor === 5 ? this.perks.push('Aegis') : null;
+    this.stats.speed === 5 ? this.perks.push('C-Speed') : null;
+    this.stats.luck === 5 ? this.perks.push('Fortunate') : null;
+    this.stats.adrenaline === 5 ? this.perks.push('Reflexes') : null;
+    this.stats.size === 5 ? this.perks.push('Relativity') : null;
   }
 
   // Movement functions.
   movePosX() {
-    const displacedPos = this.element.offsetLeft + ((this.stats.speed * 0.8) + 1);
+    const displacedPos = this.element.offsetLeft + ((this.stats.speed * 0.6) + 1);
     if (this.enabled && displacedPos < (this.boundingEl.offsetWidth - this.element.offsetWidth)) this.element.style.left = `${displacedPos}px`;
-    // Utils.calculateCollisonRanges(this.element);
   }
 
   moveNegX() {
-    const displacedPos = this.element.offsetLeft - ((this.stats.speed * 0.8) + 1);
+    const displacedPos = this.element.offsetLeft - ((this.stats.speed * 0.6) + 1);
     if (this.enabled && displacedPos > 0) this.element.style.left = `${displacedPos}px`;
-    // Utils.calculateCollisonRanges(this.element);
   }
 
   movePosY() {
-    const displacedPos = this.element.offsetTop - ((this.stats.speed * 0.8) + 1);
+    const displacedPos = this.element.offsetTop - ((this.stats.speed * 0.6) + 1);
     if (this.enabled && displacedPos > 0) this.element.style.top = `${displacedPos}px`;
-    // Utils.calculateCollisonRanges(this.element);
   }
 
   moveNegY() {
-    const displacedPos = this.element.offsetTop + ((this.stats.speed * 0.8) + 1);
+    const displacedPos = this.element.offsetTop + ((this.stats.speed * 0.6) + 1);
     if (this.enabled && displacedPos < (this.boundingEl.offsetHeight - this.element.offsetHeight)) this.element.style.top = `${displacedPos}px`;
-    // Utils.calculateCollisonRanges(this.element);
   }
 
   powerUpTick() {

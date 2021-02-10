@@ -123,7 +123,7 @@ document.addEventListener('despawn-powerup', (e) => {
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'p') {
-    game.togglePause();
+    if (game.player.stats.health !== 0) game.togglePause();
   }
 });
 
@@ -154,6 +154,7 @@ document.addEventListener('adrenaline-activated', () => {
   clearInterval(game.spawnTick);
   game.gameTick = setInterval(() => {
     game.movePlayer();
+    game.spawnPowerUp();
   }, 10);
 });
 
@@ -166,6 +167,7 @@ document.addEventListener('adrenaline-over', () => {
   game.gameTick = setInterval(() => {
     game.moveBullets();
     game.movePlayer();
+    game.spawnPowerUp();
   }, 10);
   game.spawnTick = setInterval(() => {
     game.spawnBullet();
@@ -190,14 +192,14 @@ document.addEventListener('speed-over', () => {
   console.log('Speed Over');
   game.HUD.speedSlot.cont.style.opacity = '0';
   game.HUD.speedSlot.text.textContent = '10';
+  if (game.player.perks.includes('C-Speed') && !game.player.powerUpTimers.invincibility.currentTimer) {
+    game.player.invincible = false;
+  }
   game.player.stats.speed -= 1;
   game.player.powerUpTimers.speed.resetTimer();
 });
 
-document.addEventListener('health-restored', (e) => {
-  if (e.detail.health === 1) addHealthUnit();
-  if (e.detail.health === 2) { addHealthUnit(); addHealthUnit(); }
-});
+// document.addEventListener('health-restored', (e) => {});
 
 startButton.addEventListener('click', () => {
   game.startGame();
