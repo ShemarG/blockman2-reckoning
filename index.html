@@ -19,46 +19,46 @@
       <div id="backbutton" style="background: rgba(204, 204, 204, 0); z-index:3; position:absolute;"></div>
     </img>
     <div id="container">
-      <div id="el"  style="width: 43em; height: 43em; z-index:1; background-color:black;  overflow:hidden;">
-        <div id='level-up-screen' style='display: none; width: 40em; height:40em; z-index: 6; position: absolute; background-color:grey'>
-          <span id="skill-point">Skill Points</span>
-          <span id="health-points">Max Health</span>
-            <div id="health-upgrades">
-              <div id="health-">-</div>
-              <div id="health-bar" style="background:white; width:290px; display:flex"></div>
-              <div id="health+">+</div>
-            </div>
-          <span id="armor-points">Armor Points</span>
-            <div id="armor-upgrades">
-              <div id="armor-">-</div>
-              <div id="armor-bar" style="background:white; width:9em"></div>
-              <div id="armor+">+</div>
-            </div>
-          <span id="speed-points">Speed Points</span>
-            <div id="speed-upgrades">
-              <div id="speed-">-</div>
-              <div id="speed-bar" style="background:white; width:9em"></div>
-              <div id="speed+">+</div>
-            </div>
-          <span id="luck-points">Luck Points</span>
-            <div id="luck-upgrades">
-              <div id="luck-">-</div>
-              <div id="luck-bar" style="background:white; width:9em"></div>
-              <div id="luck+">+</div>
-            </div>
-          <span id="adrenaline-points">Adrenaline Points</span>
-            <div id="adrenaline-upgrades">
-              <div id="adrenaline-">-</div>
-              <div id="adrenaline-bar" style="background:white; width:9em"></div>
-              <div id="adrenaline+">+</div>
-            </div>
-          <span id="size-points">Size Points</span>
-            <div id="size-upgrades">
-              <div id="size-">-</div>
-              <div id="size-bar" style="background:white; width:9em"></div>
-              <div id="size+">+</div>
-            </div>
-            <span id='confirm-button'>Confirm</span>
+      <div id="el" style="width: 43em; height: 43em; z-index:1; background-color:black;  overflow:hidden;">
+        <div id='level-up-screen' style='display: none; width: 40em; height:40em; z-index: 6; position: absolute;'>
+          <span id="skill-point">Skill</span>
+          <span class="skill-label" id="health-points">Max Health</span>
+          <div class="skill-container" id="health-upgrades">
+            <button class="minus-button" data-skill="maxHealth" id="health-"></button>
+            <div class="skill-bar" data-skill="maxHealth" id="health-bar"></div>
+            <button class="plus-button" data-skill="maxHealth" id="health+"></button>
+          </div>
+          <span class="skill-label" id="armor-points">Armor</span>
+          <div class="skill-container" id="armor-upgrades">
+            <button class="minus-button" data-skill="armor" id="armor-"></button>
+            <div class="skill-bar" data-skill="armor" id="armor-bar"></div>
+            <button class="plus-button" data-skill="armor" id="armor+"></button>
+          </div>
+          <span class="skill-label" id="speed-points">Speed</span>
+          <div class="skill-container" id="speed-upgrades">
+            <button class="minus-button" data-skill="speed" id="speed-"></button>
+            <div class="skill-bar" data-skill="speed" id="speed-bar"></div>
+            <button class="plus-button" data-skill="speed" id="speed+"></button>
+          </div>
+          <span class="skill-label" id="luck-points">Luck</span>
+          <div class="skill-container" id="luck-upgrades">
+            <button class="minus-button" data-skill="luck" id="luck-"></button>
+            <div class="skill-bar" data-skill="luck" id="luck-bar"></div>
+            <button class="plus-button" data-skill="luck" id="luck+"></button>
+          </div>
+          <span class="skill-label" id="adrenaline-points">Adrenaline</span>
+          <div class="skill-container" id="adrenaline-upgrades">
+            <button class="minus-button" data-skill="adrenaline" id="adrenaline-"></button>
+            <div class="skill-bar" data-skill="adrenaline" id="adrenaline-bar"></div>
+            <button class="plus-button" data-skill="adrenaline" id="adrenaline+"></button>
+          </div>
+          <span class="skill-label" id="size-points">Size</span>
+          <div class="skill-container" id="size-upgrades">
+            <button class="minus-button" data-skill="size" id="size-"></button>
+            <div class="skill-bar" data-skill="size" id="size-bar"></div>
+            <button class="plus-button" data-skill="size" id="size+"></button>
+          </div>
+          <span id='confirm-button'>Confirm</span>
         </div>
         <div id="restartButton" style="z-index:1; background: rgba(204, 204, 204, 0);"></div>
         <div id="player" style="width: 40px; height:40px;">

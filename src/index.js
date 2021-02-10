@@ -78,6 +78,41 @@ function generateHUD() {
 }
 generateHUD();
 
+const generateSkillBlock = (color) => {
+  const div = document.createElement('div');
+  div.classList.add('skill-block');
+  div.style.backgroundColor = color;
+  return div;
+};
+const generatePlus = () => {
+  const img = document.createElement('img');
+  img.src = '../assets/add-sharp.svg';
+  return img;
+};
+const generateMinus = () => {
+  const img = document.createElement('img');
+  img.src = '../assets/remove-sharp.svg';
+  return img;
+};
+const setPlusButtons = () => {
+  Array.from(document.getElementsByClassName('plus-button')).forEach((button) => {
+    button.innerHTML = '';
+    switch (statUpgrades.validateSkill(button.dataset.skill)) {
+      case false:
+        button.append(generatePlus());
+        button.disabled = true;
+        break;
+      case true:
+        button.append(generatePlus());
+        button.disabled = false;
+        break;
+      default:
+        button.textContent = `Lv.${statUpgrades.validateSkill(button.dataset.skill)}`;
+        button.disabled = true;
+    }
+  });
+};
+
 const homeScreen = document.getElementById('homescreen');
 
 const startButton = document.getElementById('start');
@@ -123,10 +158,11 @@ document.addEventListener('despawn-powerup', (e) => {
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'p') {
-    if (game.player.stats.health !== 0) game.togglePause();
-    game.togglePause();
-    const levelupScreen = document.getElementById('level-up-screen');
-    levelupScreen.style.display === 'block' ? levelupScreen.style.display = 'none' : levelupScreen.style.display = 'block';
+    if (game.player.stats.health !== 0) {
+      game.togglePause();
+      const levelupScreen = document.getElementById('level-up-screen');
+      levelupScreen.style.display === 'flex' ? levelupScreen.style.display = 'none' : levelupScreen.style.display = 'flex';
+    }
   }
 });
 
@@ -239,16 +275,52 @@ document.addEventListener('game-over', () => {
 
 document.addEventListener('level-up', () => {
   statUpgrades = new LevelUpInterface(game.player);
-  console.log('Level Up! Now lv', game.player.stats.level);
+  setPlusButtons();
+});
+
+Array.from(document.getElementsByClassName('minus-button')).forEach((button) => {
+  button.append(generateMinus());
+  button.disabled = true;
+});
+
+Array.from(document.getElementsByClassName('plus-button')).forEach((button) => {
+  button.append(generatePlus());
+  button.disabled = true;
+  button.addEventListener('click', () => {
+    statUpgrades.addPoint(button.dataset.skill);
+    const bar = document.querySelector(`.skill-bar[data-skill=${button.dataset.skill}]`);
+    switch (button.dataset.skill) {
+      case 'maxHealth':
+        bar.append(generateSkillBlock('red'));
+        break;
+      case 'armor':
+        bar.append(generateSkillBlock('grey'));
+        break;
+      case 'speed':
+        bar.append(generateSkillBlock('cyan'));
+        break;
+      case 'luck':
+        bar.append(generateSkillBlock('green'));
+        break;
+      case 'adrenaline':
+        bar.append(generateSkillBlock('purple'));
+        break;
+      case 'size':
+        bar.append(generateSkillBlock('orange'));
+        break;
+      default:
+        console.log('unreachable');
+    }
+    setPlusButtons();
+  });
 });
 
 const healthUpgrade = document.getElementById('health-bar');
 const healthPlus = document.getElementById('health+');
 const healthMinus = document.getElementById('health-');
 healthPlus.addEventListener('click', () => {
-  statUpgrades = new LevelUpInterface(game.player);
   if (statUpgrades.skills.skillPoints > 0) {
-    healthUpgrade.append(document.createElement('div').style.color = 'health');
+    healthUpgrade.append(document.createElement('div'));
     statUpgrades.addPoint('maxHealth');
     statUpgrades.skills.skillPoints -= 1;
   }

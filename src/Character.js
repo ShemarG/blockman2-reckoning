@@ -5,13 +5,13 @@ class Character {
     this.baseSize = this.element.offsetWidth;
     this.stats = {
       level,
-      maxHealth: 5,
+      maxHealth: 1,
       health: 5,
-      armor: 5,
-      speed: 5,
-      luck: 5,
-      adrenaline: 5,
-      size: 5,
+      armor: 0,
+      speed: 0,
+      luck: 0,
+      adrenaline: 0,
+      size: 0,
       skillPoints: 0,
       experience: 0
     };
