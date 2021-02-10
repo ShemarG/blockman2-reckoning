@@ -34,5 +34,6 @@ class LevelUpInterface {
 
   confirmSkills() {
     this.player.stats = this.skills;
+    this.player.changeSize();
   }
 }

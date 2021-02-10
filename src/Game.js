@@ -7,19 +7,23 @@ class Game {
     this.bulletId = 0;
     this.powerUpId = 0;
     this.area = area;
-    this.adrenaline = {
-      ready: false,
-      cooldownTimer: new Timer((this.player.stats.adrenaline ** 2 + 5), this.adrenalineTimerTick, this, new CustomEvent('adrenaline-recharge'))
-    };
-    this.adrenalineTimerTick.bind(this.adrenaline.cooldownTimer)();
-    this.paused = true;
+    this.paused = false;
     this.keyInput = {
       ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, ' ': false
     };
     document.addEventListener('remove-bullet', this.handleBulletRemoval.bind(this));
-    document.addEventListener('adrenaline-recharge', this.resetAdrenaline.bind(this));
-    document.addEventListener('level-up', this.levelUp.bind(this));
     this.initCharacterControl();
+  }
+
+  startGame() {
+    this.spawnTick = setInterval(() => {
+      this.spawnBullet();
+    }, LevelData.bulletSpawnRates[this.player.stats.level - 1]);
+    this.gameTick = setInterval(() => {
+      this.moveBullets();
+      this.movePlayer();
+      this.spawnPowerUp();
+    }, 10);
   }
 
   addHealthUnit() {
@@ -39,38 +43,6 @@ class Game {
       this.powerUps[this.powerUpId] = new PowerUp(this.area, powerUpType, this.powerUpId);
       this.powerUpId += 1;
     }
-  }
-
-  levelUp() {
-    const up = new LevelUpInterface(this.player);
-    up.confirmSkills();
-    console.log('level-up fired', this.player.stats.level);
-  }
-
-  adrenalineTimerTick() {
-    console.log(this.timeLeft, this.callbackArg.adrenaline.ready);
-  }
-
-  resetAdrenaline() {
-    this.adrenaline.ready = true;
-    this.adrenaline.cooldownTimer.initialDuration = this.player.stats.adrenaline ** 2 + 5;
-    this.adrenaline.cooldownTimer.resetTimer();
-  }
-
-  activateAdrenaline() {
-    this.adrenaline.ready = false;
-    clearInterval(this.gameTick);
-    this.gameTick = setInterval(() => {
-      this.movePlayer();
-    }, 10);
-    setTimeout(() => {
-      clearInterval(this.gameTick);
-      this.gameTick = setInterval(() => {
-        this.moveBullets();
-        this.movePlayer();
-      }, 10);
-      this.adrenaline.cooldownTimer.startTimer();
-    }, 1000 * this.player.stats.adrenaline);
   }
 
   handlePlayerBulletCollision(bullet) {
@@ -134,8 +106,9 @@ class Game {
         });
         break;
       case 'Experience':
-        this.player.stats.experience += 50;
+        this.player.stats.experience += Math.floor(LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1] * 0.075);
         LevelData.checkLevelUp(this.player);
+        this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1]}`;
         break;
       default:
         console.log('Impossible!');
@@ -187,11 +160,6 @@ class Game {
   moveBullets() {
     Object.keys(this.bullets).forEach((bullet) => {
       this.bullets[bullet].move();
-      if (this.bullets[bullet]) {
-        if (Utils.checkCollision(this.player.element, this.bullets[bullet].collisionRanges)) {
-          this.handlePlayerBulletCollision(this.bullets[bullet]);
-        }
-      }
     });
   }
 
@@ -200,11 +168,18 @@ class Game {
     if (this.keyInput.ArrowDown) this.player.moveNegY();
     if (this.keyInput.ArrowRight) this.player.movePosX();
     if (this.keyInput.ArrowLeft) this.player.moveNegX();
-    if (this.keyInput[' '] && this.adrenaline.ready) this.activateAdrenaline();
+    if (this.keyInput[' '] && this.player.stats.adrenaline && !this.player.adrenalineCooldown.currentTimer) document.dispatchEvent(new CustomEvent('adrenaline-activated'));
     Object.keys(this.powerUps).forEach((powerup) => {
       if (Utils.checkCollision(this.player.element, this.powerUps[powerup].collisionRanges)) {
         this.powerUps[powerup].despawnTimer.pauseTimer();
         this.handlePlayerPowerUpCollision(this.powerUps[powerup]);
+      }
+    });
+    Object.keys(this.bullets).forEach((bullet) => {
+      if (this.bullets[bullet]) {
+        if (Utils.checkCollision(this.player.element, this.bullets[bullet].collisionRanges)) {
+          this.handlePlayerBulletCollision(this.bullets[bullet]);
+        }
       }
     });
   }
@@ -214,6 +189,14 @@ class Game {
     if (this.paused) {
       clearInterval(this.spawnTick);
       clearInterval(this.gameTick);
+      Object.keys(this.powerUps).forEach((powerup) => {
+        this.powerUps[powerup].despawnTimer.pauseTimer();
+      });
+      Object.keys(this.player.powerUpTimers).forEach((powerup) => {
+        if (this.player.powerUpTimers[powerup].currentTimer) {
+          this.player.powerUpTimers[powerup].pauseTimer();
+        }
+      });
     } else {
       this.spawnTick = setInterval(() => {
         this.spawnBullet();
@@ -223,6 +206,14 @@ class Game {
         this.movePlayer();
         this.spawnPowerUp();
       }, 10);
+      Object.keys(this.powerUps).forEach((powerup) => {
+        this.powerUps[powerup].despawnTimer.startTimer();
+      });
+      Object.keys(this.player.powerUpTimers).forEach((powerup) => {
+        if (this.player.powerUpTimers[powerup].currentTimer) {
+          this.player.powerUpTimers[powerup].startTimer();
+        }
+      });
     }
   }
 }
