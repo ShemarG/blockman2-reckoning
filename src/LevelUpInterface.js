@@ -6,10 +6,6 @@ class LevelUpInterface {
     this.skills = { ...player.stats };
   }
 
-  refreshInterface(skill) {
-    return new CustomEvent('refresh-interface', { detail: { skill } });
-  }
-
   validateSkill(skill) {
     const currentSkillLevel = this.skills[skill];
     if (this.skills.skillPoints < 1) return false;
@@ -22,22 +18,30 @@ class LevelUpInterface {
     if (this.skills[skill] < 5 && this.validateSkill(skill)) {
       this.skills[skill] += 1;
       this.skills.skillPoints -= 1;
-      this.refreshInterface(skill);
     }
   }
 
+  checkRemovable(skill) {
+    return (this.skills[skill] > this.player.stats[skill]);
+  }
+
   removePoint(skill) {
-    if (this.skills[skill] > this.player.stats[skill]) {
+    if (this.checkRemovable(skill)) {
       this.skills[skill] -= 1;
       this.skills.skillPoints += 1;
-      this.refreshInterface(skill);
     } else {
       console.log('No uncommited points remaining.');
     }
   }
 
   confirmSkills() {
-    this.player.stats = this.skills;
+    this.player.stats.maxHealth = this.skills.maxHealth;
+    this.player.stats.armor = this.skills.armor;
+    this.player.stats.speed = this.skills.speed;
+    this.player.stats.luck = this.skills.luck;
+    this.player.stats.adrenaline = this.skills.adrenaline;
+    this.player.stats.size = this.skills.size;
     this.player.syncStats();
+    this.skills = { ...this.player.stats };
   }
 }

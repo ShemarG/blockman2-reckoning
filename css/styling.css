@@ -18,11 +18,16 @@
 }
 
 .minus-button, .plus-button {
-  width: 3em;
-  height: 3em;
+  width: 3.5em;
+  height: 3.5em;
   background-color: black;
+  font-size: 0.75em;
   border: none;
   color: white;
+}
+
+.minus-button:disabled, .plus-button:disabled {
+  opacity: 0.5;
 }
 
 .skill-label {

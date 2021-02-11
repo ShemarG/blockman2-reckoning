@@ -112,7 +112,11 @@ const setPlusButtons = () => {
     }
   });
 };
-
+const setMinusButtons = () => {
+  Array.from(document.getElementsByClassName('minus-button')).forEach((button) => {
+    button.disabled = !(statUpgrades.checkRemovable(button.dataset.skill));
+  });
+};
 const homeScreen = document.getElementById('homescreen');
 
 const startButton = document.getElementById('start');
@@ -281,6 +285,13 @@ document.addEventListener('level-up', () => {
 Array.from(document.getElementsByClassName('minus-button')).forEach((button) => {
   button.append(generateMinus());
   button.disabled = true;
+  button.addEventListener('click', () => {
+    statUpgrades.removePoint(button.dataset.skill);
+    const bar = document.querySelector(`.skill-bar[data-skill=${button.dataset.skill}]`);
+    bar.lastChild.remove();
+    setMinusButtons();
+    setPlusButtons();
+  });
 });
 
 Array.from(document.getElementsByClassName('plus-button')).forEach((button) => {
@@ -312,83 +323,86 @@ Array.from(document.getElementsByClassName('plus-button')).forEach((button) => {
         console.log('unreachable');
     }
     setPlusButtons();
+    setMinusButtons();
   });
 });
 
-const healthUpgrade = document.getElementById('health-bar');
-const healthPlus = document.getElementById('health+');
-const healthMinus = document.getElementById('health-');
-healthPlus.addEventListener('click', () => {
-  if (statUpgrades.skills.skillPoints > 0) {
-    healthUpgrade.append(document.createElement('div'));
-    statUpgrades.addPoint('maxHealth');
-    statUpgrades.skills.skillPoints -= 1;
-  }
-});
-
-const armorUpgrade = document.getElementById('armor-bar');
-const armorPlus = document.getElementById('armor+');
-const armorMinus = document.getElementById('armor-');
-armorPlus.addEventListener('click', () => {
-  if (statUpgrades.skills.skillPoints > 0) {
-    armorUpgrade.append(document.createElement('div').style.backgroundColor = 'armor');
-    statUpgrades.addPoint('armor');
-    statUpgrades.skills.skillPoints -= 1;
-  }
-});
-
-const speedUpgrade = document.getElementById('speed-bar');
-const speedPlus = document.getElementById('speed+');
-const speedMinus = document.getElementById('speed-');
-speedPlus.addEventListener('click', () => {
-  if (statUpgrades.skills.skillPoints > 0) {
-    speedUpgrade.append(document.createElement('div').style.backgroundColor = 'speed');
-    statUpgrades.addPoint('speed');
-    statUpgrades.skills.skillPoints -= 1;
-  }
-});
-
-const luckUpgrade = document.getElementById('luck-bar');
-const luckPlus = document.getElementById('luck+');
-const luckMinus = document.getElementById('luck-');
-luckPlus.addEventListener('click', () => {
-  if (statUpgrades.skills.skillPoints > 0) {
-    luckUpgrade.append(document.createElement('div').style.backgroundColor = 'luck');
-    statUpgrades.addPoint('luck');
-    statUpgrades.skills.skillPoints -= 1;
-  }
-});
-
-const adrenalineUpgrade = document.getElementById('adrenaline-bar');
-const adrenalinePlus = document.getElementById('adrenaline+');
-const adrenalineMinus = document.getElementById('adrenaline-');
-adrenalinePlus.addEventListener('click', () => {
-  if (statUpgrades.skills.skillPoints > 0) {
-    adrenalineUpgrade.append(document.createElement('div').style.backgroundColor = 'adrenaline');
-    adrenalineUpgrades.addPoint('adrenaline');
-    statUpgrades.skills.skillPoints -= 1;
-  }
-});
-
-const sizeUpgrade = document.getElementById('size-bar');
-const sizePlus = document.getElementById('size+');
-const sizeMinus = document.getElementById('size-');
-const sizeblock = document.createElement('div');
-sizeblock.classList.add('size-block');
-sizePlus.addEventListener('click', () => {
-  if (statUpgrades.skills.skillPoints > 0 && game.player.stats.size < 5) {
-    sizeUpgrade.append('size-block');
-    statUpgrades.addPoint('size');
-    statUpgrades.skills.skillPoints -= 1;
-  }
-});
-sizeMinus.addEventListener('click', () => {
-  statUpgrades.removePoint('size');
-  statUpgrades.skills.skillPoints += 1;
-});
+// const healthUpgrade = document.getElementById('health-bar');
+// const healthPlus = document.getElementById('health+');
+// const healthMinus = document.getElementById('health-');
+// healthPlus.addEventListener('click', () => {
+//   if (statUpgrades.skills.skillPoints > 0) {
+//     healthUpgrade.append(document.createElement('div'));
+//     statUpgrades.addPoint('maxHealth');
+//     statUpgrades.skills.skillPoints -= 1;
+//   }
+// });
+//
+// const armorUpgrade = document.getElementById('armor-bar');
+// const armorPlus = document.getElementById('armor+');
+// const armorMinus = document.getElementById('armor-');
+// armorPlus.addEventListener('click', () => {
+//   if (statUpgrades.skills.skillPoints > 0) {
+//     armorUpgrade.append(document.createElement('div').style.backgroundColor = 'armor');
+//     statUpgrades.addPoint('armor');
+//     statUpgrades.skills.skillPoints -= 1;
+//   }
+// });
+//
+// const speedUpgrade = document.getElementById('speed-bar');
+// const speedPlus = document.getElementById('speed+');
+// const speedMinus = document.getElementById('speed-');
+// speedPlus.addEventListener('click', () => {
+//   if (statUpgrades.skills.skillPoints > 0) {
+//     speedUpgrade.append(document.createElement('div').style.backgroundColor = 'speed');
+//     statUpgrades.addPoint('speed');
+//     statUpgrades.skills.skillPoints -= 1;
+//   }
+// });
+//
+// const luckUpgrade = document.getElementById('luck-bar');
+// const luckPlus = document.getElementById('luck+');
+// const luckMinus = document.getElementById('luck-');
+// luckPlus.addEventListener('click', () => {
+//   if (statUpgrades.skills.skillPoints > 0) {
+//     luckUpgrade.append(document.createElement('div').style.backgroundColor = 'luck');
+//     statUpgrades.addPoint('luck');
+//     statUpgrades.skills.skillPoints -= 1;
+//   }
+// });
+//
+// const adrenalineUpgrade = document.getElementById('adrenaline-bar');
+// const adrenalinePlus = document.getElementById('adrenaline+');
+// const adrenalineMinus = document.getElementById('adrenaline-');
+// adrenalinePlus.addEventListener('click', () => {
+//   if (statUpgrades.skills.skillPoints > 0) {
+//     adrenalineUpgrade.append(document.createElement('div').style.backgroundColor = 'adrenaline');
+//     adrenalineUpgrades.addPoint('adrenaline');
+//     statUpgrades.skills.skillPoints -= 1;
+//   }
+// });
+//
+// const sizeUpgrade = document.getElementById('size-bar');
+// const sizePlus = document.getElementById('size+');
+// const sizeMinus = document.getElementById('size-');
+// const sizeblock = document.createElement('div');
+// sizeblock.classList.add('size-block');
+// sizePlus.addEventListener('click', () => {
+//   if (statUpgrades.skills.skillPoints > 0 && game.player.stats.size < 5) {
+//     sizeUpgrade.append('size-block');
+//     statUpgrades.addPoint('size');
+//     statUpgrades.skills.skillPoints -= 1;
+//   }
+// });
+// sizeMinus.addEventListener('click', () => {
+//   statUpgrades.removePoint('size');
+//   statUpgrades.skills.skillPoints += 1;
+// });
 
 const confirmButton = document.getElementById('confirm-button');
 confirmButton.addEventListener('click', () => {
   statUpgrades.confirmSkills();
+  setPlusButtons();
+  setMinusButtons();
   if (game.player.stats.adrenaline) game.HUD.adrenaline.style.width = '100%';
 });

@@ -250,17 +250,28 @@ class Game {
         }
       });
     } else {
-      if (!this.player.powerUpTimers.adrenaline.currentTimer) {
+      if (this.player.powerUpTimers.adrenaline) {
+        if (!this.player.powerUpTimers.adrenaline.currentTimer) {
+          this.spawnTick = setInterval(() => {
+            this.spawnBullet();
+          }, LevelData.bulletSpawnRates[this.player.stats.level - 1]);
+          this.gameTick = setInterval(() => {
+            this.moveBullets();
+            this.movePlayer();
+            this.spawnPowerUp();
+          }, 10);
+        } else {
+          this.gameTick = setInterval(() => {
+            this.movePlayer();
+            this.spawnPowerUp();
+          }, 10);
+        }
+      } else {
         this.spawnTick = setInterval(() => {
           this.spawnBullet();
         }, LevelData.bulletSpawnRates[this.player.stats.level - 1]);
         this.gameTick = setInterval(() => {
           this.moveBullets();
-          this.movePlayer();
-          this.spawnPowerUp();
-        }, 10);
-      } else {
-        this.gameTick = setInterval(() => {
           this.movePlayer();
           this.spawnPowerUp();
         }, 10);

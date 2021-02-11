@@ -5,7 +5,7 @@ class Character {
     this.baseSize = this.element.offsetWidth;
     this.stats = {
       level,
-      maxHealth: 1,
+      maxHealth: 0,
       health: 5,
       armor: 0,
       speed: 0,
@@ -26,7 +26,6 @@ class Character {
     this.element.style.position = 'absolute';
     this.element.style.top = `${boundingEl.offsetHeight / 2}px`;
     this.element.style.left = `${boundingEl.offsetWidth / 2}px`;
-    this.syncStats();
   }
 
   setAdrenaline() {
@@ -38,7 +37,6 @@ class Character {
     if (this.stats.adrenaline) this.setAdrenaline();
     this.element.style.height = `${this.baseSize * (1 - (this.stats.size / 10))}px`;
     this.element.style.width = `${this.baseSize * (1 - (this.stats.size / 10))}px`;
-    this.stats.health = 5 + this.stats.maxHealth;
     this.stats.maxHealth === 5 ? this.perks.push('Healthy') : null;
     this.stats.armor === 5 ? this.perks.push('Aegis') : null;
     this.stats.speed === 5 ? this.perks.push('C-Speed') : null;
