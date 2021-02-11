@@ -11,8 +11,6 @@ class Game {
     this.keyInput = {
       ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, ' ': false
     };
-    document.addEventListener('remove-bullet', this.handleBulletRemoval.bind(this));
-    this.initCharacterControl();
   }
 
   startGame() {
@@ -77,6 +75,7 @@ class Game {
           this.HUD.health.lastChild.remove();
           if (this.player.stats.health === 0) {
             this.togglePause();
+            document.dispatchEvent(new CustomEvent('game-over'));
             break;
           }
         }
@@ -138,7 +137,7 @@ class Game {
       case 'Kaboom':
         Object.keys(this.bullets).forEach((bullet) => {
           this.togglePause();
-          this.bullets[bullet].removeBullet.detail.score = true;
+          if (this.bullets[bullet]) this.bullets[bullet].removeBullet.detail.score = true;
           document.dispatchEvent(this.bullets[bullet].removeBullet);
           this.togglePause();
         });
@@ -157,15 +156,10 @@ class Game {
     if (e.detail.score) {
       this.player.stats.experience += this.bullets[e.detail.key].damage;
       this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1]}`;
-      LevelData.checkLevelUp(this.player);
     }
     this.bullets[e.detail.key].element.remove();
     delete this.bullets[e.detail.key];
-  }
-
-  initCharacterControl() {
-    document.addEventListener('keydown', this.controls.bind(this));
-    document.addEventListener('keyup', this.controls.bind(this));
+    LevelData.checkLevelUp(this.player);
   }
 
   controls(e) {
@@ -200,7 +194,7 @@ class Game {
 
   moveBullets() {
     Object.keys(this.bullets).forEach((bullet) => {
-      this.bullets[bullet].move();
+      if (this.bullets[bullet]) this.bullets[bullet].move();
     });
   }
 
