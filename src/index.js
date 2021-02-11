@@ -35,7 +35,7 @@ function generateHUD() {
   speedSlot.style.opacity = '0';
   speedSlot.classList.add('powerup-slot');
   const speedSlotIcon = document.createElement('img');
-  speedSlotIcon.src = '../assets/play-forward-sharp.svg';
+  speedSlotIcon.src = 'assets/play-forward-sharp.svg';
   speedSlotIcon.classList.add('powerup-slot-icon');
   const speedSlotText = document.createElement('span');
   game.HUD.speedSlot = { cont: speedSlot, icon: speedSlotIcon, text: speedSlotText };
@@ -47,7 +47,7 @@ function generateHUD() {
   invinceSlot.style.opacity = '0';
   invinceSlot.classList.add('powerup-slot');
   const invinceSlotIcon = document.createElement('img');
-  invinceSlotIcon.src = '../assets/shield-sharp.svg';
+  invinceSlotIcon.src = 'assets/shield-sharp.svg';
   invinceSlotIcon.classList.add('powerup-slot-icon');
   const invinceSlotText = document.createElement('span');
   game.HUD.invinceSlot = { cont: invinceSlot, icon: invinceSlotIcon, text: invinceSlotText };
@@ -96,12 +96,12 @@ const generateSkillBlock = (color) => {
 };
 const generatePlus = () => {
   const img = document.createElement('img');
-  img.src = '../assets/add-sharp.svg';
+  img.src = 'assets/add-sharp.svg';
   return img;
 };
 const generateMinus = () => {
   const img = document.createElement('img');
-  img.src = '../assets/remove-sharp.svg';
+  img.src = 'assets/remove-sharp.svg';
   return img;
 };
 const setPlusButtons = () => {
