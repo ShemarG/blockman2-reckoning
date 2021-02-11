@@ -20,8 +20,10 @@
     </img>
     <div id="container">
       <div id="el" style="width: 43em; height: 43em; z-index:1; background-color:black;  overflow:hidden;">
-        <div id='level-up-screen' style='display: none; width: 40em; height:40em; z-index: 6; position: absolute;'>
-          <span id="skill-point">Skill</span>
+        <div id='level-up-screen'>
+          <span id="skill-point">Skills</span>
+          <span id="level">Level 1</span>
+          <span id="points">Skill Points: 0</span>
           <span class="skill-label" id="health-points">Max Health</span>
           <div class="skill-container" id="health-upgrades">
             <button class="minus-button" data-skill="maxHealth" id="health-"></button>
@@ -58,10 +60,14 @@
             <div class="skill-bar" data-skill="size" id="size-bar"></div>
             <button class="plus-button" data-skill="size" id="size+"></button>
           </div>
-          <span id='confirm-button'>Confirm</span>
+          <button disabled id='confirm-button'>confirm</button>
         </div>
-        <div id="restartButton" style="z-index:1; background: rgba(204, 204, 204, 0);"></div>
-        <div id="player" src="https://www.pngkin.com/mnp/2-26142.png" style="width: 40px; height:40px;">
+        <div id="game-over-screen">
+            <span>GAME OVER</span>
+            <button id="restart-button">Restart</button>
+            <button id="main-menu-button">Main Menu</button>
+        </div>
+        <div id="player" style="width: 40px; height:40px;">
       </div>
     </div>
     <script src="src/Utils.js" charset="utf-8"></script>

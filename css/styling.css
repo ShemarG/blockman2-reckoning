@@ -5,11 +5,30 @@
 }
 
 #level-up-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 1.5em;
-    background-color: rgba(128, 128, 128, 0.3);
+  display: flex;
+  padding: 1em;
+  width: 28em;
+  height: 36em;
+  z-index: 6;
+  position: absolute;
+  top: 43em;
+  left: 7em;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(128, 128, 128, 0.3);
+  transition: top 1s;
+}
+
+#game-over-screen {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: rgba(128, 128, 128, 0.3);
+  z-index: 6;
+  top: 43em;
+  left: 17em;
+  width: 10em;
+  transition: top 1s;
 }
 
 #skill-point {
@@ -17,17 +36,25 @@
   font-family: Goldman;
 }
 
+#points, #level {
+  font-family: Goldman;
+}
+
 .minus-button, .plus-button {
   width: 3.5em;
   height: 3.5em;
   background-color: black;
-  font-size: 0.75em;
+  font-size: 0.50em;
   border: none;
   color: white;
+  box-sizing: border-box;
+  border: 1px solid white;
+  padding: 3px;
 }
 
-.minus-button:disabled, .plus-button:disabled {
+.minus-button:disabled, .plus-button:disabled, #confirm-button:disabled {
   opacity: 0.5;
+  border: none;
 }
 
 .skill-label {
@@ -38,11 +65,15 @@
 
 .skill-bar {
   display: flex;
-  width: 12.5em;
+  width: 7.75em;
   align-items: center;
   margin: 0 0.3em;
   flex-grow: 1;
   background-color: white;
+}
+
+.skill-block:last-child {
+  margin-right: 0.25em;
 }
 
 .skill-container {
@@ -51,16 +82,23 @@
 }
 
 .skill-block {
-  width: 2em;
+  width: 1.25em;
+  height: 1.25em;
   box-sizing: border-box;
-  height: 2em;
-  margin: 0.25em;
-  border: 3px black solid;
+  margin-left: 0.25em;
+  border: 2px black solid;
 }
 
-#confirm-button{
-    font-family: Goldman;
-    font-size: 2em;
-    display: flex;
-    justify-content: center
+#confirm-button {
+  font-family: Goldman;
+  padding: 0 0.25em;
+  font-size: 2em;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.35em;
+  background-color: black;
+  color: white;
+  font-variant: small-caps;
+  box-sizing: border-box;
+  border: 1px white solid;
 }

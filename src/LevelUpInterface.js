@@ -1,8 +1,14 @@
 class LevelUpInterface {
   constructor(player) {
     this.player = player;
-    player.stats.skillPoints += 1;
     player.stats.level += 1;
+    if (player.stats.level !== 1) {
+      if (player.stats.level % 5) {
+        player.stats.skillPoints += 1;
+      } else {
+        player.stats.skillPoints += 2;
+      }
+    }
     this.skills = { ...player.stats };
   }
 
@@ -41,6 +47,7 @@ class LevelUpInterface {
     this.player.stats.luck = this.skills.luck;
     this.player.stats.adrenaline = this.skills.adrenaline;
     this.player.stats.size = this.skills.size;
+    this.player.stats.skillPoints = this.skills.skillPoints;
     this.player.syncStats();
     this.skills = { ...this.player.stats };
   }

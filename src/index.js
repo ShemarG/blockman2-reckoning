@@ -1,4 +1,4 @@
-const game = new Game(document.getElementById('el'));
+let game = new Game(document.getElementById('el'));
 let statUpgrades;
 
 function generateHUD() {
@@ -78,6 +78,16 @@ function generateHUD() {
 }
 generateHUD();
 
+function init() {
+  game.eventHandlers = {};
+  game.eventHandlers.handleBulletRemoval = game.handleBulletRemoval.bind(game);
+  game.eventHandlers.controls = game.controls.bind(game);
+  document.addEventListener('remove-bullet', game.eventHandlers.handleBulletRemoval);
+  document.addEventListener('keydown', game.eventHandlers.controls);
+  document.addEventListener('keyup', game.eventHandlers.controls);
+}
+init();
+
 const generateSkillBlock = (color) => {
   const div = document.createElement('div');
   div.classList.add('skill-block');
@@ -106,6 +116,10 @@ const setPlusButtons = () => {
         button.append(generatePlus());
         button.disabled = false;
         break;
+      case 'MAX':
+        button.textContent = statUpgrades.validateSkill(button.dataset.skill);
+        button.disabled = true;
+        break;
       default:
         button.textContent = `Lv.${statUpgrades.validateSkill(button.dataset.skill)}`;
         button.disabled = true;
@@ -117,7 +131,24 @@ const setMinusButtons = () => {
     button.disabled = !(statUpgrades.checkRemovable(button.dataset.skill));
   });
 };
+const setLvlAndSkill = () => {
+  document.getElementById('level').textContent = `Level ${statUpgrades.skills.level}`;
+  document.getElementById('points').textContent = `Skill Points: ${statUpgrades.skills.skillPoints}`;
+};
+const setConfirm = () => {
+  if (statUpgrades) {
+    if (Array.from(document.getElementsByClassName('minus-button')).every((button) => button.disabled === true)) {
+      document.getElementById('confirm-button').disabled = true;
+    } else {
+      document.getElementById('confirm-button').disabled = false;
+    }
+  } else {
+    document.getElementById('confirm-button').disabled = true;
+  }
+};
+
 const homeScreen = document.getElementById('homescreen');
+const restartButton = document.getElementById('restart-button');
 
 const startButton = document.getElementById('start');
 startButton.innerText = 'Press Start';
@@ -150,24 +181,9 @@ backButton.style.marginTop = '20em';
 backButton.style.marginLeft = '1em';
 backButton.style.fontSize = '2em';
 
-const restartButton = document.getElementById('restartButton');
-restartButton.innerText = 'Try Again';
-restartButton.style.display = 'none';
-restartButton.style.color = 'white';
-
 document.addEventListener('despawn-powerup', (e) => {
   game.powerUps[e.detail.key].element.remove();
   delete game.powerUps[e.detail.key];
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'p') {
-    if (game.player.stats.health !== 0) {
-      game.togglePause();
-      const levelupScreen = document.getElementById('level-up-screen');
-      levelupScreen.style.display === 'flex' ? levelupScreen.style.display = 'none' : levelupScreen.style.display = 'flex';
-    }
-  }
 });
 
 document.addEventListener('powerup-tick', (e) => {
@@ -245,7 +261,21 @@ document.addEventListener('speed-over', () => {
 // document.addEventListener('health-restored', (e) => {});
 
 startButton.addEventListener('click', () => {
+  statUpgrades = new LevelUpInterface(game.player);
   game.startGame();
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'p') {
+      if (game.player.stats.health !== 0) {
+        game.togglePause();
+        const levelupScreen = document.getElementById('level-up-screen');
+        if (levelupScreen.style.top === '43em' || levelupScreen.style.top === '') {
+          levelupScreen.style.top = '2em';
+        } else {
+          levelupScreen.style.top = '43em';
+        }
+      }
+    }
+  });
   startButton.style.display = 'none';
   homeScreen.style.display = 'none';
   aboutButton.style.display = 'none';
@@ -270,16 +300,42 @@ backButton.addEventListener('click', () => {
 });
 
 restartButton.addEventListener('click', () => {
-  window.location.reload();
+  document.getElementById('game-over-screen').style.top = '43em';
+  document.removeEventListener('keydown', game.eventHandlers.controls);
+  document.removeEventListener('keyup', game.eventHandlers.controls);
+  document.removeEventListener('remove-bullet', game.eventHandlers.handleBulletRemoval);
+  game.HUD.topLevel.remove();
+  Array.from(Object.keys(game.bullets)).forEach((item) => game.bullets[item].element.remove());
+  Array.from(Object.keys(game.powerUps)).forEach((item) => game.powerUps[item].element.remove());
+  game = new Game(document.getElementById('el'));
+  statUpgrades = new LevelUpInterface(game.player);
+  generateHUD();
+  init();
+  setPlusButtons();
+  setMinusButtons();
+  setConfirm();
+  setLvlAndSkill();
+  game.startGame();
 });
 
 document.addEventListener('game-over', () => {
-  restartButton.style.display = 'block';
+  console.log('game-over');
+  if (document.getElementById('game-over-screen').style.top === '43em'
+  || document.getElementById('game-over-screen').style.top === '') {
+    document.getElementById('game-over-screen').style.top = '19em';
+  } else {
+    document.getElementById('game-over-screen').style.top = '43em';
+  }
 });
 
 document.addEventListener('level-up', () => {
   statUpgrades = new LevelUpInterface(game.player);
   setPlusButtons();
+  setLvlAndSkill();
+  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'p' }));
+  Object.keys(game.bullets).forEach((bullet) => {
+    document.dispatchEvent(game.bullets[bullet].removeBullet);
+  });
 });
 
 Array.from(document.getElementsByClassName('minus-button')).forEach((button) => {
@@ -291,6 +347,8 @@ Array.from(document.getElementsByClassName('minus-button')).forEach((button) => 
     bar.lastChild.remove();
     setMinusButtons();
     setPlusButtons();
+    setLvlAndSkill();
+    setConfirm();
   });
 });
 
@@ -324,85 +382,16 @@ Array.from(document.getElementsByClassName('plus-button')).forEach((button) => {
     }
     setPlusButtons();
     setMinusButtons();
+    setLvlAndSkill();
+    setConfirm();
   });
 });
-
-// const healthUpgrade = document.getElementById('health-bar');
-// const healthPlus = document.getElementById('health+');
-// const healthMinus = document.getElementById('health-');
-// healthPlus.addEventListener('click', () => {
-//   if (statUpgrades.skills.skillPoints > 0) {
-//     healthUpgrade.append(document.createElement('div'));
-//     statUpgrades.addPoint('maxHealth');
-//     statUpgrades.skills.skillPoints -= 1;
-//   }
-// });
-//
-// const armorUpgrade = document.getElementById('armor-bar');
-// const armorPlus = document.getElementById('armor+');
-// const armorMinus = document.getElementById('armor-');
-// armorPlus.addEventListener('click', () => {
-//   if (statUpgrades.skills.skillPoints > 0) {
-//     armorUpgrade.append(document.createElement('div').style.backgroundColor = 'armor');
-//     statUpgrades.addPoint('armor');
-//     statUpgrades.skills.skillPoints -= 1;
-//   }
-// });
-//
-// const speedUpgrade = document.getElementById('speed-bar');
-// const speedPlus = document.getElementById('speed+');
-// const speedMinus = document.getElementById('speed-');
-// speedPlus.addEventListener('click', () => {
-//   if (statUpgrades.skills.skillPoints > 0) {
-//     speedUpgrade.append(document.createElement('div').style.backgroundColor = 'speed');
-//     statUpgrades.addPoint('speed');
-//     statUpgrades.skills.skillPoints -= 1;
-//   }
-// });
-//
-// const luckUpgrade = document.getElementById('luck-bar');
-// const luckPlus = document.getElementById('luck+');
-// const luckMinus = document.getElementById('luck-');
-// luckPlus.addEventListener('click', () => {
-//   if (statUpgrades.skills.skillPoints > 0) {
-//     luckUpgrade.append(document.createElement('div').style.backgroundColor = 'luck');
-//     statUpgrades.addPoint('luck');
-//     statUpgrades.skills.skillPoints -= 1;
-//   }
-// });
-//
-// const adrenalineUpgrade = document.getElementById('adrenaline-bar');
-// const adrenalinePlus = document.getElementById('adrenaline+');
-// const adrenalineMinus = document.getElementById('adrenaline-');
-// adrenalinePlus.addEventListener('click', () => {
-//   if (statUpgrades.skills.skillPoints > 0) {
-//     adrenalineUpgrade.append(document.createElement('div').style.backgroundColor = 'adrenaline');
-//     adrenalineUpgrades.addPoint('adrenaline');
-//     statUpgrades.skills.skillPoints -= 1;
-//   }
-// });
-//
-// const sizeUpgrade = document.getElementById('size-bar');
-// const sizePlus = document.getElementById('size+');
-// const sizeMinus = document.getElementById('size-');
-// const sizeblock = document.createElement('div');
-// sizeblock.classList.add('size-block');
-// sizePlus.addEventListener('click', () => {
-//   if (statUpgrades.skills.skillPoints > 0 && game.player.stats.size < 5) {
-//     sizeUpgrade.append('size-block');
-//     statUpgrades.addPoint('size');
-//     statUpgrades.skills.skillPoints -= 1;
-//   }
-// });
-// sizeMinus.addEventListener('click', () => {
-//   statUpgrades.removePoint('size');
-//   statUpgrades.skills.skillPoints += 1;
-// });
 
 const confirmButton = document.getElementById('confirm-button');
 confirmButton.addEventListener('click', () => {
   statUpgrades.confirmSkills();
   setPlusButtons();
   setMinusButtons();
+  setConfirm();
   if (game.player.stats.adrenaline) game.HUD.adrenaline.style.width = '100%';
 });

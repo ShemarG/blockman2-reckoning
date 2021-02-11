@@ -2,6 +2,7 @@ class Bullet {
   constructor(boundingEl, side, radius, speed, damage = 1, key) {
     this.boundingEl = boundingEl;
     this.element = document.createElement('div');
+    this.element.classList.add('bullet');
     this.speed = speed;
     this.damage = damage;
     this.element.style.position = 'absolute';

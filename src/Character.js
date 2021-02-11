@@ -1,10 +1,10 @@
 class Character {
-  constructor(boundingEl, element, color = 'red', level = 1) {
+  constructor(boundingEl, element, color = 'red') {
     this.boundingEl = boundingEl;
     this.element = element;
     this.baseSize = this.element.offsetWidth;
     this.stats = {
-      level,
+      level: 0,
       maxHealth: 0,
       health: 5,
       armor: 0,
@@ -43,6 +43,7 @@ class Character {
     this.stats.luck === 5 ? this.perks.push('Fortunate') : null;
     this.stats.adrenaline === 5 ? this.perks.push('Reflexes') : null;
     this.stats.size === 5 ? this.perks.push('Relativity') : null;
+    document.dispatchEvent(new CustomEvent('check-perks'));
   }
 
   // Movement functions.
