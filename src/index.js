@@ -58,6 +58,7 @@ function generateHUD() {
   activePowerUps.append(speedSlot, invinceSlot);
 
   const perkContainer = document.createElement('div');
+  game.HUD.perkList = perkContainer;
   perkContainer.classList.add('perk-container');
 
   const experienceContainer = document.createElement('div');
@@ -87,6 +88,14 @@ function init() {
   document.addEventListener('keyup', game.eventHandlers.controls);
 }
 init();
+
+function playSound(sound) {
+  if (sound.paused) {
+    sound.play();
+  } else {
+    sound.currentTime = 0;
+  }
+}
 
 const generateSkillBlock = (color) => {
   const div = document.createElement('div');
@@ -146,9 +155,26 @@ const setConfirm = () => {
     document.getElementById('confirm-button').disabled = true;
   }
 };
+const emptySkillBars = () => {
+  Array.from(document.getElementsByClassName('skill-bar')).forEach((bar) => { bar.innerHTML = ''; });
+};
 
 const homeScreen = document.getElementById('homescreen');
 const restartButton = document.getElementById('restart-button');
+
+const levelUpSound = document.getElementById('sound-level-up');
+const buffSound = document.getElementById('sound-buff');
+const debuffSound = document.getElementById('sound-debuff');
+const expSound = document.getElementById('sound-exp');
+const kaboomSound = document.getElementById('sound-kaboom');
+const adrReadySound = document.getElementById('sound-adr-ready');
+const healthSound = document.getElementById('sound-health');
+const blockSound = document.getElementById('sound-block');
+const damageSound = document.getElementById('sound-damage');
+const confirmSound = document.getElementById('sound-confirm');
+const buttonSound = document.getElementById('sound-button');
+const adrOverSound = document.getElementById('sound-adr-over');
+const adrStartSound = document.getElementById('sound-adr-start');
 
 const startButton = document.getElementById('start');
 startButton.innerText = 'Press Start';
@@ -204,6 +230,51 @@ document.addEventListener('powerup-tick', (e) => {
       console.log('Should be unreachable');
   }
 });
+document.addEventListener('exp-pickup', () => {
+  playSound(expSound);
+});
+document.addEventListener('health-pickup', () => {
+  playSound(healthSound);
+});
+document.addEventListener('kaboom-pickup', () => {
+  playSound(kaboomSound);
+});
+document.addEventListener('blocked', () => {
+  playSound(blockSound);
+});
+document.addEventListener('damage', () => {
+  playSound(damageSound);
+});
+document.addEventListener('check-perks', () => {
+  game.HUD.perkList.innerHTML = '';
+  game.player.perks.forEach((perk) => {
+    const img = document.createElement('img');
+    img.classList.add('perk-img');
+    switch (perk) {
+      case 'Healthy':
+        img.src = 'assets/fitness-sharp.svg';
+        break;
+      case 'Aegis':
+        img.src = 'assets/shield-half-sharp.svg';
+        break;
+      case 'C-Speed':
+        img.src = 'assets/flash-sharp.svg';
+        break;
+      case 'Fortunate':
+        img.src = 'assets/trending-up-sharp.svg';
+        break;
+      case 'Reflexes':
+        img.src = 'assets/pulse-sharp.svg';
+        break;
+      case 'Relativity':
+        img.src = 'assets/logo-react.svg';
+        break;
+      default:
+        console.log('Huh?');
+    }
+    game.HUD.perkList.append(img);
+  });
+});
 
 document.addEventListener('adrenaline-activated', () => {
   game.HUD.adrenaline.style.webkitTransition = `width ${game.player.powerUpTimers.adrenaline.timeLeft + 1}s linear`;
@@ -215,8 +286,8 @@ document.addEventListener('adrenaline-activated', () => {
     game.movePlayer();
     game.spawnPowerUp();
   }, 10);
+  playSound(adrStartSound);
 });
-
 document.addEventListener('adrenaline-over', () => {
   console.log('Adrenaline Over');
   game.HUD.adrenaline.style.webkitTransition = `width ${game.player.adrenalineCooldown.timeLeft + 1}s linear`;
@@ -231,22 +302,29 @@ document.addEventListener('adrenaline-over', () => {
   game.spawnTick = setInterval(() => {
     game.spawnBullet();
   }, LevelData.bulletSpawnRates[game.player.stats.level - 1]);
+  playSound(adrOverSound);
 });
-
 document.addEventListener('adrenaline-recharged', () => {
   console.log('Adrenaline Recharged!');
   game.player.adrenalineCooldown.resetTimer();
   game.player.powerUpTimers.adrenaline.resetTimer();
+  playSound(adrReadySound);
 });
-
+document.addEventListener('invincibility-started', () => {
+  playSound(buffSound);
+});
 document.addEventListener('invincibility-over', () => {
   console.log('Invincibility Over');
   game.HUD.invinceSlot.cont.style.opacity = '0';
   game.HUD.invinceSlot.text.textContent = '10';
   game.player.invincible = false;
   game.player.powerUpTimers.invincibility.resetTimer();
+  playSound(debuffSound);
 });
 
+document.addEventListener('speed-started', () => {
+  playSound(buffSound);
+});
 document.addEventListener('speed-over', () => {
   console.log('Speed Over');
   game.HUD.speedSlot.cont.style.opacity = '0';
@@ -254,8 +332,8 @@ document.addEventListener('speed-over', () => {
   if (game.player.perks.includes('C-Speed') && !game.player.powerUpTimers.invincibility.currentTimer) {
     game.player.invincible = false;
   }
-  game.player.stats.speed -= 1;
   game.player.powerUpTimers.speed.resetTimer();
+  playSound(debuffSound);
 });
 
 // document.addEventListener('health-restored', (e) => {});
@@ -315,6 +393,9 @@ restartButton.addEventListener('click', () => {
   setMinusButtons();
   setConfirm();
   setLvlAndSkill();
+  emptySkillBars();
+  game.player.element.style.width = '40px';
+  game.player.element.style.height = '40px';
   game.startGame();
 });
 
@@ -334,8 +415,9 @@ document.addEventListener('level-up', () => {
   setLvlAndSkill();
   document.dispatchEvent(new KeyboardEvent('keydown', { key: 'p' }));
   Object.keys(game.bullets).forEach((bullet) => {
-    document.dispatchEvent(game.bullets[bullet].removeBullet);
+    if (game.bullets[bullet]) document.dispatchEvent(game.bullets[bullet].removeBullet);
   });
+  playSound(levelUpSound);
 });
 
 Array.from(document.getElementsByClassName('minus-button')).forEach((button) => {
@@ -349,6 +431,7 @@ Array.from(document.getElementsByClassName('minus-button')).forEach((button) => 
     setPlusButtons();
     setLvlAndSkill();
     setConfirm();
+    playSound(buttonSound);
   });
 });
 
@@ -372,7 +455,7 @@ Array.from(document.getElementsByClassName('plus-button')).forEach((button) => {
         bar.append(generateSkillBlock('green'));
         break;
       case 'adrenaline':
-        bar.append(generateSkillBlock('purple'));
+        bar.append(generateSkillBlock('magenta'));
         break;
       case 'size':
         bar.append(generateSkillBlock('orange'));
@@ -384,6 +467,7 @@ Array.from(document.getElementsByClassName('plus-button')).forEach((button) => {
     setMinusButtons();
     setLvlAndSkill();
     setConfirm();
+    playSound(buttonSound);
   });
 });
 
@@ -393,5 +477,7 @@ confirmButton.addEventListener('click', () => {
   setPlusButtons();
   setMinusButtons();
   setConfirm();
+  playSound(confirmSound);
   if (game.player.stats.adrenaline) game.HUD.adrenaline.style.width = '100%';
+  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'p' }));
 });

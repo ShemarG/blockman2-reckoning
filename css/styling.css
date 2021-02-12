@@ -17,6 +17,9 @@
   align-items: center;
   background-color: rgba(128, 128, 128, 0.3);
   transition: top 1s;
+  border: 3px solid white;
+  color: white;
+  text-shadow: 2px 3px black;
 }
 
 #game-over-screen {
@@ -29,6 +32,20 @@
   left: 17em;
   width: 10em;
   transition: top 1s;
+}
+
+.perk-img {
+  width: 16.66%;
+}
+
+.perk-container {
+  display: flex;
+  align-items: center;
+  margin-left: 1em;
+}
+
+.experience-container {
+  margin-left: 0.5em;
 }
 
 #skill-point {
@@ -70,6 +87,7 @@
   margin: 0 0.3em;
   flex-grow: 1;
   background-color: white;
+  border: 2px black solid;
 }
 
 .skill-block:last-child {

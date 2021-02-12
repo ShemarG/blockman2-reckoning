@@ -35,7 +35,7 @@ class Game {
 
   spawnPowerUp() {
     const randomNum = (Utils.randomizeRange(0, 10000) / 10000);
-    const spawnChance = (this.player.stats.luck * (1 / 10000)) + (1 / 1250);
+    const spawnChance = (this.player.stats.luck * (1 / 10000)) + (1 / 500);
     if (randomNum <= spawnChance) {
       const powerUpType = LevelData.getWeightedPowerUp();
       if (this.player.perks.includes('Fortunate')) {
@@ -65,7 +65,7 @@ class Game {
     if (!this.player.invincible) {
       const randomNum = Math.random().toFixed(2);
       if (randomNum <= this.player.stats.armor * 0.07) {
-        console.log('Armor has blocked damage!');
+        document.dispatchEvent(new CustomEvent('blocked'));
       } else {
         if (this.player.perks.includes('Aegis')) {
           bullet.damage -= 1;
@@ -80,6 +80,7 @@ class Game {
           }
         }
       }
+      document.dispatchEvent(new CustomEvent('damage'));
     } else {
       bullet.removeBullet.detail.score = true;
     }
@@ -97,6 +98,7 @@ class Game {
         }
         this.player.powerUpTimers.invincibility.startTimer();
         this.HUD.invinceSlot.cont.style.opacity = '1';
+        document.dispatchEvent(new Event('invincibility-started'));
         break;
       case 'Speed':
         if (this.player.perks.includes('C-Speed') && !this.player.powerUpTimers.invincibility.currentTimer) {
@@ -104,10 +106,9 @@ class Game {
         }
         if (this.player.powerUpTimers.speed.currentTimer) {
           this.player.powerUpTimers.speed.resetTimer();
-        } else {
-          this.player.stats.speed += 1;
         }
         this.player.powerUpTimers.speed.startTimer();
+        document.dispatchEvent(new Event('speed-started'));
         this.HUD.speedSlot.cont.style.opacity = '1';
         break;
       case 'Health':
@@ -133,19 +134,24 @@ class Game {
           LevelData.checkLevelUp(this.player);
           console.log('health full');
         }
+        document.dispatchEvent(new CustomEvent('health-pickup'));
         break;
       case 'Kaboom':
         Object.keys(this.bullets).forEach((bullet) => {
           this.togglePause();
-          if (this.bullets[bullet]) this.bullets[bullet].removeBullet.detail.score = true;
-          document.dispatchEvent(this.bullets[bullet].removeBullet);
+          if (this.bullets[bullet]) {
+            this.bullets[bullet].removeBullet.detail.score = true;
+            document.dispatchEvent(this.bullets[bullet].removeBullet);
+          }
           this.togglePause();
+          document.dispatchEvent(new CustomEvent('kaboom-pickup'));
         });
         break;
       case 'Experience':
         this.player.stats.experience += Math.floor(LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1] * 0.075);
         LevelData.checkLevelUp(this.player);
         this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1]}`;
+        document.dispatchEvent(new Event('exp-pickup'));
         break;
       default:
         console.log('Impossible!');

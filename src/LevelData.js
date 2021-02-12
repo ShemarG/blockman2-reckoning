@@ -190,10 +190,10 @@ class LevelData {
 
   static powerUpRates = {
     Kaboom: [0.00, 0.10], // 10%
-    Health: [0.10, 0.50], // 40%
-    Invincibility: [0.50, 0.60], // 10%
-    Experience: [0.60, 0.75], // 15%
-    Speed: [0.75, 1.00] // 25%
+    Health: [0.10, 0.60], // 50%
+    Invincibility: [0.60, 0.70], // 10%
+    Experience: [0.70, 0.85], // 15%
+    Speed: [0.15, 1.00] // 15%
   }
 
   static powerupElGen(type) {
