@@ -16,8 +16,8 @@ class Bullet {
   }
 
   move() {
-    const yPos = this.element.offsetTop;
-    const xPos = this.element.offsetLeft;
+    const xPos = parseFloat(this.element.style.left);
+    const yPos = parseFloat(this.element.style.top);
     if (this.direction === 'up') {
       if (yPos > (-1 * this.element.offsetHeight)) {
         this.element.style.top = `${yPos - this.speed}px`;

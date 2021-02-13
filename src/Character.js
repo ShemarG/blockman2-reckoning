@@ -2,7 +2,7 @@ class Character {
   constructor(boundingEl, element, color = 'red') {
     this.boundingEl = boundingEl;
     this.element = element;
-    this.baseSize = this.element.offsetWidth;
+    this.baseSize = 40;
     this.stats = {
       level: 0,
       maxHealth: 0,
@@ -37,33 +37,33 @@ class Character {
     if (this.stats.adrenaline) this.setAdrenaline();
     this.element.style.height = `${this.baseSize * (1 - (this.stats.size / 10))}px`;
     this.element.style.width = `${this.baseSize * (1 - (this.stats.size / 10))}px`;
-    this.stats.maxHealth === 5 ? this.perks.push('Healthy') : null;
-    this.stats.armor === 5 ? this.perks.push('Aegis') : null;
-    this.stats.speed === 5 ? this.perks.push('C-Speed') : null;
-    this.stats.luck === 5 ? this.perks.push('Fortunate') : null;
-    this.stats.adrenaline === 5 ? this.perks.push('Reflexes') : null;
-    this.stats.size === 5 ? this.perks.push('Relativity') : null;
+    this.stats.maxHealth === 5 && !(this.perks.includes('Healthy')) ? this.perks.push('Healthy') : null;
+    this.stats.armor === 5 && !(this.perks.includes('Aegis')) ? this.perks.push('Aegis') : null;
+    this.stats.speed === 5 && !(this.perks.includes('C-Speed')) ? this.perks.push('C-Speed') : null;
+    this.stats.luck === 5 && !(this.perks.includes('Fortunate')) ? this.perks.push('Fortunate') : null;
+    this.stats.adrenaline === 5 && !(this.perks.includes('Reflexes')) ? this.perks.push('Reflexes') : null;
+    this.stats.size === 5 && !(this.perks.includes('Relativity')) ? this.perks.push('Relativity') : null;
     document.dispatchEvent(new CustomEvent('check-perks'));
   }
 
   // Movement functions.
   movePosX() {
-    const displacedPos = this.element.offsetLeft + ((this.stats.speed * 0.6) + 1);
+    const displacedPos = parseFloat(this.element.style.left) + ((this.stats.speed * 0.6) + (this.powerUpTimers.speed.currentTimer ? 2 : 1));
     if (this.enabled && displacedPos < (this.boundingEl.offsetWidth - this.element.offsetWidth)) this.element.style.left = `${displacedPos}px`;
   }
 
   moveNegX() {
-    const displacedPos = this.element.offsetLeft - ((this.stats.speed * 0.6) + 1);
+    const displacedPos = parseFloat(this.element.style.left) - ((this.stats.speed * 0.6) + (this.powerUpTimers.speed.currentTimer ? 2 : 1));
     if (this.enabled && displacedPos > 0) this.element.style.left = `${displacedPos}px`;
   }
 
   movePosY() {
-    const displacedPos = this.element.offsetTop - ((this.stats.speed * 0.6) + 1);
+    const displacedPos = parseFloat(this.element.style.top) - ((this.stats.speed * 0.6) + (this.powerUpTimers.speed.currentTimer ? 2 : 1));
     if (this.enabled && displacedPos > 0) this.element.style.top = `${displacedPos}px`;
   }
 
   moveNegY() {
-    const displacedPos = this.element.offsetTop + ((this.stats.speed * 0.6) + 1);
+    const displacedPos = parseFloat(this.element.style.top) + ((this.stats.speed * 0.6) + (this.powerUpTimers.speed.currentTimer ? 2 : 1));
     if (this.enabled && displacedPos < (this.boundingEl.offsetHeight - this.element.offsetHeight)) this.element.style.top = `${displacedPos}px`;
   }
 
