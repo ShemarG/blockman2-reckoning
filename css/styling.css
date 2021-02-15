@@ -27,6 +27,7 @@
 }
 
 .menu-button {
+  margin: 0.25em 0;
   transition: color 2s, font-size 1s;
   font-weight: 900;
 }

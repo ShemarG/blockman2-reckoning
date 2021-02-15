@@ -181,6 +181,7 @@ const buttonSound = document.getElementById('sound-button');
 const adrOverSound = document.getElementById('sound-adr-over');
 const adrStartSound = document.getElementById('sound-adr-start');
 const invincSound = document.getElementById('sound-invinc-hit');
+const buttonSelect = document.getElementById('sound-button-select');
 
 document.addEventListener('despawn-powerup', (e) => {
   game.powerUps[e.detail.key].element.remove();
@@ -350,11 +351,13 @@ startButton.addEventListener('click', () => {
   gameScreen.style.display = 'block';
   homeScreen.style.display = 'none';
   aboutScreen.style.display = 'none';
+  playSound(buttonSelect);
 });
 mainMenuButton.addEventListener('click', () => {
   document.getElementById('game-over-screen').style.top = '43em';
   homeScreen.style.display = 'flex';
   gameScreen.style.display = 'none';
+  playSound(buttonSelect);
 });
 confirmButton.addEventListener('click', () => {
   statUpgrades.confirmSkills();
@@ -388,6 +391,7 @@ restartButton.addEventListener('click', () => {
   game.player.element.style.width = '40px';
   game.player.element.style.height = '40px';
   game.startGame();
+  playSound(buttonSelect);
 });
 
 document.addEventListener('game-over', () => {

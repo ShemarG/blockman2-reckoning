@@ -9,7 +9,7 @@ class Game {
     this.area = area;
     this.paused = false;
     this.keyInput = {
-      ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, ' ': false
+      ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, ' ': false, w: false, a: false, s: false, d: false
     };
     this.isOver = true;
   }
@@ -213,10 +213,10 @@ class Game {
   }
 
   movePlayer() {
-    if (this.keyInput.ArrowUp) this.player.movePosY();
-    if (this.keyInput.ArrowDown) this.player.moveNegY();
-    if (this.keyInput.ArrowRight) this.player.movePosX();
-    if (this.keyInput.ArrowLeft) this.player.moveNegX();
+    if (this.keyInput.ArrowUp || this.keyInput.w) this.player.movePosY();
+    if (this.keyInput.ArrowDown || this.keyInput.s) this.player.moveNegY();
+    if (this.keyInput.ArrowRight || this.keyInput.d) this.player.movePosX();
+    if (this.keyInput.ArrowLeft || this.keyInput.a) this.player.moveNegX();
     if (this.keyInput[' '] && this.player.stats.adrenaline && !this.player.adrenalineCooldown.currentTimer) document.dispatchEvent(new CustomEvent('adrenaline-activated'));
     Object.keys(this.powerUps).forEach((powerup) => {
       if (Utils.checkCollision(this.player.element, this.powerUps[powerup].collisionRanges)) {

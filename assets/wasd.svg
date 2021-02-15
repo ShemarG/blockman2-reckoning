@@ -1,0 +1,21 @@
+<svg width="331" height="217" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="219" width="333" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <rect id="svg_8" height="100" width="100" y="114.95313" x="228.5" stroke-opacity="null" stroke-width="4" stroke="#000" fill="none"/>
+  <rect id="svg_1" height="100" width="100" y="2.80312" x="118.5" stroke-width="4" stroke="#000" fill="none"/>
+  <text xml:space="preserve" text-anchor="start" font-family="'Rounded Mplus 1c'" font-size="75" id="svg_3" y="80.80312" x="135.5" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">W</text>
+  <rect id="svg_4" height="100" width="100" y="114.80312" x="116" stroke-opacity="null" stroke-width="4" stroke="#000" fill="none"/>
+  <text xml:space="preserve" text-anchor="start" font-family="'Rounded Mplus 1c'" font-size="75" id="svg_5" y="191.80312" x="252.5" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">D</text>
+  <text xml:space="preserve" text-anchor="start" font-family="'Rounded Mplus 1c'" font-size="75" id="svg_6" y="191.80312" x="145.5" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">S</text>
+  <rect id="svg_9" height="100" width="100" y="114.80312" x="2" stroke-opacity="null" stroke-width="4" stroke="#000" fill="none"/>
+  <text style="cursor: move;" xml:space="preserve" text-anchor="start" font-family="'Rounded Mplus 1c'" font-size="75" id="svg_10" y="189.80312" x="27.5" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">A</text>
+ </g>
+</svg>
