@@ -7,65 +7,80 @@
     <link rel="stylesheet" type="text/css" href="css/styling.css">
     <link rel="stylesheet" type="text/css" href="css/hud.css">
     <link href="https://fonts.googleapis.com/css2?family=Goldman&display=swap" rel="stylesheet">
-    <title></title>
+    <title>BLOCKMAN 2: Reckoning</title>
   </head>
   <body>
-    <img src = https://giffiles.alphacoders.com/165/16571.gif id="homescreen"  style="width: 43em; height: 43em; z-index:4; position:absolute;">
-      <div id="start" style="width: 7em; height: 4em; z-index:5; background: rgba(204, 204, 204, 0); position:absolute;"></div>
-      <div id="about" style="width: 7em; height: 4em; z-index:5; background: rgba(204, 204, 204, 0); position:absolute;"></div>
-    </img>
-    <img src = https://giffiles.alphacoders.com/165/16571.gif id="aboutPage"  style="width: 43em; height: 43em; z-index:2; position:absolute;">
-      <div id="aboutUs" style="background: rgba(204, 204, 204, 0); z-index:3; position:absolute; width: 25em;"></div>
-      <div id="backbutton" style="background: rgba(204, 204, 204, 0); z-index:3; position:absolute;"></div>
-    </img>
-    <div id="container">
-      <div id="el" style="width: 43em; height: 43em; z-index:1; background-color:black;  overflow:hidden;">
+    <div id="home">
+      <div class="home-title">
+        <span style="display:flex; font-size:5em;">BLOCKMAN<span style="color:cyan; margin-left:0.25em;">2</span></span>
+        <span style="font-size: 3em; color: cyan; font-style: italic; margin-top: -0.5em;">RECKONING</span>
+      </div>
+      <div class="button-menu">
+        <div class="menu-button" id="start">Start</div>
+        <div class="menu-button" id="help">Help</div>
+        <div class="menu-button" id="about">About</div>
+      </div>
+    </div>
+    <div id="about-us" style="width: 43em; height: 43em; z-index:2; display:none; position:absolute;">
+    </div>
+    <div id="game">
+      <div id="el" style="width: 43em; height: 43em; z-index:1; background-color:#191919;  overflow:hidden;">
         <div id='level-up-screen'>
           <span id="skill-point">Skills</span>
           <span id="level">Level 1</span>
           <span id="points">Skill Points: 0</span>
-          <span class="skill-label" id="health-points">Max Health</span>
-          <div class="skill-container" id="health-upgrades">
-            <button class="minus-button" data-skill="maxHealth" id="health-"></button>
-            <div class="skill-bar" data-skill="maxHealth" id="health-bar"></div>
-            <button class="plus-button" data-skill="maxHealth" id="health+"></button>
+          <span class="skill-label">Max Health</span>
+          <div class="skill-container">
+            <button class="minus-button" data-skill="maxHealth"></button>
+            <div class="skill-bar" data-skill="maxHealth"></div>
+            <button class="plus-button" data-skill="maxHealth"></button>
           </div>
-          <span class="skill-label" id="armor-points">Armor</span>
-          <div class="skill-container" id="armor-upgrades">
-            <button class="minus-button" data-skill="armor" id="armor-"></button>
-            <div class="skill-bar" data-skill="armor" id="armor-bar"></div>
-            <button class="plus-button" data-skill="armor" id="armor+"></button>
+          <span class="skill-label">Armor</span>
+          <div class="skill-container">
+            <button class="minus-button" data-skill="armor"></button>
+            <div class="skill-bar" data-skill="armor"></div>
+            <button class="plus-button" data-skill="armor"></button>
           </div>
-          <span class="skill-label" id="speed-points">Speed</span>
-          <div class="skill-container" id="speed-upgrades">
-            <button class="minus-button" data-skill="speed" id="speed-"></button>
-            <div class="skill-bar" data-skill="speed" id="speed-bar"></div>
-            <button class="plus-button" data-skill="speed" id="speed+"></button>
+          <span class="skill-label">Speed</span>
+          <div class="skill-container">
+            <button class="minus-button" data-skill="speed"></button>
+            <div class="skill-bar" data-skill="speed"></div>
+            <button class="plus-button" data-skill="speed"></button>
           </div>
-          <span class="skill-label" id="luck-points">Luck</span>
-          <div class="skill-container" id="luck-upgrades">
-            <button class="minus-button" data-skill="luck" id="luck-"></button>
-            <div class="skill-bar" data-skill="luck" id="luck-bar"></div>
-            <button class="plus-button" data-skill="luck" id="luck+"></button>
+          <span class="skill-label">Luck</span>
+          <div class="skill-container">
+            <button class="minus-button" data-skill="luck"></button>
+            <div class="skill-bar" data-skill="luck"></div>
+            <button class="plus-button" data-skill="luck"></button>
           </div>
-          <span class="skill-label" id="adrenaline-points">Adrenaline</span>
-          <div class="skill-container" id="adrenaline-upgrades">
-            <button class="minus-button" data-skill="adrenaline" id="adrenaline-"></button>
-            <div class="skill-bar" data-skill="adrenaline" id="adrenaline-bar"></div>
-            <button class="plus-button" data-skill="adrenaline" id="adrenaline+"></button>
+          <span class="skill-label">Adrenaline</span>
+          <div class="skill-container">
+            <button class="minus-button" data-skill="adrenaline"></button>
+            <div class="skill-bar" data-skill="adrenaline"></div>
+            <button class="plus-button" data-skill="adrenaline"></button>
           </div>
-          <span class="skill-label" id="size-points">Size</span>
-          <div class="skill-container" id="size-upgrades">
-            <button class="minus-button" data-skill="size" id="size-"></button>
-            <div class="skill-bar" data-skill="size" id="size-bar"></div>
-            <button class="plus-button" data-skill="size" id="size+"></button>
+          <span class="skill-label">Size</span>
+          <div class="skill-container">
+            <button class="minus-button" data-skill="size"></button>
+            <div class="skill-bar" data-skill="size"></div>
+            <button class="plus-button" data-skill="size"></button>
           </div>
           <button disabled id='confirm-button'>confirm</button>
         </div>
         <div id="game-over-screen">
-            <span>GAME OVER</span>
+            <h1>GAME OVER</h1>
+            <span id="final-score">Final Score: 0</span>
+            <span id="bullets-survived">Bullets Survived: 0</span>
             <button id="restart-button">Restart</button>
             <button id="main-menu-button">Main Menu</button>
+        </div>
+        <div id="game-win-screen">
+            <h1>Congratulations!!!</h1>
+            <span>You have completed the game!</span>
+            <span style="margin-bottom: 2em;">You can keep playing for a high score.</span>
+            <button id="win-continue">Continue</button>
+            <button id="win-restart-button">Restart</button>
+            <button id="win-main-menu-button">Main Menu</button>
         </div>
         <div id="player" style="width: 40px; height:40px;">
       </div>
@@ -83,6 +98,7 @@
     <audio id="sound-button" src="assets/button.wav"></audio>
     <audio id="sound-adr-over" src="assets/adr-over.wav"></audio>
     <audio id="sound-adr-start" src="assets/adr-start.wav"></audio>
+    <audio id="sound-invinc-hit" src="assets/invinc-hit.wav"></audio>
     <script src="src/Utils.js" charset="utf-8"></script>
     <script src="src/Timer.js" charset="utf-8"></script>
     <script src="src/PowerUp.js" charset="utf-8"></script>

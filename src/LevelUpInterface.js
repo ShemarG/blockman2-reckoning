@@ -2,6 +2,7 @@ class LevelUpInterface {
   constructor(player) {
     this.player = player;
     player.stats.level += 1;
+    if (player.stats.level === 26) player.stats.level = 'MAX';
     if (player.stats.level !== 1) {
       if (player.stats.level % 5) {
         player.stats.skillPoints += 1;
