@@ -66,9 +66,9 @@ function generateHUD() {
   const expSpan = document.createElement('span');
   expSpan.classList.add('exp-span');
   expSpan.textContent = 'Exp:';
-  const expCounter = document.createElement('span');
+  const expCounter = document.createElement('div');
   game.HUD.exp = expCounter;
-  expCounter.textContent = `0/${LevelData.characterLevelUpBreakpoints[0]}`;
+  expCounter.textContent = `0/${LevelData.characterLevelUpBreakpoints[1]}`;
   expCounter.classList.add('exp-counter');
 
   experienceContainer.append(expSpan, expCounter);
@@ -159,8 +159,13 @@ const emptySkillBars = () => {
   Array.from(document.getElementsByClassName('skill-bar')).forEach((bar) => { bar.innerHTML = ''; });
 };
 
-const homeScreen = document.getElementById('homescreen');
+const homeScreen = document.getElementById('home');
+const gameScreen = document.getElementById('game');
+const aboutScreen = document.getElementById('about-us');
 const restartButton = document.getElementById('restart-button');
+const mainMenuButton = document.getElementById('main-menu-button');
+const startButton = document.getElementById('start');
+const confirmButton = document.getElementById('confirm-button');
 
 const levelUpSound = document.getElementById('sound-level-up');
 const buffSound = document.getElementById('sound-buff');
@@ -175,37 +180,7 @@ const confirmSound = document.getElementById('sound-confirm');
 const buttonSound = document.getElementById('sound-button');
 const adrOverSound = document.getElementById('sound-adr-over');
 const adrStartSound = document.getElementById('sound-adr-start');
-
-const startButton = document.getElementById('start');
-startButton.innerText = 'Press Start';
-startButton.style.fontSize = '4em';
-startButton.style.color = 'white';
-startButton.style.marginTop = '5em';
-startButton.style.marginLeft = '2.1em';
-startButton.style.fontFamily = 'Goldman';
-startButton.style.fontWeight = '900';
-
-const aboutButton = document.getElementById('about');
-aboutButton.innerText = 'About';
-aboutButton.style.fontFamily = 'Goldman';
-aboutButton.style.fontSize = '2em';
-aboutButton.style.marginTop = '20em';
-aboutButton.style.marginLeft = '1em';
-
-const aboutUs = document.getElementById('aboutUs');
-aboutUs.innerText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-aboutUs.style.fontFamily = 'Goldman';
-aboutUs.style.fontSize = '1.5em';
-aboutUs.style.color = 'white';
-aboutUs.style.marginTop = '8em';
-aboutUs.style.marginLeft = '2em';
-
-const backButton = document.getElementById('backbutton');
-backButton.innerText = 'Back';
-backButton.style.fontFamily = 'Goldman';
-backButton.style.marginTop = '20em';
-backButton.style.marginLeft = '1em';
-backButton.style.fontSize = '2em';
+const invincSound = document.getElementById('sound-invinc-hit');
 
 document.addEventListener('despawn-powerup', (e) => {
   game.powerUps[e.detail.key].element.remove();
@@ -244,6 +219,9 @@ document.addEventListener('blocked', () => {
 });
 document.addEventListener('damage', () => {
   playSound(damageSound);
+});
+document.addEventListener('invinc-hit', () => {
+  playSound(invincSound);
 });
 document.addEventListener('check-perks', () => {
   game.HUD.perkList.innerHTML = '';
@@ -301,7 +279,7 @@ document.addEventListener('adrenaline-over', () => {
   }, 10);
   game.spawnTick = setInterval(() => {
     game.spawnBullet();
-  }, LevelData.bulletSpawnRates[game.player.stats.level - 1]);
+  }, LevelData.bulletSpawnRates[game.player.stats.level]);
   playSound(adrOverSound);
 });
 document.addEventListener('adrenaline-recharged', () => {
@@ -310,6 +288,7 @@ document.addEventListener('adrenaline-recharged', () => {
   game.player.powerUpTimers.adrenaline.resetTimer();
   playSound(adrReadySound);
 });
+
 document.addEventListener('invincibility-started', () => {
   playSound(buffSound);
 });
@@ -317,7 +296,11 @@ document.addEventListener('invincibility-over', () => {
   console.log('Invincibility Over');
   game.HUD.invinceSlot.cont.style.opacity = '0';
   game.HUD.invinceSlot.text.textContent = '10';
-  game.player.invincible = false;
+  if (!game.player.perks.includes('C-Speed')) {
+    game.player.invincible = false;
+  } else if (!(game.player.powerUpTimers.speed.currentTimer)) {
+    game.player.invincible = false;
+  }
   game.player.powerUpTimers.invincibility.resetTimer();
   playSound(debuffSound);
 });
@@ -336,49 +319,57 @@ document.addEventListener('speed-over', () => {
   playSound(debuffSound);
 });
 
-// document.addEventListener('health-restored', (e) => {});
+document.getElementById('win-continue').addEventListener('click', () => {
+  document.getElementById('game-win-screen').style.display = 'none';
+  game.isOver = false;
+});
+document.getElementById('win-restart-button').addEventListener('click', () => { restartButton.click(); });
+document.getElementById('win-main-menu-button').addEventListener('click', () => { mainMenuButton.click(); });
 
 startButton.addEventListener('click', () => {
-  statUpgrades = new LevelUpInterface(game.player);
-  game.startGame();
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'p') {
-      if (game.player.stats.health !== 0) {
-        game.togglePause();
-        const levelupScreen = document.getElementById('level-up-screen');
-        if (levelupScreen.style.top === '43em' || levelupScreen.style.top === '') {
-          levelupScreen.style.top = '2em';
-        } else {
-          levelupScreen.style.top = '43em';
+  if (statUpgrades) {
+    restartButton.click();
+  } else {
+    statUpgrades = new LevelUpInterface(game.player);
+    game.startGame();
+    game.isOver = false;
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'p') {
+        if (game.player.stats.health !== 0 && !game.isOver) {
+          game.togglePause();
+          const levelupScreen = document.getElementById('level-up-screen');
+          if (levelupScreen.style.top === '43em' || levelupScreen.style.top === '') {
+            levelupScreen.style.top = '2em';
+          } else {
+            levelupScreen.style.top = '43em';
+          }
         }
       }
-    }
-  });
-  startButton.style.display = 'none';
+    });
+  }
+  gameScreen.style.display = 'block';
   homeScreen.style.display = 'none';
-  aboutButton.style.display = 'none';
-  aboutPage.style.display = 'none';
-  aboutUs.style.display = 'none';
-  backButton.style.display = 'none';
+  aboutScreen.style.display = 'none';
 });
-
-aboutButton.addEventListener('click', () => {
-  startButton.style.display = 'none';
-  homeScreen.style.display = 'none';
-  aboutButton.style.display = 'none';
-  backButton.style.display = 'block';
-  aboutUs.style.display = 'block';
+mainMenuButton.addEventListener('click', () => {
+  document.getElementById('game-over-screen').style.top = '43em';
+  homeScreen.style.display = 'flex';
+  gameScreen.style.display = 'none';
 });
-
-backButton.addEventListener('click', () => {
-  backButton.style.display = 'none';
-  aboutUs.style.display = 'none';
-  startButton.style.display = 'block';
-  aboutButton.style.display = 'block';
+confirmButton.addEventListener('click', () => {
+  statUpgrades.confirmSkills();
+  setPlusButtons();
+  setMinusButtons();
+  setConfirm();
+  playSound(confirmSound);
+  if (game.player.stats.adrenaline) game.HUD.adrenaline.style.width = '100%';
+  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'p' }));
 });
-
 restartButton.addEventListener('click', () => {
   document.getElementById('game-over-screen').style.top = '43em';
+  document.getElementById('level-up-screen').style.top = '43em';
+  document.getElementById('game-win-screen').style.display = 'none';
+  gameScreen.style.display = 'block';
   document.removeEventListener('keydown', game.eventHandlers.controls);
   document.removeEventListener('keyup', game.eventHandlers.controls);
   document.removeEventListener('remove-bullet', game.eventHandlers.handleBulletRemoval);
@@ -400,15 +391,25 @@ restartButton.addEventListener('click', () => {
 });
 
 document.addEventListener('game-over', () => {
-  console.log('game-over');
+  game.isOver = true;
+  game.togglePause();
+  document.getElementById('final-score').textContent = `Final Score: ${game.player.stats.experience}`;
+  if (game.player.stats.experience >= LevelData.characterLevelUpBreakpoints.MAX) {
+    document.getElementById('final-score').textContent = 'You\'ve somehow hit max score... You\'re a LEGEND!!!';
+  }
+  document.getElementById('bullets-survived').textContent = `Bullets Survived: ${game.bulletId}`;
   if (document.getElementById('game-over-screen').style.top === '43em'
   || document.getElementById('game-over-screen').style.top === '') {
-    document.getElementById('game-over-screen').style.top = '19em';
+    document.getElementById('game-over-screen').style.top = '14em';
   } else {
     document.getElementById('game-over-screen').style.top = '43em';
   }
 });
-
+document.addEventListener('game-win', () => {
+  console.log('game won');
+  document.getElementById('game-win-screen').style.display = 'flex';
+  game.isOver = true;
+});
 document.addEventListener('level-up', () => {
   statUpgrades = new LevelUpInterface(game.player);
   setPlusButtons();
@@ -434,7 +435,6 @@ Array.from(document.getElementsByClassName('minus-button')).forEach((button) => 
     playSound(buttonSound);
   });
 });
-
 Array.from(document.getElementsByClassName('plus-button')).forEach((button) => {
   button.append(generatePlus());
   button.disabled = true;
@@ -469,15 +469,4 @@ Array.from(document.getElementsByClassName('plus-button')).forEach((button) => {
     setConfirm();
     playSound(buttonSound);
   });
-});
-
-const confirmButton = document.getElementById('confirm-button');
-confirmButton.addEventListener('click', () => {
-  statUpgrades.confirmSkills();
-  setPlusButtons();
-  setMinusButtons();
-  setConfirm();
-  playSound(confirmSound);
-  if (game.player.stats.adrenaline) game.HUD.adrenaline.style.width = '100%';
-  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'p' }));
 });

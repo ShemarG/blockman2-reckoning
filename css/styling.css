@@ -1,7 +1,48 @@
-.pause-button{
+.pause-button {
     font-family : Goldman;
     margin-left : 28em;
     color : white;
+}
+
+#home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 43em;
+  height: 43em;
+  z-index:4;
+  position: absolute;
+  background-image: url('https://giffiles.alphacoders.com/165/16571.gif');
+  background-size: cover;
+  color: white;
+  font-family: Goldman;
+}
+
+.home-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10em;
+}
+
+.menu-button {
+  transition: color 2s, font-size 1s;
+  font-weight: 900;
+}
+
+.button-menu {
+  height: 10em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+}
+
+.menu-button:hover {
+  font-size: 3.1em;
+  color: cyan;
 }
 
 #level-up-screen {
@@ -9,7 +50,7 @@
   padding: 1em;
   width: 28em;
   height: 36em;
-  z-index: 6;
+  z-index: 1;
   position: absolute;
   top: 43em;
   left: 7em;
@@ -23,15 +64,90 @@
 }
 
 #game-over-screen {
+  text-align: center;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   background-color: rgba(128, 128, 128, 0.3);
-  z-index: 6;
+  border: 3px solid white;
+  z-index: 2;
   top: 43em;
-  left: 17em;
-  width: 10em;
+  left: 14em;
+  width: 15em;
+  height: 15em;
   transition: top 1s;
+}
+
+#game-over-screen h1 {
+  font-family: Goldman;
+  font-size: 2em;
+  text-shadow: 1px 1px white;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+#game-over-screen span {
+  color: white;
+}
+
+#game-over-screen button {
+  width: 50%;
+  font-family: Goldman;
+  padding: 0 0.25em;
+  font-size: 1.25em;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.35em;
+  background-color: black;
+  color: white;
+  font-variant: small-caps;
+  box-sizing: border-box;
+  border: 1px white solid;
+}
+
+#game-win-screen {
+  color: white;
+  text-align: center;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: black;
+  border: 3px solid white;
+  z-index: 2;
+  top: 11em;
+  left: 12em;
+  width: 20em;
+  height: 20em;
+}
+
+#game-win-screen h1 {
+  font-size: 1.7em;
+  font-family: Goldman;
+}
+
+#game-win-screen button {
+  width: 50%;
+  font-family: Goldman;
+  padding: 0 0.25em;
+  font-size: 1.25em;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.35em;
+  background-color: black;
+  color: white;
+  font-variant: small-caps;
+  box-sizing: border-box;
+  border: 1px white solid;
+}
+
+#game-win-screen button:hover, #game-over-screen button:hover {
+  color: black;
+  background-color: white;
+  border-color: cyan;
 }
 
 .perk-img {
@@ -45,7 +161,14 @@
 }
 
 .experience-container {
+  display: flex;
   margin-left: 0.5em;
+}
+
+.exp-counter {
+  width: 8em;
+  display: flex;
+  justify-content: flex-end;
 }
 
 #skill-point {

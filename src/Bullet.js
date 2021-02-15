@@ -6,7 +6,6 @@ class Bullet {
     this.speed = speed;
     this.damage = damage;
     this.element.style.position = 'absolute';
-    this.element.style.zIndex = '1';
     this.element.style.backgroundColor = 'blue';
     this.element.style.width = `${2 * radius}px`;
     this.element.style.height = `${2 * radius}px`;

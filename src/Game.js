@@ -11,12 +11,14 @@ class Game {
     this.keyInput = {
       ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, ' ': false
     };
+    this.isOver = true;
   }
 
   startGame() {
+    this.isOver = false;
     this.spawnTick = setInterval(() => {
       this.spawnBullet();
-    }, LevelData.bulletSpawnRates[this.player.stats.level - 1]);
+    }, LevelData.bulletSpawnRates[this.player.stats.level]);
     this.gameTick = setInterval(() => {
       this.moveBullets();
       this.movePlayer();
@@ -64,7 +66,7 @@ class Game {
     }
     if (!this.player.invincible) {
       const randomNum = Math.random().toFixed(2);
-      if (randomNum <= this.player.stats.armor * 0.07) {
+      if (randomNum <= this.player.stats.armor * 0.08) {
         document.dispatchEvent(new CustomEvent('blocked'));
       } else {
         if (this.player.perks.includes('Aegis')) {
@@ -74,14 +76,15 @@ class Game {
           this.player.stats.health -= 1;
           this.HUD.health.lastChild.remove();
           if (this.player.stats.health === 0) {
-            this.togglePause();
+            this.isOver = true;
             document.dispatchEvent(new CustomEvent('game-over'));
             break;
           }
         }
+        document.dispatchEvent(new CustomEvent('damage'));
       }
-      document.dispatchEvent(new CustomEvent('damage'));
     } else {
+      document.dispatchEvent(new CustomEvent('invinc-hit'));
       bullet.removeBullet.detail.score = true;
     }
     document.dispatchEvent(bullet.removeBullet);
@@ -121,16 +124,18 @@ class Game {
           } else if (this.player.stats.health + 1 <= this.player.stats.maxHealth + 5) {
             this.player.stats.health += 1;
             this.addHealthUnit();
-            this.player.stats.experience += Math.floor(LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1] * 0.05);
+            this.player.stats.experience += 10;
+            this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level]}`;
           } else {
-            this.player.stats.experience += Math.floor(LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1] * 0.05);
-            this.player.stats.experience += Math.floor(LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1] * 0.05);
+            this.player.stats.experience += 20;
+            this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level]}`;
           }
         } else if (this.player.stats.health + 1 <= this.player.stats.maxHealth + 5) {
           this.player.stats.health += 1;
           this.addHealthUnit();
         } else {
           this.player.stats.experience += 10;
+          this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level]}`;
           LevelData.checkLevelUp(this.player);
           console.log('health full');
         }
@@ -148,9 +153,12 @@ class Game {
         });
         break;
       case 'Experience':
-        this.player.stats.experience += Math.floor(LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1] * 0.075);
+        this.player.stats.experience += Math.floor(
+          (LevelData.characterLevelUpBreakpoints[this.player.stats.level]
+          - LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1]) * 0.075
+        );
         LevelData.checkLevelUp(this.player);
-        this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1]}`;
+        this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level]}`;
         document.dispatchEvent(new Event('exp-pickup'));
         break;
       default:
@@ -161,7 +169,7 @@ class Game {
   handleBulletRemoval(e) {
     if (e.detail.score) {
       this.player.stats.experience += this.bullets[e.detail.key].damage;
-      this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1]}`;
+      this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level]}`;
     }
     this.bullets[e.detail.key].element.remove();
     delete this.bullets[e.detail.key];
@@ -254,7 +262,7 @@ class Game {
         if (!this.player.powerUpTimers.adrenaline.currentTimer) {
           this.spawnTick = setInterval(() => {
             this.spawnBullet();
-          }, LevelData.bulletSpawnRates[this.player.stats.level - 1]);
+          }, LevelData.bulletSpawnRates[this.player.stats.level]);
           this.gameTick = setInterval(() => {
             this.moveBullets();
             this.movePlayer();
@@ -269,7 +277,7 @@ class Game {
       } else {
         this.spawnTick = setInterval(() => {
           this.spawnBullet();
-        }, LevelData.bulletSpawnRates[this.player.stats.level - 1]);
+        }, LevelData.bulletSpawnRates[this.player.stats.level]);
         this.gameTick = setInterval(() => {
           this.moveBullets();
           this.movePlayer();

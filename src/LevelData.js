@@ -22,8 +22,8 @@ class LevelData {
       1: 1,
       2: 6,
       3: 13,
-      4: 16,
-      5: 19,
+      4: 19,
+      5: 25,
       6: 'MAX'
     },
     luck: {
@@ -52,27 +52,65 @@ class LevelData {
     }
   }
 
-  static characterLevelUpBreakpoints = [
-    70,
-    160,
-    275,
-    425,
-    850,
-    1150,
-    1490,
-    1915,
-    2450,
-    3085,
-    3850,
-    4790,
-    5900,
-    7300,
-    8975,
-    11005,
-    13500,
-    16350,
-    20000,
-  ]
+  static characterLevelUpBreakpoints = {
+    0: 0,
+    1: 67,
+    2: 145,
+    3: 236,
+    4: 341,
+    5: 466,
+    6: 608,
+    7: 774,
+    8: 960,
+    9: 1174,
+    10: 1428,
+    11: 1724,
+    12: 2058,
+    13: 2443,
+    14: 2883,
+    15: 3395,
+    16: 3984,
+    17: 4657,
+    18: 5423,
+    19: 6263,
+    20: 7197,
+    21: 8247,
+    22: 9360,
+    23: 10539,
+    24: 11787,
+    25: 13110,
+    MAX: 99999
+  }
+
+  // static characterLevelUpBreakpoints = {
+  //   0: 0,
+  //   1: 10,
+  //   2: 20,
+  //   3: 30,
+  //   4: 40,
+  //   5: 50,
+  //   6: 60,
+  //   7: 70,
+  //   8: 80,
+  //   9: 90,
+  //   10: 100,
+  //   11: 110,
+  //   12: 120,
+  //   13: 130,
+  //   14: 140,
+  //   15: 150,
+  //   16: 160,
+  //   17: 170,
+  //   18: 180,
+  //   19: 190,
+  //   20: 200,
+  //   21: 210,
+  //   22: 220,
+  //   23: 230,
+  //   24: 240,
+  //   25: 250,
+  //   MAX: 260
+  // }
 
   static bulletWeights = {
     1: {
@@ -134,92 +172,125 @@ class LevelData {
     },
     20: { // 1-0.95 = .05     0.95-0.7 = .25     0.7-0.45 = .25     0.45-0.2 = .25     0.2-0 = .2
       lv1: [0.95, 1.00], lv2: [0.70, 0.95], lv3: [0.45, 0.70], lv4: [0.20, 0.45], lv5: [0.00, 0.20]
+    },
+    21: { //              1-0.75 = .25       0.75-0.5 = .25     0.5-0.25 = .25     0.25-0 = .25
+      lv1: [-1, -1], lv2: [0.75, 1.00], lv3: [0.50, 0.75], lv4: [0.25, 0.50], lv5: [0.00, 0.25]
+    },
+    22: { //              1-0.75 = .25       0.75-0.5 = .25     0.5-0.25 = .25     0.25-0 = .25
+      lv1: [-1, -1], lv2: [0.75, 1.00], lv3: [0.50, 0.75], lv4: [0.25, 0.50], lv5: [0.00, 0.25]
+    },
+    23: { //              1-0.75 = .25       0.75-0.5 = .25     0.5-0.25 = .25     0.25-0 = .25
+      lv1: [-1, -1], lv2: [0.75, 1.00], lv3: [0.50, 0.75], lv4: [0.25, 0.50], lv5: [0.00, 0.25]
+    },
+    24: { //              1-0.75 = .25       0.75-0.5 = .25     0.5-0.25 = .25     0.25-0 = .25
+      lv1: [-1, -1], lv2: [0.75, 1.00], lv3: [0.50, 0.75], lv4: [0.25, 0.50], lv5: [0.00, 0.25]
+    },
+    25: { //              1-0.75 = .25       0.75-0.5 = .25     0.5-0.25 = .25     0.25-0 = .25
+      lv1: [-1, -1], lv2: [0.75, 1.00], lv3: [0.50, 0.75], lv4: [0.25, 0.50], lv5: [0.00, 0.25]
+    },
+    MAX: { //              1-0.75 = .25       0.75-0.5 = .25     0.5-0.25 = .25     0.25-0 = .25
+      lv1: [-1, -1], lv2: [0.75, 1.00], lv3: [0.50, 0.75], lv4: [0.25, 0.50], lv5: [0.00, 0.25]
     }
+
   }
 
-  static bulletSpawnRates = [
-    300,
-    290,
-    280,
-    270,
-    260,
-    250,
-    240,
-    230,
-    220,
-    210,
-    200,
-    190,
-    180,
-    170,
-    160,
-    150,
-    140,
-    130,
-    120,
-    110,
-  ]
+  static bulletSpawnRates = {
+    1: 300,
+    2: 295,
+    3: 290,
+    4: 285,
+    5: 280,
+    6: 275,
+    7: 270,
+    8: 265,
+    9: 260,
+    10: 255,
+    11: 250,
+    12: 245,
+    13: 240,
+    14: 235,
+    15: 230,
+    16: 225,
+    17: 220,
+    18: 215,
+    19: 210,
+    20: 205,
+    21: 200,
+    22: 195,
+    23: 190,
+    24: 185,
+    25: 180,
+    MAX: 180,
+  }
 
   static bulletConfigs = {
     lv1: {
       radius: 10,
       damage: 1,
-      speed: 1.5
+      speed: 2.5
     },
     lv2: {
       radius: 15,
       damage: 2,
-      speed: 1.875
+      speed: 2.75
     },
     lv3: {
       radius: 20,
       damage: 3,
-      speed: 2.25
+      speed: 3
     },
     lv4: {
       radius: 25,
       damage: 4,
-      speed: 2.625
+      speed: 3.25
     },
     lv5: {
       radius: 30,
       damage: 5,
-      speed: 3
+      speed: 3.5
     }
   }
 
   static powerUpRates = {
     Kaboom: [0.00, 0.10], // 10%
-    Health: [0.10, 0.60], // 50%
-    Invincibility: [0.60, 0.70], // 10%
+    Health: [0.10, 0.65], // 55%
+    Invincibility: [0.65, 0.70], // 5%
     Experience: [0.70, 0.85], // 15%
-    Speed: [0.15, 1.00] // 15%
+    Speed: [0.85, 1.00] // 15%
   }
 
   static powerupElGen(type) {
     const el = document.createElement('div');
-    el.style.width = '16px';
-    el.style.height = '16px';
+    const img = document.createElement('img');
+    img.style.width = '100%';
+    el.style.width = '20px';
+    el.style.height = '20px';
     el.classList.add('powerup');
     switch (type) {
       case 'Kaboom':
+        img.src = 'assets/kaboom.svg';
         el.classList.add('kaboom');
         break;
       case 'Health':
+        img.src = 'assets/medkit.svg';
         el.classList.add('health');
         break;
       case 'Experience':
+        img.src = 'assets/arrow-up-outline.svg';
         el.classList.add('experience');
         break;
       case 'Invincibility':
+        img.src = 'assets/shield-sharp.svg';
         el.classList.add('invincibility');
         break;
       case 'Speed':
+        img.src = 'assets/play-forward-sharp.svg';
         el.classList.add('speed');
         break;
       default:
         console.log("You're not supposed to be here!!!");
     }
+    el.append(img);
     return el;
   }
 
@@ -234,8 +305,15 @@ class LevelData {
 
   static checkLevelUp(player) {
     const { level } = player.stats;
-    if (player.stats.experience >= this.characterLevelUpBreakpoints[level - 1]) {
+    if (player.stats.experience >= this.characterLevelUpBreakpoints.MAX) {
+      document.dispatchEvent(new CustomEvent('game-over'));
+      return;
+    }
+    if (player.stats.experience >= this.characterLevelUpBreakpoints[level]) {
       document.dispatchEvent(this.levelUpEvt);
+    }
+    if (player.stats.experience >= this.characterLevelUpBreakpoints['25']) {
+      document.dispatchEvent(new CustomEvent('game-win'));
     }
   }
 
