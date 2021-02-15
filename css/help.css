@@ -1,7 +1,7 @@
 #help{
     width: 43em;
     height: 43em;
-    background-color: black;
+    background-color: white;
 }
 .tabs{
     display: flex;
@@ -15,6 +15,31 @@
     align-items: center;
     border: 1px solid black;
 }
-.pane{
+#controls-pane{
     height: 41em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#controls-pane img{
+    width: 10em;
+    margin: 0 2em;
+}
+.control-item{
+    display: flex;
+    align-items: center;
+    margin: 2em;
+}
+.skills-skill{
+    display: flex;
+    margin-top: 1em;
+}
+.skills-descript, .perk-descript{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.perk-descript{
+    align-items: flex-end;
 }

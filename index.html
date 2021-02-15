@@ -92,14 +92,85 @@
         <div id="help-skills" class="tab">Skills</div>
         <div id="help-powerups" class="tab">Power Ups</div>
       </div>
-      <div id="controls-pane" class="pane">
-        <div>
-          <img src="assets/wasd">
+      <div id="controls-pane" class="pane" style="display:none;">
+        <div class="control-item">
+          <span>Movement</span>
+          <img src="assets/wasd.svg">
+          <span>OR</span>
+          <img src="assets/arrkeys.svg">
         </div>
-        <div></div>
-        <div></div>
+        <div class="control-item">
+          <span>Adrenaline</span>
+          <img src="assets/spacekey.svg">
+        </div>
+        <div class="control-item">
+          <span>Pause</span>
+          <img src="assets/pkey.svg" style="width: 3em;">
+        </div>
       </div>
-      <div id="skills-pane" class="pane" style="display:none;"></div>
+      <div id="skills-pane" class="pane" >
+        <span id="skills-info">Every level you gain grants you a skill point. Every 5 levels, gain a additional skill point. Each skill maxes out at level 5, and each level of each skill has a minimum level requirement before you can spend a skill point on it. If a skill is maxed, then the perk for that skill is unlocked</span>
+        <div class="skills-skill">
+          <div class="skills-descript">
+            <span class="skill-name">Max Health</span>
+            <span class="skill-expl">Each level adds +1 to maximum health</span>
+          </div>
+          <div class="perk-descript">
+            <span class="perk-name">Healthy</span>
+            <span class="perk-expl">Health pick ups now heal +2 health</span>
+          </div>
+        </div>
+        <div class="skills-skill">
+          <div class="skills-descript">
+            <span class="skill-name">Armor</span>
+            <span class="skill-expl">Each level adds an 8% chance to block all damage</span>
+          </div>
+          <div class="perk-descript">
+            <span class="perk-name">Aegis</span>
+            <span class="perk-expl">If damage is taken, damage is reduced by 1</span>
+          </div>
+        </div>
+        <div class="skills-skill">
+          <div class="skills-descript">
+            <span class="skill-name">Speed</span>
+            <span class="skill-expl">Each level increases speed by 0.6</span>
+          </div>
+          <div class="perk-descript">
+            <span class="perk-name">C-Speed</span>
+            <span class="perk-expl">Speed pick ups now grant invincibility</span>
+          </div>
+        </div>
+        <div class="skills-skill">
+          <div class="skills-descript">
+            <span class="skill-name">Luck</span>
+            <span class="skill-expl">Each level adds increases power ups spwan chance by 20%</span>
+          </div>
+          <div class="perk-descript">
+            <span class="perk-name">Fortunate</span>
+            <span class="perk-expl">Causes 2 powerups to spawn at a time</span>
+          </div>
+        </div>
+        <div class="skills-skill">
+          <div class="skills-descript">
+            <span class="skill-name">Adrenaline</span>
+            <span class="skill-expl">Adrenaline stops time for all bullets. Each level adds +1s to adrenaline time</span>
+          </div>
+          <div class="perk-descript">
+            <span class="perk-name">Reflexes</span>
+            <span class="perk-expl">Getting hit reduces adrenaline cool down by 5s</span>
+          </div>
+        </div>
+        <div class="skills-skill">
+          <div class="skills-descript">
+            <span class="skill-name">Size</span>
+            <span class="skill-expl">Each level reduces your size by 10%</span>
+          </div>
+          <div class="perk-descript">
+            <span class="perk-name">Relativty</span>
+            <span class="perk-expl">Reduces the size of all enemies by 30%</span>
+          </div>
+        </div>
+      </div>
       <div id="powerups-pane" class="pane" style="display:none;"></div>
     </div>
     <audio id="sound-level-up" src="assets/levelUp.wav"></audio>
