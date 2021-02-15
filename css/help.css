@@ -1,0 +1,20 @@
+#help{
+    width: 43em;
+    height: 43em;
+    background-color: black;
+}
+.tabs{
+    display: flex;
+}
+.tab{
+    background-color: white;
+    flex-grow: 1;
+    height: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+.pane{
+    height: 41em;
+}

@@ -6,11 +6,12 @@
     <link rel="stylesheet" type="text/css" href="css/powerups.css">
     <link rel="stylesheet" type="text/css" href="css/styling.css">
     <link rel="stylesheet" type="text/css" href="css/hud.css">
+    <link rel="stylesheet" type="text/css" href="css/help.css">
     <link href="https://fonts.googleapis.com/css2?family=Goldman&display=swap" rel="stylesheet">
     <title>BLOCKMAN 2: Reckoning</title>
   </head>
   <body>
-    <div id="home">
+    <div id="home" style="display:none;">
       <div class="home-title">
         <span style="display:flex; font-size:5em;">BLOCKMAN<span style="color:cyan; margin-left:0.25em;">2</span></span>
         <span style="font-size: 3em; color: cyan; font-style: italic; margin-top: -0.5em;">RECKONING</span>
@@ -24,7 +25,7 @@
     <div id="about-us" style="width: 43em; height: 43em; z-index:2; display:none; position:absolute;">
     </div>
     <div id="game">
-      <div id="el" style="width: 43em; height: 43em; z-index:1; background-color:#191919;  overflow:hidden;">
+      <div id="el" style="width: 43em; height: 43em; z-index:1; background-color:#191919;  overflow:hidden; display:none;">
         <div id='level-up-screen'>
           <span id="skill-point">Skills</span>
           <span id="level">Level 1</span>
@@ -84,6 +85,23 @@
         </div>
         <div id="player" style="width: 40px; height:40px;">
       </div>
+    </div>
+    <div id="help">
+      <div class="tabs">
+        <div id="help-back" class="tab"></div>
+        <div id="help-controls" class="tab">Controls</div>
+        <div id="help-skills" class="tab">Skills</div>
+        <div id="help-powerups" class="tab">Power Ups</div>
+      </div>
+      <div id="controls-pane" class="pane">
+        <div>
+          <img src="assets/wasd">
+        </div>
+        <div></div>
+        <div></div>
+      </div>
+      <div id="skills-pane" class="pane" style="display:none;"></div>
+      <div id="powerups-pane" class="pane" style="display:none;"></div>
     </div>
     <audio id="sound-level-up" src="assets/levelUp.wav"></audio>
     <audio id="sound-buff" src="assets/buff.wav"></audio>
