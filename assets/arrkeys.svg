@@ -9,14 +9,14 @@
  </g>
  <g>
   <title>Layer 1</title>
-  <rect id="svg_8" height="100" width="100" y="114.95313" x="228.5" stroke-opacity="null" stroke-width="4" stroke="#000" fill="none"/>
-  <rect id="svg_1" height="100" width="100" y="2.80312" x="116" stroke-width="4" stroke="#000" fill="none"/>
-  <rect id="svg_4" height="100" width="100" y="114.80312" x="116" stroke-opacity="null" stroke-width="4" stroke="#000" fill="none"/>
-  <rect id="svg_9" height="100" width="100" y="114.80312" x="2" stroke-opacity="null" stroke-width="4" stroke="#000" fill="none"/>
-  <path id="svg_11" d="m-130.02943,114.60378l15.3792,-21.76363l-29.73493,0l-29.73487,0l0,-13.47272l0,-13.47273l29.39375,0c16.16654,0 29.39372,-0.68286 29.39372,-1.51748c0,-0.8346 -6.43585,-10.62823 -14.30187,-21.76363l-14.30191,-20.24618l13.21934,0l13.21929,0l20.18885,28.5273l20.18884,28.52729l-20.22757,28.47271l-20.22756,28.47271l-13.91675,0l-13.91678,0l15.37924,-21.76364l0.00001,0z" stroke-opacity="null" stroke-width="4" stroke="#000" fill="none"/>
-  <path stroke="#000" id="svg_14" d="m147.74249,51.67585l18.50001,-31.4244l18.50001,31.4244l-9.25001,0l0,31.5756l-18.50001,0l0,-31.5756l-9.25001,0z" fill-opacity="null" stroke-opacity="null" stroke-width="4" fill="none"/>
-  <path transform="rotate(90 280.2424926757813,165.75144958496097) " stroke="#000" id="svg_16" d="m261.74249,165.67585l18.50001,-31.4244l18.50001,31.4244l-9.25001,0l0,31.5756l-18.50001,0l0,-31.5756l-9.25,0z" fill-opacity="null" stroke-opacity="null" stroke-width="4" fill="none"/>
-  <path transform="rotate(-90 49.24250030517582,165.75144958496097) " stroke="#000" id="svg_17" d="m30.74249,165.67585l18.50001,-31.4244l18.50001,31.4244l-9.25001,0l0,31.5756l-18.50001,0l0,-31.5756l-9.25,0z" fill-opacity="null" stroke-opacity="null" stroke-width="4" fill="none"/>
-  <path transform="rotate(180 166.5,167.75144958496094) " stroke="#000" id="svg_18" d="m148,167.67585l18.50001,-31.4244l18.50001,31.4244l-9.25001,0l0,31.5756l-18.50001,0l0,-31.5756l-9.25,0z" fill-opacity="null" stroke-opacity="null" stroke-width="4" fill="none"/>
+  <rect id="svg_8" height="100" width="100" y="114.95313" x="228.5" stroke-opacity="null" stroke-width="4" stroke="#ffffff" fill="none"/>
+  <rect id="svg_1" height="100" width="100" y="2.80312" x="116" stroke-width="4" stroke="#ffffff" fill="none"/>
+  <rect id="svg_4" height="100" width="100" y="114.80312" x="116" stroke-opacity="null" stroke-width="4" stroke="#ffffff" fill="none"/>
+  <rect id="svg_9" height="100" width="100" y="114.80312" x="2" stroke-opacity="null" stroke-width="4" stroke="#ffffff" fill="none"/>
+  <path id="svg_11" d="m-130.02943,114.60378l15.3792,-21.76363l-29.73493,0l-29.73487,0l0,-13.47272l0,-13.47273l29.39375,0c16.16654,0 29.39372,-0.68286 29.39372,-1.51748c0,-0.8346 -6.43585,-10.62823 -14.30187,-21.76363l-14.30191,-20.24618l13.21934,0l13.21929,0l20.18885,28.5273l20.18884,28.52729l-20.22757,28.47271l-20.22756,28.47271l-13.91675,0l-13.91678,0l15.37924,-21.76364l0.00001,0z" stroke-opacity="null" stroke-width="4" stroke="#ffffff" fill="none"/>
+  <path stroke="#ffffff" id="svg_14" d="m147.74249,51.67585l18.50001,-31.4244l18.50001,31.4244l-9.25001,0l0,31.5756l-18.50001,0l0,-31.5756l-9.25001,0z" fill-opacity="null" stroke-opacity="null" stroke-width="4" fill="none"/>
+  <path transform="rotate(90 280.2424926757813,165.75144958496097) " stroke="#ffffff" id="svg_16" d="m261.74249,165.67585l18.50001,-31.4244l18.50001,31.4244l-9.25001,0l0,31.5756l-18.50001,0l0,-31.5756l-9.25,0z" fill-opacity="null" stroke-opacity="null" stroke-width="4" fill="none"/>
+  <path transform="rotate(-90 49.24250030517582,165.75144958496097) " stroke="#ffffff" id="svg_17" d="m30.74249,165.67585l18.50001,-31.4244l18.50001,31.4244l-9.25001,0l0,31.5756l-18.50001,0l0,-31.5756l-9.25,0z" fill-opacity="null" stroke-opacity="null" stroke-width="4" fill="none"/>
+  <path transform="rotate(180 166.5,167.75144958496094) " stroke="#ffffff" id="svg_18" d="m148,167.67585l18.50001,-31.4244l18.50001,31.4244l-9.25001,0l0,31.5756l-18.50001,0l0,-31.5756l-9.25,0z" fill-opacity="null" stroke-opacity="null" stroke-width="4" fill="none"/>
  </g>
 </svg>

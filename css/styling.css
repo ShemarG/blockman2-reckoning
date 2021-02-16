@@ -1,7 +1,21 @@
-.pause-button {
-    font-family : Goldman;
-    margin-left : 28em;
-    color : white;
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(https://img.freepik.com/free-photo/carbon-fiber-material-background-carbon-texture_73089-47.jpg?size=626&ext=jpg);
+  background-size: cover;
+}
+
+#wrapper {
+  width: 43em;
+  height: 43em;
+  border: 5px solid #7acfcf;
+}
+
+.page {
+  position: absolute;
 }
 
 #home {
@@ -11,12 +25,32 @@
   align-items: center;
   width: 43em;
   height: 43em;
-  z-index:4;
   position: absolute;
   background-image: url('https://giffiles.alphacoders.com/165/16571.gif');
   background-size: cover;
   color: white;
   font-family: Goldman;
+}
+
+.back-button {
+  background-color: black;
+  position: absolute;
+  top: 41em;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  padding: 0 1em;
+  font-family: Goldman;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  box-sizing: border-box;
+}
+
+#mute-music {
+  position: relative;
+  width: 1.5em;
+  top: 41em;
+  left: 41.5em;
 }
 
 .home-title {
@@ -91,6 +125,8 @@
 
 #game-over-screen span {
   color: white;
+  font-family: monospace;
+  font-size: 1.2em;
 }
 
 #game-over-screen button {

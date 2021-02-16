@@ -1,5 +1,6 @@
 let game = new Game(document.getElementById('el'));
 let statUpgrades;
+let musicAllowed = false;
 
 function generateHUD() {
   game.HUD = {};
@@ -161,11 +162,11 @@ const emptySkillBars = () => {
 
 const homeScreen = document.getElementById('home');
 const gameScreen = document.getElementById('game');
-const aboutScreen = document.getElementById('about-us');
 const restartButton = document.getElementById('restart-button');
 const mainMenuButton = document.getElementById('main-menu-button');
 const startButton = document.getElementById('start');
 const confirmButton = document.getElementById('confirm-button');
+const muteButton = document.getElementById('mute-music');
 
 const levelUpSound = document.getElementById('sound-level-up');
 const buffSound = document.getElementById('sound-buff');
@@ -182,6 +183,8 @@ const adrOverSound = document.getElementById('sound-adr-over');
 const adrStartSound = document.getElementById('sound-adr-start');
 const invincSound = document.getElementById('sound-invinc-hit');
 const buttonSelect = document.getElementById('sound-button-select');
+const gameMusic = document.getElementById('sound-game-music');
+const gameOverScratch = document.getElementById('sound-game-over-scratch');
 
 document.addEventListener('despawn-powerup', (e) => {
   game.powerUps[e.detail.key].element.remove();
@@ -328,6 +331,8 @@ document.getElementById('win-restart-button').addEventListener('click', () => { 
 document.getElementById('win-main-menu-button').addEventListener('click', () => { mainMenuButton.click(); });
 
 startButton.addEventListener('click', () => {
+  gameMusic.volume = 0.2;
+  if (musicAllowed) playSound(gameMusic);
   if (statUpgrades) {
     restartButton.click();
   } else {
@@ -349,8 +354,9 @@ startButton.addEventListener('click', () => {
     });
   }
   gameScreen.style.display = 'block';
+  game.player.element.style.top = `${gameScreen.offsetHeight / 2}px`;
+  game.player.element.style.left = `${gameScreen.offsetWidth / 2}px`;
   homeScreen.style.display = 'none';
-  aboutScreen.style.display = 'none';
   playSound(buttonSelect);
 });
 mainMenuButton.addEventListener('click', () => {
@@ -392,9 +398,26 @@ restartButton.addEventListener('click', () => {
   game.player.element.style.height = '40px';
   game.startGame();
   playSound(buttonSelect);
+  gameMusic.currentTime = 0;
+  if (musicAllowed) playSound(gameMusic);
+});
+muteButton.addEventListener('click', (e) => {
+  if (gameMusic.paused) {
+    musicAllowed = true;
+    e.currentTarget.src = 'assets/musical-note-sharp.svg';
+    gameMusic.volume = 0.2;
+    gameMusic.play();
+  } else {
+    musicAllowed = false;
+    e.currentTarget.src = 'assets/musical-note-sharp2.svg';
+    gameMusic.pause();
+    gameMusic.currentTime = 0;
+  }
 });
 
 document.addEventListener('game-over', () => {
+  gameMusic.pause();
+  playSound(gameOverScratch);
   game.isOver = true;
   game.togglePause();
   document.getElementById('final-score').textContent = `Final Score: ${game.player.stats.experience}`;

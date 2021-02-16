@@ -6,172 +6,237 @@
     <link rel="stylesheet" type="text/css" href="css/powerups.css">
     <link rel="stylesheet" type="text/css" href="css/styling.css">
     <link rel="stylesheet" type="text/css" href="css/hud.css">
+    <link rel="stylesheet" type="text/css" href="css/about.css">
     <link rel="stylesheet" type="text/css" href="css/help.css">
     <link href="https://fonts.googleapis.com/css2?family=Goldman&display=swap" rel="stylesheet">
     <title>BLOCKMAN 2: Reckoning</title>
   </head>
   <body>
-    <div id="home" style="display:none;">
-      <div class="home-title">
-        <span style="display:flex; font-size:5em;">BLOCKMAN<span style="color:cyan; margin-left:0.25em;">2</span></span>
-        <span style="font-size: 3em; color: cyan; font-style: italic; margin-top: -0.5em;">RECKONING</span>
-      </div>
-      <div class="button-menu">
-        <div class="menu-button" id="start">Start</div>
-        <div class="menu-button" id="help">Help</div>
-        <div class="menu-button" id="about">About</div>
-      </div>
-    </div>
-    <div id="about-us" style="width: 43em; height: 43em; z-index:2; display:none; position:absolute;"></div>
-    <div id="game">
-      <div id="el" style="width: 43em; height: 43em; z-index:1; background-color:#191919;  overflow:hidden; display:none;">
-        <div id='level-up-screen'>
-          <span id="skill-point">Skills</span>
-          <span id="level">Level 1</span>
-          <span id="points">Skill Points: 0</span>
-          <span class="skill-label">Max Health</span>
-          <div class="skill-container">
-            <button class="minus-button" data-skill="maxHealth"></button>
-            <div class="skill-bar" data-skill="maxHealth"></div>
-            <button class="plus-button" data-skill="maxHealth"></button>
-          </div>
-          <span class="skill-label">Armor</span>
-          <div class="skill-container">
-            <button class="minus-button" data-skill="armor"></button>
-            <div class="skill-bar" data-skill="armor"></div>
-            <button class="plus-button" data-skill="armor"></button>
-          </div>
-          <span class="skill-label">Speed</span>
-          <div class="skill-container">
-            <button class="minus-button" data-skill="speed"></button>
-            <div class="skill-bar" data-skill="speed"></div>
-            <button class="plus-button" data-skill="speed"></button>
-          </div>
-          <span class="skill-label">Luck</span>
-          <div class="skill-container">
-            <button class="minus-button" data-skill="luck"></button>
-            <div class="skill-bar" data-skill="luck"></div>
-            <button class="plus-button" data-skill="luck"></button>
-          </div>
-          <span class="skill-label">Adrenaline</span>
-          <div class="skill-container">
-            <button class="minus-button" data-skill="adrenaline"></button>
-            <div class="skill-bar" data-skill="adrenaline"></div>
-            <button class="plus-button" data-skill="adrenaline"></button>
-          </div>
-          <span class="skill-label">Size</span>
-          <div class="skill-container">
-            <button class="minus-button" data-skill="size"></button>
-            <div class="skill-bar" data-skill="size"></div>
-            <button class="plus-button" data-skill="size"></button>
-          </div>
-          <button disabled id='confirm-button'>confirm</button>
+    <div id="wrapper">
+      <div id="home" class="page">
+        <div class="home-title">
+          <span style="display:flex; font-size:5em;">BLOCKMAN<span style="color:cyan; margin-left:0.25em;">2</span></span>
+          <span style="font-size: 3em; color: cyan; font-style: italic; margin-top: -0.5em;">RECKONING</span>
         </div>
-        <div id="game-over-screen">
+        <div class="button-menu">
+          <div class="menu-button" id="start">Start</div>
+          <div class="menu-button" id="help">Help</div>
+          <div class="menu-button" id="about">About</div>
+        </div>
+      </div>
+      <div id="about-page" class="page" style="display:none;">
+        <div class="about-wrapper">
+          <div style="margin-top: 2em; width: 80%;">
+            <h1>Lore</h1><hr>
+            <span>Blockman is back, and better than ever. In the wake of defeating the 30 tyrants, Blockman failed to foresee the age-old result of a coup - removing the leadership creates a power vacuum. Before the new warlords fight each other for power, they all agreed that Blockman was a threat and have banded together to elimate him. Can Blockman survive thier onslaught? Survive 25 levels of fast-paced projectile dodging while making use of 6 skills and perks in <i style="color:cyan;">BLOCKMAN 2: Reckoning.</i></span>
+            <h1>About the Devs</h1><hr>
+            <span>This game was designed and created by Shemar Gordon and Jarrit Alicea, two fellows of the 2020 Marcy Lab School Cohort. This was created for an open-ended project to make a game using what we have learned about the DOM, JavaScript and beyond. We hope you enjoy it!
+            The music is Shemar's original sequencing of the Jamaican "Applause Riddim" originally produced by Cordell "Skatta" Burrell as a part of the <i>Greensleves Album.</i></span>
+          </div>
+          <div class="flags">
+            <div class="flag">
+              <img src="assets/marcy-logo.png">
+              <span>The Marcy Lab School</span>
+            </div>
+            <div class="flag">
+              <img src="assets/jamaican-flag.svg">
+              <span>Shemar Gordon</span>
+            </div>
+            <div class="flag">
+              <img src="assets/puerto-rican-flag.svg">
+              <span>Jarrit's Alicea</span>
+            </div>
+          </div>
+        </div>
+        <div id="about-back" class="back-button" style="color: cyan;">&#8678; Back</div>
+      </div>
+      <div id="game" class="page" style="display:none;">
+        <div id="el" style="width: 43em; height: 43em; background-color:#191919; overflow:hidden;">
+          <div id='level-up-screen'>
+            <span id="skill-point">Skills</span>
+            <span id="level">Level 1</span>
+            <span id="points">Skill Points: 0</span>
+            <span class="skill-label">Max Health</span>
+            <div class="skill-container">
+              <button class="minus-button" data-skill="maxHealth"></button>
+              <div class="skill-bar" data-skill="maxHealth"></div>
+              <button class="plus-button" data-skill="maxHealth"></button>
+            </div>
+            <span class="skill-label">Armor</span>
+            <div class="skill-container">
+              <button class="minus-button" data-skill="armor"></button>
+              <div class="skill-bar" data-skill="armor"></div>
+              <button class="plus-button" data-skill="armor"></button>
+            </div>
+            <span class="skill-label">Speed</span>
+            <div class="skill-container">
+              <button class="minus-button" data-skill="speed"></button>
+              <div class="skill-bar" data-skill="speed"></div>
+              <button class="plus-button" data-skill="speed"></button>
+            </div>
+            <span class="skill-label">Luck</span>
+            <div class="skill-container">
+              <button class="minus-button" data-skill="luck"></button>
+              <div class="skill-bar" data-skill="luck"></div>
+              <button class="plus-button" data-skill="luck"></button>
+            </div>
+            <span class="skill-label">Adrenaline</span>
+            <div class="skill-container">
+              <button class="minus-button" data-skill="adrenaline"></button>
+              <div class="skill-bar" data-skill="adrenaline"></div>
+              <button class="plus-button" data-skill="adrenaline"></button>
+            </div>
+            <span class="skill-label">Size</span>
+            <div class="skill-container">
+              <button class="minus-button" data-skill="size"></button>
+              <div class="skill-bar" data-skill="size"></div>
+              <button class="plus-button" data-skill="size"></button>
+            </div>
+            <button disabled id='confirm-button'>confirm</button>
+          </div>
+          <div id="game-over-screen">
             <h1>GAME OVER</h1>
             <span id="final-score">Final Score: 0</span>
             <span id="bullets-survived">Bullets Survived: 0</span>
             <button id="restart-button">Restart</button>
             <button id="main-menu-button">Main Menu</button>
-        </div>
-        <div id="game-win-screen">
+          </div>
+          <div id="game-win-screen">
             <h1>Congratulations!!!</h1>
             <span>You have completed the game!</span>
             <span style="margin-bottom: 2em;">You can keep playing for a high score.</span>
             <button id="win-continue">Continue</button>
             <button id="win-restart-button">Restart</button>
             <button id="win-main-menu-button">Main Menu</button>
-        </div>
-        <div id="player" style="width: 40px; height:40px;">
-      </div>
-    </div>
-    <div id="help">
-      <div class="tabs">
-        <div id="help-back" class="tab"></div>
-        <div id="help-controls" class="tab">Controls</div>
-        <div id="help-skills" class="tab">Skills</div>
-        <div id="help-powerups" class="tab">Power Ups</div>
-      </div>
-      <div id="controls-pane" class="pane" style="display:none;">
-        <div class="control-item">
-          <span>Movement</span>
-          <img src="assets/wasd.svg">
-          <span>OR</span>
-          <img src="assets/arrkeys.svg">
-        </div>
-        <div class="control-item">
-          <span>Adrenaline</span>
-          <img src="assets/spacekey.svg">
-        </div>
-        <div class="control-item">
-          <span>Pause</span>
-          <img src="assets/pkey.svg" style="width: 3em;">
+          </div>
+          <div id="player" style="width: 40px; height:40px;"></div>
         </div>
       </div>
-      <div id="skills-pane" class="pane" >
-        <span id="skills-info">Every level you gain grants you a skill point. Every 5 levels, gain a additional skill point. Each skill maxes out at level 5, and each level of each skill has a minimum level requirement before you can spend a skill point on it. If a skill is maxed, then the perk for that skill is unlocked</span>
-        <div class="skills-skill">
-          <div class="skills-descript">
-            <span class="skill-name">Max Health</span>
-            <span class="skill-expl">Each level adds +1 to maximum health</span>
+      <div id="help-page" class="page" style="display:none">
+        <div class="tabs">
+          <div id="help-controls" class="tab active-tab">Controls</div>
+          <div id="help-skills" class="tab">Skills</div>
+          <div id="help-powerups" class="tab">Power Ups</div>
+        </div>
+        <div id="controls-pane" class="pane">
+          <div class="control-item">
+            <span>Movement</span>
+            <img src="assets/wasd.svg">
+            <span>OR</span>
+            <img src="assets/arrkeys.svg">
           </div>
-          <div class="perk-descript">
-            <span class="perk-name">Healthy</span>
-            <span class="perk-expl">Health pick ups now heal +2 health</span>
+          <div class="control-item">
+            <span>Adrenaline</span>
+            <img src="assets/spacekey.svg">
+          </div>
+          <div class="control-item">
+            <span>Pause</span>
+            <img src="assets/pkey.svg" style="width: 3em;">
           </div>
         </div>
-        <div class="skills-skill">
-          <div class="skills-descript">
-            <span class="skill-name">Armor</span>
-            <span class="skill-expl">Each level adds an 8% chance to block all damage</span>
+        <div id="skills-pane" class="pane" style="display:none;">
+          <span id="skills-info">Every level you gain grants you a skill point. Every 5 levels, gain an additional skill point. Each skill maxes out at level 5, and each level of each skill has a minimum level requirement before you can spend a skill point on it. If a skill is maxed, then the perk for that skill is unlocked.</span>
+          <div class="skills-skill">
+            <div class="skills-descript">
+              <span class="skill-name" style="color: red;">Max Health</span>
+              <span class="skill-expl">Each level adds +1 to maximum health</span>
+            </div>
+            <div class="perk-descript">
+              <span class="perk-name" style="color: red;">Healthy<img src="assets/fitness-sharp.svg"/></span>
+              <span class="perk-expl">Health pick ups now heal +2 health</span>
+            </div>
           </div>
-          <div class="perk-descript">
-            <span class="perk-name">Aegis</span>
-            <span class="perk-expl">If damage is taken, damage is reduced by 1</span>
+          <div class="skills-skill">
+            <div class="skills-descript">
+              <span class="skill-name" style="color: grey;">Armor</span>
+              <span class="skill-expl">Each level adds an 8% chance to block all damage</span>
+            </div>
+            <div class="perk-descript">
+              <span class="perk-name" style="color: grey;">Aegis<img src="assets/shield-half-sharp.svg"/></span>
+              <span class="perk-expl">If damage is taken, damage is reduced by 1</span>
+            </div>
+          </div>
+          <div class="skills-skill">
+            <div class="skills-descript">
+              <span class="skill-name" style="color: cyan;">Speed</span>
+              <span class="skill-expl">Each level increases speed by 0.6</span>
+            </div>
+            <div class="perk-descript">
+              <span class="perk-name" style="color: cyan;">C-Speed<img src="assets/flash-sharp.svg"/></span>
+              <span class="perk-expl">Speed pick ups now grant invincibility</span>
+            </div>
+          </div>
+          <div class="skills-skill">
+            <div class="skills-descript">
+              <span class="skill-name" style="color: green;">Luck</span>
+              <span class="skill-expl">Each level adds increases power ups spawn chance by 20%</span>
+            </div>
+            <div class="perk-descript">
+              <span class="perk-name" style="color: green;">Fortunate <img src="assets/trending-up-sharp.svg"/></span>
+              <span class="perk-expl">Causes 2 powerups to spawn at a time</span>
+            </div>
+          </div>
+          <div class="skills-skill">
+            <div class="skills-descript">
+              <span class="skill-name" style="color: magenta;">Adrenaline</span>
+              <span class="skill-expl">Adrenaline stops time for all bullets. Each level adds +1s to adrenaline time</span>
+            </div>
+            <div class="perk-descript">
+              <span class="perk-name" style="color: magenta;">Reflexes<img src="assets/pulse-sharp.svg"/></span>
+              <span class="perk-expl">Getting hit reduces adrenaline cool down by 5s</span>
+            </div>
+          </div>
+          <div class="skills-skill">
+            <div class="skills-descript">
+              <span class="skill-name" style="color: orange;">Size</span>
+              <span class="skill-expl">Each level reduces your size by 10%</span>
+            </div>
+            <div class="perk-descript">
+              <span class="perk-name" style="color: orange;">Relativity<img src="assets/logo-react.svg"/></span>
+              <span class="perk-expl">Reduces the size of all enemies by 30%</span>
+            </div>
           </div>
         </div>
-        <div class="skills-skill">
-          <div class="skills-descript">
-            <span class="skill-name">Speed</span>
-            <span class="skill-expl">Each level increases speed by 0.6</span>
+        <div id="powerups-pane" class="pane" style="display:none;">
+          <div class="powerup-item">
+            <div class="powerup kaboom" style="border-radius: 2em;"><img src="assets/kaboom.svg" style="width: 4em;"/></div>
+            <div class="powerup-text">
+              <span class="powerup-name">Kaboom</span>
+              <span class="powerup-descript">Clears the area of bullets</span>
+            </div>
           </div>
-          <div class="perk-descript">
-            <span class="perk-name">C-Speed</span>
-            <span class="perk-expl">Speed pick ups now grant invincibility</span>
+          <div class="powerup-item">
+            <div class="powerup health" style="border-radius: 2em;"><img src="assets/medkit.svg" style="width: 4em;"/></div>
+            <div class="powerup-text">
+              <span class="powerup-name">Health</span>
+              <span class="powerup-descript">Heals +1 HP. Grants +10 exp if health is full</span>
+            </div>
           </div>
-        </div>
-        <div class="skills-skill">
-          <div class="skills-descript">
-            <span class="skill-name">Luck</span>
-            <span class="skill-expl">Each level adds increases power ups spwan chance by 20%</span>
+          <div class="powerup-item">
+            <div class="powerup experience" style="border-radius: 2em;"><img src="assets/arrow-up-outline.svg" style="width: 4em;"/></div>
+            <div class="powerup-text">
+              <span class="powerup-name">Experience</span>
+              <span class="powerup-descript">Grants +7.5% of experience required to level up</span>
+            </div>
           </div>
-          <div class="perk-descript">
-            <span class="perk-name">Fortunate</span>
-            <span class="perk-expl">Causes 2 powerups to spawn at a time</span>
+          <div class="powerup-item">
+            <div class="powerup speed" style="border-radius: 2em;"><img src="assets/play-forward-sharp.svg" style="width: 4em;"/></div>
+            <div class="powerup-text">
+              <span class="powerup-name">Speed</span>
+              <span class="powerup-descript">Increases speed by 1</span>
+            </div>
           </div>
-        </div>
-        <div class="skills-skill">
-          <div class="skills-descript">
-            <span class="skill-name">Adrenaline</span>
-            <span class="skill-expl">Adrenaline stops time for all bullets. Each level adds +1s to adrenaline time</span>
-          </div>
-          <div class="perk-descript">
-            <span class="perk-name">Reflexes</span>
-            <span class="perk-expl">Getting hit reduces adrenaline cool down by 5s</span>
-          </div>
-        </div>
-        <div class="skills-skill">
-          <div class="skills-descript">
-            <span class="skill-name">Size</span>
-            <span class="skill-expl">Each level reduces your size by 10%</span>
-          </div>
-          <div class="perk-descript">
-            <span class="perk-name">Relativty</span>
-            <span class="perk-expl">Reduces the size of all enemies by 30%</span>
+          <div class="powerup-item">
+            <div class="powerup invincibility" style="border-radius: 2em;"><img src="assets/shield-sharp.svg" style="width: 4em;"/></div>
+            <div class="powerup-text">
+              <span class="powerup-name">Invincibility</span>
+              <span class="powerup-descript">Grants immunity to damage. Hitting bullets grants exp</span>
+            </div>
           </div>
         </div>
+        <div id="help-back" class="back-button" style="color: cyan;">&#8678; Back</div>
       </div>
-      <div id="powerups-pane" class="pane" style="display:none;"></div>
+      <img id="mute-music" src="assets/musical-note-sharp2.svg">
     </div>
     <audio id="sound-level-up" src="assets/levelUp.wav"></audio>
     <audio id="sound-buff" src="assets/buff.wav"></audio>
@@ -188,6 +253,8 @@
     <audio id="sound-adr-start" src="assets/adr-start.wav"></audio>
     <audio id="sound-invinc-hit" src="assets/invinc-hit.wav"></audio>
     <audio id="sound-button-select" src="assets/button-select.wav"></audio>
+    <audio id="sound-game-music" src="assets/applause.mp3" loop></audio>
+    <audio id="sound-game-over-scratch" src="assets/game-over-scratch.wav"></audio>
     <script src="src/Utils.js" charset="utf-8"></script>
     <script src="src/Timer.js" charset="utf-8"></script>
     <script src="src/PowerUp.js" charset="utf-8"></script>
@@ -197,5 +264,6 @@
     <script src="src/Bullet.js" charset="utf-8"></script>
     <script src="src/Game.js" charset="utf-8"></script>
     <script src="src/index.js" charset="utf-8"></script>
+    <script src="src/homeNav.js" charset="utf-8"></script>
   </body>
 </html>

@@ -1,45 +1,124 @@
-#help{
+#help-page{
     width: 43em;
     height: 43em;
+    display: flex;
+    flex-direction: column;
     background-color: white;
+    background-image: url(https://giffiles.alphacoders.com/165/16571.gif);
+    background-size: cover;
+}
+
+#help-back {
+  position: absolute;
 }
 .tabs{
     display: flex;
 }
-.tab{
-    background-color: white;
-    flex-grow: 1;
-    height: 2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
+.tab {
+  font-family: Goldman;
+  background-color: black;
+  color: white;
+  flex-grow: 1;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid cyan;
+  box-sizing: border-box;
 }
-#controls-pane{
-    height: 41em;
-    display: flex;
-    flex-direction: column;
+
+.active-tab {
+  background-color: cyan;
+  color: black;
+}
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  opacity: 0;
+  transition: opacity 1s;
+  color: white;
+  font-family: Goldman;
+  background-color: rgba(0,0,0,0.5);
+}
+
+#controls-pane {
     justify-content: center;
     align-items: center;
 }
 #controls-pane img{
     width: 10em;
-    margin: 0 2em;
+    margin: 0 1em;
 }
-.control-item{
+.control-item {
     display: flex;
     align-items: center;
     margin: 2em;
 }
+
+.control-item span{
+    font-size: 1.5em;
+}
+
+#skills-pane {
+  font-family: monospace;
+  font-size: 1.2em;
+}
+
+#skills-info {
+  margin-top: 4em;
+  width: 90%;
+  align-self: center;
+}
+
 .skills-skill{
     display: flex;
+    justify-content: space-around;
     margin-top: 1em;
 }
+
+.perk-name {
+  display: flex;
+}
+
+.perk-name img {
+  width: 1em;
+  margin-left: 0.5em;
+}
+
 .skills-descript, .perk-descript{
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 40%;
+    align-items: center;
 }
-.perk-descript{
-    align-items: flex-end;
+
+#powerups-pane {
+  justify-content: center;
+  align-items: center;
+}
+
+.powerup-item {
+  margin-top: 2em;
+  width: 60%;
+}
+
+.powerup-item, .powerup-text {
+  display: flex;
+}
+
+.powerup-text {
+  justify-content: center;
+  margin-left: 1em;
+  flex-direction: column;
+}
+
+.powerup-name {
+  font-size: 1.5em;
+}
+
+.powerup-descript {
+  font-size: 1.2em;
+  font-family: monospace;
 }

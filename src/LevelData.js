@@ -15,7 +15,7 @@ class LevelData {
       2: 4,
       3: 11,
       4: 15,
-      5: 18,
+      5: 22,
       6: 'MAX'
     },
     speed: {
@@ -31,7 +31,7 @@ class LevelData {
       2: 2,
       3: 7,
       4: 14,
-      5: 17,
+      5: 21,
       6: 'MAX'
     },
     adrenaline: {
@@ -47,7 +47,7 @@ class LevelData {
       2: 4,
       3: 11,
       4: 16,
-      5: 20,
+      5: 22,
       6: 'MAX'
     }
   }
@@ -265,6 +265,7 @@ class LevelData {
     img.style.width = '100%';
     el.style.width = '20px';
     el.style.height = '20px';
+    el.style.position = 'absolute';
     el.classList.add('powerup');
     switch (type) {
       case 'Kaboom':

@@ -9,7 +9,7 @@
  </g>
  <g>
   <title>Layer 1</title>
-  <rect id="svg_1" height="100" width="100" y="2.26384" x="2" stroke-width="4" stroke="#000" fill="none"/>
-  <text xml:space="preserve" text-anchor="start" font-family="'Rounded Mplus 1c'" font-size="75" id="svg_19" y="80.81071" x="31" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">P</text>
+  <rect id="svg_1" height="100" width="100" y="2.26384" x="2" stroke-width="4" stroke="#ffffff" fill="none"/>
+  <text xml:space="preserve" text-anchor="start" font-family="monospace" font-size="75" id="svg_19" y="80.81071" x="31" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#ffffff" fill="#ffffff">P</text>
  </g>
 </svg>
