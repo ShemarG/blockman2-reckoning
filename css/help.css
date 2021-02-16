@@ -40,7 +40,7 @@
   transition: opacity 1s;
   color: white;
   font-family: Goldman;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.85);
 }
 
 #controls-pane {
