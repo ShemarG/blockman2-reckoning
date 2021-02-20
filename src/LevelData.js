@@ -82,36 +82,6 @@ class LevelData {
     MAX: 99999
   }
 
-  // static characterLevelUpBreakpoints = {
-  //   0: 0,
-  //   1: 10,
-  //   2: 20,
-  //   3: 30,
-  //   4: 40,
-  //   5: 50,
-  //   6: 60,
-  //   7: 70,
-  //   8: 80,
-  //   9: 90,
-  //   10: 100,
-  //   11: 110,
-  //   12: 120,
-  //   13: 130,
-  //   14: 140,
-  //   15: 150,
-  //   16: 160,
-  //   17: 170,
-  //   18: 180,
-  //   19: 190,
-  //   20: 200,
-  //   21: 210,
-  //   22: 220,
-  //   23: 230,
-  //   24: 240,
-  //   25: 250,
-  //   MAX: 260
-  // }
-
   static bulletWeights = {
     1: {
       lv1: [0.00, 1.00], lv2: [-1, -1], lv3: [-1, -1], lv4: [-1, -1], lv5: [-1, -1]
@@ -289,7 +259,6 @@ class LevelData {
         el.classList.add('speed');
         break;
       default:
-        console.log("You're not supposed to be here!!!");
     }
     el.append(img);
     return el;
@@ -313,7 +282,7 @@ class LevelData {
     if (player.stats.experience >= this.characterLevelUpBreakpoints[level]) {
       document.dispatchEvent(this.levelUpEvt);
     }
-    if (player.stats.experience >= this.characterLevelUpBreakpoints['25']) {
+    if (player.stats.experience >= this.characterLevelUpBreakpoints['25'] && !player.isWinner) {
       document.dispatchEvent(new CustomEvent('game-win'));
     }
   }

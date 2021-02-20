@@ -15,9 +15,12 @@ class LevelUpInterface {
 
   validateSkill(skill) {
     const currentSkillLevel = this.skills[skill];
-    if (this.skills.skillPoints < 1) return false;
-    if (this.skills.level >= LevelData.skillPointGates[skill][currentSkillLevel + 1]) return true;
-    return LevelData.skillPointGates[skill][currentSkillLevel + 1];
+    if (this.skills.skillPoints < 1 || currentSkillLevel >= 5) return false;
+    if (this.skills.level !== 'MAX') {
+      if (this.skills.level >= LevelData.skillPointGates[skill][currentSkillLevel + 1]) return true;
+      return LevelData.skillPointGates[skill][currentSkillLevel + 1];
+    }
+    return true;
   }
 
   addPoint(skill) {
@@ -36,8 +39,6 @@ class LevelUpInterface {
     if (this.checkRemovable(skill)) {
       this.skills[skill] -= 1;
       this.skills.skillPoints += 1;
-    } else {
-      console.log('No uncommited points remaining.');
     }
   }
 

@@ -137,7 +137,6 @@ class Game {
           this.player.stats.experience += 10;
           this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level]}`;
           LevelData.checkLevelUp(this.player);
-          console.log('health full');
         }
         document.dispatchEvent(new CustomEvent('health-pickup'));
         break;
@@ -153,16 +152,19 @@ class Game {
         });
         break;
       case 'Experience':
-        this.player.stats.experience += Math.floor(
-          (LevelData.characterLevelUpBreakpoints[this.player.stats.level]
-          - LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1]) * 0.075
-        );
+        if (this.player.stats.level !== 'MAX') {
+          this.player.stats.experience += Math.floor(
+            (LevelData.characterLevelUpBreakpoints[this.player.stats.level]
+              - LevelData.characterLevelUpBreakpoints[this.player.stats.level - 1]) * 0.075
+          );
+        } else {
+          this.player.stats.experience += 100;
+        }
         LevelData.checkLevelUp(this.player);
         this.HUD.exp.textContent = `${this.player.stats.experience}/${LevelData.characterLevelUpBreakpoints[this.player.stats.level]}`;
         document.dispatchEvent(new Event('exp-pickup'));
         break;
       default:
-        console.log('Impossible!');
     }
   }
 

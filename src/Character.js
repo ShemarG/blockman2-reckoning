@@ -26,6 +26,7 @@ class Character {
     this.element.style.position = 'absolute';
     this.element.style.top = `${boundingEl.offsetHeight / 2}px`;
     this.element.style.left = `${boundingEl.offsetWidth / 2}px`;
+    this.isWinner = false;
   }
 
   setAdrenaline() {

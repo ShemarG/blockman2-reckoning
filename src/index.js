@@ -200,13 +200,10 @@ document.addEventListener('powerup-tick', (e) => {
       game.HUD.speedSlot.text.textContent = e.detail.val;
       break;
     case 'Adrenaline':
-      console.log(e.detail.val);
       break;
     case 'Adrenaline-Recharge':
-      console.log('Cooldown', e.detail.val);
       break;
     default:
-      console.log('Should be unreachable');
   }
 });
 document.addEventListener('exp-pickup', () => {
@@ -252,7 +249,6 @@ document.addEventListener('check-perks', () => {
         img.src = 'assets/logo-react.svg';
         break;
       default:
-        console.log('Huh?');
     }
     game.HUD.perkList.append(img);
   });
@@ -271,7 +267,6 @@ document.addEventListener('adrenaline-activated', () => {
   playSound(adrStartSound);
 });
 document.addEventListener('adrenaline-over', () => {
-  console.log('Adrenaline Over');
   game.HUD.adrenaline.style.webkitTransition = `width ${game.player.adrenalineCooldown.timeLeft + 1}s linear`;
   game.player.adrenalineCooldown.startTimer();
   game.HUD.adrenaline.style.width = '100%';
@@ -287,7 +282,6 @@ document.addEventListener('adrenaline-over', () => {
   playSound(adrOverSound);
 });
 document.addEventListener('adrenaline-recharged', () => {
-  console.log('Adrenaline Recharged!');
   game.player.adrenalineCooldown.resetTimer();
   game.player.powerUpTimers.adrenaline.resetTimer();
   playSound(adrReadySound);
@@ -297,7 +291,6 @@ document.addEventListener('invincibility-started', () => {
   playSound(buffSound);
 });
 document.addEventListener('invincibility-over', () => {
-  console.log('Invincibility Over');
   game.HUD.invinceSlot.cont.style.opacity = '0';
   game.HUD.invinceSlot.text.textContent = '10';
   if (!game.player.perks.includes('C-Speed')) {
@@ -313,7 +306,6 @@ document.addEventListener('speed-started', () => {
   playSound(buffSound);
 });
 document.addEventListener('speed-over', () => {
-  console.log('Speed Over');
   game.HUD.speedSlot.cont.style.opacity = '0';
   game.HUD.speedSlot.text.textContent = '10';
   if (game.player.perks.includes('C-Speed') && !game.player.powerUpTimers.invincibility.currentTimer) {
@@ -433,9 +425,9 @@ document.addEventListener('game-over', () => {
   }
 });
 document.addEventListener('game-win', () => {
-  console.log('game won');
   document.getElementById('game-win-screen').style.display = 'flex';
   game.isOver = true;
+  game.player.isWinner = true;
 });
 document.addEventListener('level-up', () => {
   statUpgrades = new LevelUpInterface(game.player);
@@ -488,7 +480,6 @@ Array.from(document.getElementsByClassName('plus-button')).forEach((button) => {
         bar.append(generateSkillBlock('orange'));
         break;
       default:
-        console.log('unreachable');
     }
     setPlusButtons();
     setMinusButtons();
